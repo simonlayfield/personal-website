@@ -1,0 +1,12 @@
+:root {
+
+	--heading-family: 'Libre Baskerville', serif;
+	--body-family: 'Libre Baskerville', serif;
+	--primary-color: #007aa2;
+	--secondary-color: #ff55a1;
+}
+
+body {
+	font: normal 1.2rem/2.4rem var(--body-family);
+	color: var(--primary-color);
+}

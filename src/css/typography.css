@@ -1,0 +1,23 @@
+.link {
+	color: var(--secondary-color);
+}
+
+.ui-callout {
+	font-family: var(--heading-family);
+	font-size: 1.2rem;
+	&.-small {
+		font-size: 1rem;
+	}
+}
+
+.ui-separator {
+    height: 2px;
+	border-left: 0;
+	border-right: 0;
+    border-top: 2px solid #ddd;
+    margin: 1em 0;
+    padding: 0;
+	display: inline-block;
+    width: 200px;
+    border-bottom: none;
+}

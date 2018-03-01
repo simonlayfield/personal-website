@@ -1,0 +1,16 @@
+.ui-navigation {
+	& > .link, & .subnav > .link  {
+		font: .9rem var(--body-family);
+		color: var(--secondary-color);
+		border: none;
+		outline: none;
+		display: inline;
+		padding: .5rem 1rem;
+		margin: 0;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+	&.-center {
+		text-align: center;
+	}
+}

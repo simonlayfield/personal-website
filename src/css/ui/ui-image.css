@@ -1,0 +1,5 @@
+.ui-image {
+	&.-round {
+		border-radius: 50%;
+	}
+}

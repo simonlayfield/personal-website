@@ -1,0 +1,13 @@
+.ui-block {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+
+	&.-center {
+		text-align: center;
+	}
+
+	&.-flat {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}

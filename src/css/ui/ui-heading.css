@@ -1,0 +1,13 @@
+.ui-heading {
+	font-family: var(--heading-family);
+	font-size: 2rem;
+	font-weight: normal;
+
+	&.-emphasis {
+		font-style: italic;
+	}
+
+	& > .link {
+		color: var(--secondary-color);
+	}
+}

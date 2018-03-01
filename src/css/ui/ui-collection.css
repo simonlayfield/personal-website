@@ -1,0 +1,7 @@
+.ui-collection {
+	display: flex;
+
+	&.-center {
+		justify-content: center;
+	}
+}
