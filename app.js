@@ -11,6 +11,14 @@ app.get(['/','index.html'], (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
 });
 
+app.get(['/branding','branding.html'], (req, res) => {
+	res.sendFile(__dirname + '/public/branding.html');
+});
+
+app.get(['/illustration','illustration.html'], (req, res) => {
+	res.sendFile(__dirname + '/public/illustration.html');
+});
+
 app.get(['/blog/*'], (req, res) => {
 	let articleRoute = req.url.split('/');
 	let articleLoc = articleRoute[articleRoute.length-1];

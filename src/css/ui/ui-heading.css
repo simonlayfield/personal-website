@@ -1,10 +1,11 @@
 .ui-heading {
 	font-family: var(--heading-family);
 	font-size: 2rem;
-	font-weight: normal;
+	font-weight: bold;
+	/* font-style: italic; */
 
 	&.-emphasis {
-		font-style: italic;
+		/* font-style: italic; */
 	}
 
 	& > .link {

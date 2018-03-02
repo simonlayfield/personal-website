@@ -1,0 +1,99 @@
+<div class="row">
+	<div class="container {{type}}">
+		{{#if items && type == "mosaic"}}
+			{{#each assets as asset}}
+				<img src="{{asset.image}}" alt="">
+			{{/each}}
+		{{elseif items && type == "simple"}}
+			{{#each assets as asset}}
+				<div class="project project--branding">
+					<img src="{{asset.image}}" alt="">
+				</div>
+			{{/each}}
+		{{elseif items && type == "detailed"}}
+			{{#each assets as asset}}
+				<div class="project project--web">
+					{{#if asset.type === 'commercial'}}
+					<div class="projectLabel">
+						<span>commercial</span>
+					</div>
+					{{else}}
+					<div class="projectLabel projectLabel--alt">
+						<span>personal</span>
+					</div>
+					{{/if}}
+					<div class="project__details">
+						<a href="{{asset.url}}" target="_blank">
+							<img src="{{asset.image}}" alt="">
+							<h3>{{asset.name}}</h3>
+						</a>
+					</div>
+				</div>
+			{{/each}}
+		{{else}}
+			<p>No items found</p>
+		{{/if}}
+	</div>
+</div>
+
+<style>
+	.simple,
+	.detailed {
+		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-gap: 20px;
+		text-align: center;
+	}
+	.mosaic {
+		-moz-column-count: 1;
+		-moz-column-gap: 20px;
+		-webkit-column-count: 1;
+		-webkit-column-gap: 20px;
+		column-count: 1;
+		column-gap: 20px;
+		text-align: center;
+	}
+	.mosaic img {
+		margin-bottom: 20px;
+	}
+	.project__details {
+		border: 1px solid #ccc;
+	}
+	@media (min-width: 500px) {
+		.simple,
+		.detailed {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.mosaic {
+			-moz-column-count: 2;
+			-moz-column-gap: 20px;
+			-webkit-column-count: 2;
+			-webkit-column-gap: 20px;
+			column-count: 2;
+		}
+	}
+	@media (min-width: 1200px) {
+		.simple,
+		.detailed {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		.mosaic {
+			-moz-column-count: 3;
+			-moz-column-gap: 20px;
+			-webkit-column-count: 3;
+			-webkit-column-gap: 20px;
+			column-count: 3;
+		}
+	}
+</style>
+
+<script>
+	export default {
+		data() {
+			return {
+				items: false
+			}
+		}
+	}
+</script>
