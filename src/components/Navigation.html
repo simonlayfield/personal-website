@@ -1,4 +1,4 @@
-<nav class="ui-navigation">
+<nav class="ui-navigation -center {{version ? '-' + version : ''}}">
 	{{#each menu as menuItem, index}}
 		{{#if menuItem.url}}
 			<a class="link" href="{{menuItem.url}}">{{menuItem.label}}</a>
@@ -14,7 +14,6 @@
 			{{/each}}
 		</nav>
 	{{/if}}
-
 </nav>
 
 <script>

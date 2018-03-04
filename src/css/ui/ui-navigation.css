@@ -16,8 +16,7 @@
 	&.-center {
 		text-align: center;
 	}
-}
-
-#home-navigation {
-	padding-bottom: 150px;
+	&.-home {
+		padding-bottom: 150px;
+	}
 }

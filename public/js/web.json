@@ -1,0 +1,23 @@
+{
+	"assets": [{
+		"image": "assets/img/web/thumbnail-k-nit.jpg",
+		"name": "K-nit Beanie Designer with Ractive.js",
+		"url": "http://k-nit.co.uk/custom",
+		"type": "commercial"
+	}, {
+		"image": "assets/img/web/thumbnail-typereel.jpg",
+		"name": "Typereel",
+		"url": "http://typereel.io/",
+		"type": "personal"
+	}, {
+		"image": "assets/img/web/thumbnail-thinking-loud.jpg",
+		"name": "Thinking Loud",
+		"url": "http://thinkingloud.com.au/",
+		"type": "commercial"
+	}, {
+		"image": "assets/img/web/thumbnail-advanced-football-academy.jpg",
+		"name": "Advanced Football Academy",
+		"url": "http://advancedfootballacademy.com.au/",
+		"type": "commercial"
+	}]
+}

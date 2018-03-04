@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700|Inconsolata:400" rel="stylesheet">
+	<link rel="stylesheet" href="/css/main.css">
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="ui-navigation -center"></div>
+	<div class="ui-container">
+		<main role="main" class="ui-block -center">
+			<h1>Blog</h1>
+			<p>We live in enterprising times.</p>
+			<section class="ui-block -center ui-showcase">
+
+			</section>
+		</main>
+	</div>
+	<script>
+
+	</script>
+	<script>
+	var showcaseData = {
+		items: true,
+		type: "detailed",
+		assets: []
+	};
+		fetch('/articles/blog.json').then((resp) => resp.json())
+		.then((data) => {
+			var assets = [];
+			for (var k in data) {
+				assets.push({name: k.article.title, image: "", url: "", type: ""})
+			}
+			console.log(assets);
+			showcaseData.assets = assets;
+	    })
+		.catch(function(err) {
+		// Error :(
+		});
+
+	</script>
+	<script src="/js/bundle.js"></script>
+</body>
+</html>

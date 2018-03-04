@@ -1,0 +1,75 @@
+{
+	"assets": [{
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-baby-shower-invitation.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-billy-rock.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-daniel-and-alice-wedding.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-flag-creature.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-gent-creature.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-geoff.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-dinos.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-girl-and-boys.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-kevin.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-king-for-a-day.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-jude-gofather-advice.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-lance.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-mad-scientist.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-martian.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-myra.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-pixie-monster.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-derren-brown.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-rollneck-dude.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-sugar-ray.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-super-boy.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-watch-out.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-woofums.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-zombie-friends-poster.jpg"
+	}, {
+		"name": "Awesome Project",
+		"image": "./assets/img/illustration/thumbnail-90s-queen-bee.jpg"
+	}]
+}

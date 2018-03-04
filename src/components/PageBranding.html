@@ -1,0 +1,26 @@
+<Navigation />
+<Content>
+	<h1>Branding</h1>
+	<p>Branding projects these days are less frequent, but still occasionaly crop up.</p>
+</Content>
+<Showcase type="{{showcaseData.type}}" dataUrl="/js/branding.json" />
+
+<script>
+import Navigation from './Navigation.html';
+import Content from './Content.html';
+import Showcase from './Showcase.html';
+	export default {
+		data() {
+			return {
+				showcaseData: {
+					type: "simple"
+				}
+			}
+		},
+		components: {
+			Navigation,
+			Content,
+			Showcase
+		}
+	}
+</script>

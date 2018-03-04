@@ -2,9 +2,6 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
-const markdown = require( "markdown" ).markdown;
-console.log( markdown.toHTML( "Hello *World*!" ) );
-
 app.use(express.static('public'));
 
 app.get(['/','index.html'], (req, res) => {
@@ -17,6 +14,14 @@ app.get(['/branding','branding.html'], (req, res) => {
 
 app.get(['/illustration','illustration.html'], (req, res) => {
 	res.sendFile(__dirname + '/public/illustration.html');
+});
+
+app.get(['/web','web.html'], (req, res) => {
+	res.sendFile(__dirname + '/public/web.html');
+});
+
+app.get(['/blog','blog.html'], (req, res) => {
+	res.sendFile(__dirname + '/public/blog.html');
 });
 
 app.get(['/blog/*'], (req, res) => {

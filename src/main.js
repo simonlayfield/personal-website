@@ -1,2 +1,1 @@
-import Navigation from './components/Navigation';
-import Showcase from './components/Showcase';
+import App from './components/App';

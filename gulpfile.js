@@ -1,21 +1,36 @@
-const gulp = require('gulp');
-const postcss = require('gulp-postcss');
-const cssnext = require('postcss-cssnext');
-const concat = require('gulp-concat');
-const cssnano = require('cssnano');
+const gulp = require('gulp'),
+    postcss = require('gulp-postcss'),
+    cssnext = require('postcss-cssnext'),
+    concat = require('gulp-concat'),
+    cssnano = require('cssnano'),
+    gutil = require('gulp-util'),
+	markdownToJSON = require('gulp-markdown-to-json'),
+	marked = require('marked');
 
 gulp.task('css', () => {
-	gulp.src('src/css/**/*.css')
-	.pipe(concat('main.css'))
-	.pipe(postcss([
-		cssnext(),
-		cssnano()
-	]))
-	.pipe(gulp.dest('public/css/'));
+    gulp.src('src/css/**/*.css')
+        .pipe(concat('main.css'))
+        .pipe(postcss([
+            cssnext(),
+            cssnano()
+        ]))
+        .pipe(gulp.dest('public/css/'));
 });
 
 gulp.task('watch', () => {
-	gulp.watch('src/css/**/*.css', ['css']);
+    gulp.watch('src/css/**/*.css', ['css']);
 });
+
+gulp.task('blog_json', () => {
+	gulp.src('public/articles/**/*.md')
+    .pipe(gutil.buffer())
+    .pipe(markdownToJSON(marked, 'blog.json', (data, file) => {
+    delete data.body;
+    data.path = file.path;
+    return data;
+}, {flattenIndex: true}))
+    .pipe(gulp.dest('public/articles'))
+});
+
 
 gulp.task('default', ['watch']);

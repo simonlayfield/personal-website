@@ -1,0 +1,26 @@
+<Navigation />
+<Content>
+	<h1>Illustration</h1>
+	<p>Most of my illustrations are recreational, but I do incorporate it in to work when necessary. I occasionally contibute to a blog called <a href="http://twominutenoodles.com">Two Minute Noodles</a>.</p>
+</Content>
+<Showcase type="{{showcaseData.type}}" dataUrl="http://localhost:8080/js/illustration.json" />
+
+<script>
+import Navigation from './Navigation.html';
+import Content from './Content.html';
+import Showcase from './Showcase.html';
+	export default {
+		data() {
+			return {
+				showcaseData: {
+					type: "mosaic"
+				}
+			}
+		},
+		components: {
+			Navigation,
+			Content,
+			Showcase
+		}
+	}
+</script>
