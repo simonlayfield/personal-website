@@ -1,60 +1,64 @@
-<div class="container -{{type}}">
-	{{#await showcaseData}}
-		<p>loading...</p>
-	{{then assets}}
-		{{#if type == "mosaic"}}
+<div class="row {{type == 'detailed' ? '-bg' : ''}}">
+	<div class="ui-container -{{type}}">
+		{{#await showcaseData}}
+			<p>loading...</p>
+		{{then assets}}
+			{{#if type == "mosaic"}}
 
-			{{#each assets as asset}}
-				<img src="{{asset.image}}" alt="">
-			{{/each}}
-
-		{{elseif type == "simple"}}
-
-			{{#each assets as asset}}
-				<div class="project">
+				{{#each assets as asset}}
 					<img src="{{asset.image}}" alt="">
-				</div>
-			{{/each}}
+				{{/each}}
 
-		{{elseif type == "detailed"}}
+			{{elseif type == "simple"}}
 
-			{{#each assets as asset}}
-				<div class="project">
+				{{#each assets as asset}}
+					<div class="ui-card">
+						<img src="{{asset.image}}" alt="">
+					</div>
+				{{/each}}
 
-					{{#if asset.type === 'commercial'}}
+			{{elseif type == "detailed"}}
 
-						<div class="label">
-							<span>commercial</span>
-						</div>
+				{{#each assets as asset}}
+					<div class="ui-card -highlight">
 
-					{{else}}
+						{{#if asset.type === 'commercial'}}
 
-						<div class="label -alt">
-							<span>personal</span>
-						</div>
+							<div class="label">
+								<span>commercial</span>
+							</div>
 
-					{{/if}}
+						{{else}}
 
-					<div class="details">
+							<div class="label -alt">
+								<span>personal</span>
+							</div>
+
+						{{/if}}
 						<a href="{{asset.url}}" target="_blank">
 							<img src="{{asset.image}}" alt="">
-							<h3>{{asset.name}}</h3>
 						</a>
+						<div class="details">
+							<a href="{{asset.url}}" target="_blank">
+								<h3 class="ui-heading -tertiary">{{asset.name}}</h3>
+							</a>
+							<p>{{{asset.detail}}}</p>
+						</div>
+
 					</div>
+				{{/each}}
 
-				</div>
-			{{/each}}
+			{{else}}
 
-		{{else}}
+				<p>No items found</p>
 
-			<p>No items found</p>
+			{{/if}}
 
-		{{/if}}
+		{{catch theError}}
+			<p>whoops! {{theError.message}}</p>
+		{{/await}}
 
-	{{catch theError}}
-		<p>whoops! {{theError.message}}</p>
-	{{/await}}
-
+	</div>
 </div>
 
 
@@ -64,8 +68,10 @@
 		width: 100%;
 		display: grid;
 		grid-template-columns: 1fr;
-		grid-gap: 20px;
-		text-align: center;
+		grid-gap: 30px;
+	}
+	.-simple .ui-card {
+		box-shadow: none;
 	}
 	.-mosaic {
 		-moz-column-count: 1;
@@ -78,8 +84,9 @@
 	}
 	.-mosaic img {
 		margin-bottom: 20px;
+		border-radius: 5px;
 	}
-	.project__details {
+	.ui-card__details {
 		border: 1px solid #ccc;
 	}
 	@media (min-width: 500px) {
@@ -98,7 +105,7 @@
 	@media (min-width: 1200px) {
 		.-simple,
 		.-detailed {
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(3, 1fr);
 		}
 		.-mosaic {
 			-moz-column-count: 3;
@@ -107,6 +114,13 @@
 			-webkit-column-gap: 20px;
 			column-count: 3;
 		}
+	}
+	.row {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+	.row.-bg {
+		background: #f1f1f1;
 	}
 </style>
 

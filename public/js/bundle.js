@@ -478,7 +478,7 @@ function data$2() {
 			label: "Home",
 			url: "index.html"
 		}, {
-			label: "Projects",
+			label: "Work",
 			submenu: [{
 				label: "Web",
 				url: "/web"
@@ -489,9 +489,6 @@ function data$2() {
 				label: "Illustration",
 				url: "/illustration"
 			}]
-		}, {
-			label: "Blog",
-			url: "/blog"
 		}, {
 			label: "Github",
 			icon: "github",
@@ -520,7 +517,7 @@ var methods = {
 };
 
 function create_main_fragment$2(state, component) {
-	var nav, text, nav_class_value;
+	var header, nav, text, header_class_value;
 
 	var menu = state.menu;
 
@@ -534,23 +531,26 @@ function create_main_fragment$2(state, component) {
 
 	return {
 		c: function create() {
+			header = createElement("header");
 			nav = createElement("nav");
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
 
-			text = createText("\n\t");
+			text = createText("\n\t\t");
 			if (if_block) if_block.c();
 			this.h();
 		},
 
 		h: function hydrate() {
-			nav.className = nav_class_value = "ui-navigation -center " + (state.version ? '-' + state.version : '');
+			nav.className = "ui-navigation -center";
+			header.className = header_class_value = "app-header " + (state.version ? '-' + state.version : '');
 		},
 
 		m: function mount(target, anchor) {
-			insertNode(nav, target, anchor);
+			insertNode(header, target, anchor);
+			appendNode(nav, header);
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].m(nav, null);
@@ -598,13 +598,13 @@ function create_main_fragment$2(state, component) {
 				});
 			}
 
-			if (changed.version && nav_class_value !== (nav_class_value = "ui-navigation -center " + (state.version ? '-' + state.version : ''))) {
-				nav.className = nav_class_value;
+			if (changed.version && header_class_value !== (header_class_value = "app-header " + (state.version ? '-' + state.version : ''))) {
+				header.className = header_class_value;
 			}
 		},
 
 		u: function unmount() {
-			detachNode(nav);
+			detachNode(header);
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].u();
@@ -621,7 +621,7 @@ function create_main_fragment$2(state, component) {
 	};
 }
 
-// (2:1) {{#each menu as menuItem, index}}
+// (3:2) {{#each menu as menuItem, index}}
 function create_each_block(state, menu, menuItem, index, component) {
 	var text, if_block_1_anchor;
 
@@ -632,7 +632,7 @@ function create_each_block(state, menu, menuItem, index, component) {
 	return {
 		c: function create() {
 			if (if_block) if_block.c();
-			text = createText("\n\t\t");
+			text = createText("\n\t\t\t");
 			if (if_block_1) if_block_1.c();
 			if_block_1_anchor = createComment();
 		},
@@ -688,7 +688,7 @@ function create_each_block(state, menu, menuItem, index, component) {
 	};
 }
 
-// (3:2) {{#if menuItem.url}}
+// (4:3) {{#if menuItem.url}}
 function create_if_block(state, menu, menuItem, index, component) {
 	var a,
 	    text_value = menuItem.label,
@@ -730,7 +730,7 @@ function create_if_block(state, menu, menuItem, index, component) {
 	};
 }
 
-// (6:2) {{#if !menuItem.url}}
+// (7:3) {{#if !menuItem.url}}
 function create_if_block_1(state, menu, menuItem, index, component) {
 	var button,
 	    text_value = menuItem.label,
@@ -778,7 +778,7 @@ function create_if_block_1(state, menu, menuItem, index, component) {
 	};
 }
 
-// (12:3) {{#each submenuItems as submenuItem}}
+// (13:4) {{#each submenuItems as submenuItem}}
 function create_each_block_1(state, submenuItems, submenuItem, submenuItem_index, component) {
 	var a,
 	    text_value = submenuItem.label,
@@ -820,7 +820,7 @@ function create_each_block_1(state, submenuItems, submenuItem, submenuItem_index
 	};
 }
 
-// (10:1) {{#if submenuItems.length}}
+// (11:2) {{#if submenuItems.length}}
 function create_if_block_2(state, component) {
 	var nav, nav_transition, introing, outroing;
 
@@ -960,7 +960,7 @@ function create_main_fragment$3(state, component) {
 		},
 
 		h: function hydrate() {
-			div.className = "ui-block -center";
+			div.className = "ui-block -center -padded";
 		},
 
 		m: function mount(target, anchor) {
@@ -1024,18 +1024,18 @@ function data$3() {
 }
 
 function encapsulateStyles(node) {
-	setAttribute(node, "svelte-3028599948", "");
+	setAttribute(node, "svelte-3632610254", "");
 }
 
 function add_css() {
 	var style = createElement("style");
-	style.id = 'svelte-3028599948-style';
-	style.textContent = "[svelte-3028599948].-simple,[svelte-3028599948] .-simple,[svelte-3028599948].-detailed,[svelte-3028599948] .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:20px;text-align:center}[svelte-3028599948].-mosaic,[svelte-3028599948] .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}[svelte-3028599948].-mosaic img,[svelte-3028599948] .-mosaic img{margin-bottom:20px}[svelte-3028599948].project__details,[svelte-3028599948] .project__details{border:1px solid #ccc}@media(min-width: 500px){[svelte-3028599948].-simple,[svelte-3028599948] .-simple,[svelte-3028599948].-detailed,[svelte-3028599948] .-detailed{grid-template-columns:repeat(2, 1fr)}[svelte-3028599948].-mosaic,[svelte-3028599948] .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){[svelte-3028599948].-simple,[svelte-3028599948] .-simple,[svelte-3028599948].-detailed,[svelte-3028599948] .-detailed{grid-template-columns:repeat(4, 1fr)}[svelte-3028599948].-mosaic,[svelte-3028599948] .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}";
+	style.id = 'svelte-3632610254-style';
+	style.textContent = "[svelte-3632610254].-simple,[svelte-3632610254] .-simple,[svelte-3632610254].-detailed,[svelte-3632610254] .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}[svelte-3632610254].-simple .ui-card,[svelte-3632610254] .-simple .ui-card{box-shadow:none}[svelte-3632610254].-mosaic,[svelte-3632610254] .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}[svelte-3632610254].-mosaic img,[svelte-3632610254] .-mosaic img{margin-bottom:20px;border-radius:5px}[svelte-3632610254].ui-card__details,[svelte-3632610254] .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){[svelte-3632610254].-simple,[svelte-3632610254] .-simple,[svelte-3632610254].-detailed,[svelte-3632610254] .-detailed{grid-template-columns:repeat(2, 1fr)}[svelte-3632610254].-mosaic,[svelte-3632610254] .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){[svelte-3632610254].-simple,[svelte-3632610254] .-simple,[svelte-3632610254].-detailed,[svelte-3632610254] .-detailed{grid-template-columns:repeat(3, 1fr)}[svelte-3632610254].-mosaic,[svelte-3632610254] .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}[svelte-3632610254].row,[svelte-3632610254] .row{padding-top:2rem;padding-bottom:2rem}[svelte-3632610254].row.-bg,[svelte-3632610254] .row.-bg{background:#f1f1f1}";
 	appendNode(style, document.head);
 }
 
 function create_main_fragment$4(state, component) {
-	var div, await_block_1, await_block_type, await_token, promise, resolved, div_class_value;
+	var div, div_1, await_block_1, await_block_type, await_token, promise, resolved, div_1_class_value, div_class_value;
 
 	function replace_await_block(token, type, value, state) {
 		if (token !== await_token) return;
@@ -1047,7 +1047,7 @@ function create_main_fragment$4(state, component) {
 			old_block.u();
 			old_block.d();
 			await_block_1.c();
-			await_block_1.m(div, null);
+			await_block_1.m(div_1, null);
 
 			component.root.set({});
 		}
@@ -1084,6 +1084,7 @@ function create_main_fragment$4(state, component) {
 	return {
 		c: function create() {
 			div = createElement("div");
+			div_1 = createElement("div");
 
 			await_block_1.c();
 			this.h();
@@ -1091,13 +1092,15 @@ function create_main_fragment$4(state, component) {
 
 		h: function hydrate() {
 			encapsulateStyles(div);
-			div.className = div_class_value = "container -" + state.type;
+			div_1.className = div_1_class_value = "ui-container -" + state.type;
+			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '');
 		},
 
 		m: function mount(target, anchor) {
 			insertNode(div, target, anchor);
+			appendNode(div_1, div);
 
-			await_block_1.m(div, null);
+			await_block_1.m(div_1, null);
 		},
 
 		p: function update(changed, state) {
@@ -1107,7 +1110,11 @@ function create_main_fragment$4(state, component) {
 				await_block_1.p(changed, state, resolved);
 			}
 
-			if (changed.type && div_class_value !== (div_class_value = "container -" + state.type)) {
+			if (changed.type && div_1_class_value !== (div_1_class_value = "ui-container -" + state.type)) {
+				div_1.className = div_1_class_value;
+			}
+
+			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : ''))) {
 				div.className = div_class_value;
 			}
 		},
@@ -1125,7 +1132,7 @@ function create_main_fragment$4(state, component) {
 	};
 }
 
-// (2:24)    <p>loading...</p>  {{then assets}}
+// (3:25)     <p>loading...</p>   {{then assets}}
 function create_pending_block(state, _, component) {
 	var p;
 
@@ -1149,7 +1156,7 @@ function create_pending_block(state, _, component) {
 	};
 }
 
-// (7:3) {{#each assets as asset}}
+// (8:4) {{#each assets as asset}}
 function create_each_block$1(state, assets, assets_1, asset, asset_index, component) {
 	var img, img_src_value;
 
@@ -1182,7 +1189,7 @@ function create_each_block$1(state, assets, assets_1, asset, asset_index, compon
 	};
 }
 
-// (13:3) {{#each assets as asset}}
+// (14:4) {{#each assets as asset}}
 function create_each_block_1$1(state, assets, assets_1, asset, asset_index, component) {
 	var div, img, img_src_value;
 
@@ -1196,7 +1203,7 @@ function create_each_block_1$1(state, assets, assets_1, asset, asset_index, comp
 		h: function hydrate() {
 			img.src = img_src_value = asset.image;
 			img.alt = '';
-			div.className = "project";
+			div.className = "ui-card";
 		},
 
 		m: function mount(target, anchor) {
@@ -1218,19 +1225,24 @@ function create_each_block_1$1(state, assets, assets_1, asset, asset_index, comp
 	};
 }
 
-// (21:3) {{#each assets as asset}}
+// (22:4) {{#each assets as asset}}
 function create_each_block_2(state, assets, assets_1, asset, asset_index, component) {
 	var div,
 	    text,
-	    div_1,
 	    a,
 	    img,
 	    img_src_value,
-	    text_1,
-	    h3,
-	    text_2_value = asset.name,
+	    a_href_value,
 	    text_2,
-	    a_href_value;
+	    div_1,
+	    a_1,
+	    h3,
+	    text_3_value = asset.name,
+	    text_3,
+	    a_1_href_value,
+	    text_5,
+	    p,
+	    raw_value = asset.detail;
 
 	var current_block_type = select_block_type(state, assets, assets_1, asset, asset_index);
 	var if_block = current_block_type(state, assets, assets_1, asset, asset_index, component);
@@ -1239,13 +1251,16 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 		c: function create() {
 			div = createElement("div");
 			if_block.c();
-			text = createText("\n\n\t\t\t\t\t");
-			div_1 = createElement("div");
+			text = createText("\n\t\t\t\t\t\t");
 			a = createElement("a");
 			img = createElement("img");
-			text_1 = createText("\n\t\t\t\t\t\t\t");
+			text_2 = createText("\n\t\t\t\t\t\t");
+			div_1 = createElement("div");
+			a_1 = createElement("a");
 			h3 = createElement("h3");
-			text_2 = createText(text_2_value);
+			text_3 = createText(text_3_value);
+			text_5 = createText("\n\t\t\t\t\t\t\t");
+			p = createElement("p");
 			this.h();
 		},
 
@@ -1254,20 +1269,27 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 			img.alt = '';
 			a.href = a_href_value = asset.url;
 			a.target = "_blank";
+			h3.className = "ui-heading -tertiary";
+			a_1.href = a_1_href_value = asset.url;
+			a_1.target = "_blank";
 			div_1.className = "details";
-			div.className = "project";
+			div.className = "ui-card -highlight";
 		},
 
 		m: function mount(target, anchor) {
 			insertNode(div, target, anchor);
 			if_block.m(div, null);
 			appendNode(text, div);
-			appendNode(div_1, div);
-			appendNode(a, div_1);
+			appendNode(a, div);
 			appendNode(img, a);
-			appendNode(text_1, a);
-			appendNode(h3, a);
-			appendNode(text_2, h3);
+			appendNode(text_2, div);
+			appendNode(div_1, div);
+			appendNode(a_1, div_1);
+			appendNode(h3, a_1);
+			appendNode(text_3, h3);
+			appendNode(text_5, div_1);
+			appendNode(p, div_1);
+			p.innerHTML = raw_value;
 		},
 
 		p: function update(changed, state, assets, assets_1, asset, asset_index) {
@@ -1283,16 +1305,26 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 				img.src = img_src_value;
 			}
 
-			if (changed.showcaseData && text_2_value !== (text_2_value = asset.name)) {
-				text_2.data = text_2_value;
-			}
-
 			if (changed.showcaseData && a_href_value !== (a_href_value = asset.url)) {
 				a.href = a_href_value;
+			}
+
+			if (changed.showcaseData && text_3_value !== (text_3_value = asset.name)) {
+				text_3.data = text_3_value;
+			}
+
+			if (changed.showcaseData && a_1_href_value !== (a_1_href_value = asset.url)) {
+				a_1.href = a_1_href_value;
+			}
+
+			if (changed.showcaseData && raw_value !== (raw_value = asset.detail)) {
+				p.innerHTML = raw_value;
 			}
 		},
 
 		u: function unmount() {
+			p.innerHTML = '';
+
 			detachNode(div);
 			if_block.u();
 		},
@@ -1303,7 +1335,7 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 	};
 }
 
-// (24:5) {{#if asset.type === 'commercial'}}
+// (25:6) {{#if asset.type === 'commercial'}}
 function create_if_block_3(state, assets, assets_1, asset, asset_index, component) {
 	var div;
 
@@ -1330,7 +1362,7 @@ function create_if_block_3(state, assets, assets_1, asset, asset_index, componen
 	};
 }
 
-// (30:5) {{else}}
+// (31:6) {{else}}
 function create_if_block_4(state, assets, assets_1, asset, asset_index, component) {
 	var div;
 
@@ -1357,7 +1389,7 @@ function create_if_block_4(state, assets, assets_1, asset, asset_index, componen
 	};
 }
 
-// (5:2) {{#if type == "mosaic"}}
+// (6:3) {{#if type == "mosaic"}}
 function create_if_block$1(state, assets, component) {
 	var each_anchor;
 
@@ -1422,7 +1454,7 @@ function create_if_block$1(state, assets, component) {
 	};
 }
 
-// (11:29) 
+// (12:30) 
 function create_if_block_1$1(state, assets, component) {
 	var each_anchor;
 
@@ -1487,7 +1519,7 @@ function create_if_block_1$1(state, assets, component) {
 	};
 }
 
-// (19:31) 
+// (20:32) 
 function create_if_block_2$1(state, assets, component) {
 	var each_anchor;
 
@@ -1552,7 +1584,7 @@ function create_if_block_2$1(state, assets, component) {
 	};
 }
 
-// (48:2) {{else}}
+// (51:3) {{else}}
 function create_if_block_5(state, assets, component) {
 	var p;
 
@@ -1576,7 +1608,7 @@ function create_if_block_5(state, assets, component) {
 	};
 }
 
-// (4:1) {{then assets}}
+// (5:2) {{then assets}}
 function create_then_block(state, assets, component) {
 	var if_block_anchor;
 
@@ -1617,7 +1649,7 @@ function create_then_block(state, assets, component) {
 	};
 }
 
-// (54:1) {{catch theError}}
+// (57:2) {{catch theError}}
 function create_catch_block(state, theError, component) {
 	var p,
 	    text,
@@ -1668,7 +1700,7 @@ function Showcase(options) {
 	this._state = assign(data$3(), options.data);
 	this._recompute({ dataUrl: 1 }, this._state);
 
-	if (!document.getElementById("svelte-3028599948-style")) add_css();
+	if (!document.getElementById("svelte-3632610254-style")) add_css();
 
 	this._fragment = create_main_fragment$4(this._state, this);
 
@@ -1729,6 +1761,11 @@ function create_main_fragment$1(state, component) {
 			content._fragment.c();
 			text_6 = createText("\n");
 			showcase._fragment.c();
+			this.h();
+		},
+
+		h: function hydrate() {
+			h1.className = "ui-heading";
 		},
 
 		m: function mount(target, anchor) {
@@ -1819,7 +1856,7 @@ function create_main_fragment$5(state, component) {
 		root: component.root,
 		data: {
 			type: state.showcaseData.type,
-			dataUrl: "http://localhost:8080/js/illustration.json"
+			dataUrl: "/js/illustration.json"
 		}
 	});
 
@@ -1844,6 +1881,7 @@ function create_main_fragment$5(state, component) {
 		},
 
 		h: function hydrate() {
+			h1.className = "ui-heading";
 			a.href = "http://twominutenoodles.com";
 		},
 
@@ -1937,7 +1975,7 @@ function create_main_fragment$6(state, component) {
 		root: component.root,
 		data: {
 			type: state.showcaseData.type,
-			dataUrl: "http://localhost:8080/js/web.json"
+			dataUrl: "/js/web.json"
 		}
 	});
 
@@ -1968,7 +2006,8 @@ function create_main_fragment$6(state, component) {
 		},
 
 		h: function hydrate() {
-			a.href = "http://typereel.io";
+			h1.className = "ui-heading";
+			a.href = "https://typereel-195923.appspot.com/";
 			a.target = "_blank";
 		},
 
@@ -2060,7 +2099,7 @@ function create_main_fragment$7(state, component) {
 			navigation._fragment.c();
 			text = createText("\n");
 			div = createElement("div");
-			div.innerHTML = "<main role=\"main\" class=\"ui-block\"><div class=\"ui-block ui-collection -center\"><img src=\"./assets/img/profile.jpg\" srcset=\"./assets/img/profile@2x.jpg 2x\" alt=\"\" class=\"ui-image -round\"></div>\n\t\t<section class=\"ui-block\"><h1 class=\"ui-heading -emphasis -center\">Hello, I'm <a class=\"link\" href=\"https://www.linkedin.com/in/simon-layfield-39201729/\" target=\"_blank\">Simon Layfield</a></h1>\n\t\t\t<p class=\"ui-callout\">I design and build meaningful user experiences into lightweight, scalable web prototypes.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"https://typereel-195923.appspot.com/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<hr class=\"ui-separator\">\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">branding and illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></section></main>";
+			div.innerHTML = "<main role=\"main\" class=\"ui-block\"><div class=\"ui-block ui-collection -center\"><img src=\"./assets/img/profile.jpg\" srcset=\"./assets/img/profile@2x.jpg 2x\" alt=\"\" class=\"ui-image -round\"></div>\n\t\t<section class=\"ui-block\"><h1 class=\"ui-heading -primary -center\">Hello, I'm Simon Layfield</h1>\n\t\t\t<p class=\"ui-callout\">I design and build meaningful user experiences into lightweight, scalable web prototypes using frontend technologies like <a href=\"https://svelte.technology\" target=\"_blank\">Svelte</a> and <a href=\"https://rollupjs.org/guide/en\" target=\"_blank\">Rollup</a>.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"https://typereel-195923.appspot.com/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">branding and illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></section></main>";
 			this.h();
 		},
 

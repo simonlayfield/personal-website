@@ -1,8 +1,16 @@
 .ui-heading {
 	font-family: var(--heading-family);
-	font-size: 2rem;
 	font-weight: bold;
-	/* font-style: italic; */
+
+	&.-primary {
+		font-size: 2rem;
+	}
+	&.-secondary {
+		font-size: 1.6rem;
+	}
+	&.-tertiary {
+		font-size: 1.4rem;
+	}
 
 	&.-emphasis {
 		/* font-style: italic; */
@@ -14,5 +22,9 @@
 
 	& > .link {
 		color: var(--secondary-color);
+	}
+
+	&:first-child {
+		margin-top: 0;
 	}
 }

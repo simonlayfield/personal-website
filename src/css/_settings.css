@@ -1,14 +1,15 @@
 :root {
 
-	--heading-family: 'Inconsolata', sans-serif;
+	--heading-family: 'Source Sans Pro', sans-serif;
 	--body-family: 'Inconsolata', sans-serif;
 	--tint-color: #f1f1f1;
+	--supporting-color: #ccc;
 	--primary-color: #333;
 	--secondary-color: #0009D1;
 }
 
 body {
-	font: normal 1.2rem/2.4rem var(--body-family);
+	font: normal 1rem/2rem var(--body-family);
 	color: var(--primary-color);
 	margin: 0;
 	padding: 0;

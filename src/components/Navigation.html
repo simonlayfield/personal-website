@@ -1,21 +1,22 @@
-<nav class="ui-navigation -center {{version ? '-' + version : ''}}">
-	{{#each menu as menuItem, index}}
-		{{#if menuItem.url}}
-			<a class="link" href="{{menuItem.url}}">{{menuItem.label}}</a>
+<header class="app-header {{version ? '-' + version : ''}}">
+	<nav class="ui-navigation -center">
+		{{#each menu as menuItem, index}}
+			{{#if menuItem.url}}
+				<a class="link" href="{{menuItem.url}}">{{menuItem.label}}</a>
+			{{/if}}
+			{{#if !menuItem.url}}
+				<button class="link" on:click="processMenuItemClick(index)">{{menuItem.label}}</button>
+			{{/if}}
+		{{/each}}
+		{{#if submenuItems.length}}
+			<nav class="subnav" transition:slide>
+				{{#each submenuItems as submenuItem}}
+					<a class="link" href="{{submenuItem.url}}">{{submenuItem.label}}</a>
+				{{/each}}
+			</nav>
 		{{/if}}
-		{{#if !menuItem.url}}
-			<button class="link" on:click="processMenuItemClick(index)">{{menuItem.label}}</button>
-		{{/if}}
-	{{/each}}
-	{{#if submenuItems.length}}
-		<nav class="subnav" transition:slide>
-			{{#each submenuItems as submenuItem}}
-				<a class="link" href="{{submenuItem.url}}">{{submenuItem.label}}</a>
-			{{/each}}
-		</nav>
-	{{/if}}
-</nav>
-
+	</nav>
+</header>
 <script>
 import { push } from 'svelte-extras';
 import { slide } from 'svelte-transitions';
@@ -26,7 +27,7 @@ import { slide } from 'svelte-transitions';
 					label: "Home",
 					url: "index.html"
 				}, {
-					label: "Projects",
+					label: "Work",
 					submenu: [{
 						label: "Web",
 						url: "/web"
@@ -37,9 +38,6 @@ import { slide } from 'svelte-transitions';
 						label: "Illustration",
 						url: "/illustration"
 					}]
-				}, {
-					label: "Blog",
-					url: "/blog"
 				},
 				{
 					label: "Github",

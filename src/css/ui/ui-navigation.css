@@ -1,14 +1,14 @@
 .ui-navigation {
-	background: var(--tint-color);
+	background: var(--primary-color);
 	& > .link, & .subnav > .link  {
 		font: .9rem var(--body-family);
-		color: var(--secondary-color);
+		color: var(--tint-color);
 		border: none;
 		outline: none;
 		display: inline;
 		padding: .5rem 1rem;
 		margin: 0;
-		text-decoration: underline;
+		text-decoration: none;
 		cursor: pointer;
 		background: transparent;
 		text-transform: uppercase;
@@ -16,6 +16,13 @@
 	&.-center {
 		text-align: center;
 	}
+
+}
+.subnav {
+	background: #000;
+}
+.app-header {
+	background: var(--tint-color);
 	&.-home {
 		padding-bottom: 150px;
 	}
