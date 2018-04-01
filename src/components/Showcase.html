@@ -1,7 +1,7 @@
-<div class="row {{type == 'detailed' ? '-bg' : ''}}">
-	<div class="ui-container -{{type}}">
+<div class="row {{type == 'detailed' ? '-bg' : ''}} -padded">
+	<div class="ui-container -{{type}} -padded">
 		{{#await showcaseData}}
-			<p>loading...</p>
+			<div class="ui-block -center">loading...</div>
 		{{then assets}}
 			{{#if type == "mosaic"}}
 
@@ -121,6 +121,10 @@
 	}
 	.row.-bg {
 		background: #f1f1f1;
+	}
+	.row.-padded {
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 </style>
 

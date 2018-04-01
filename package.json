@@ -22,17 +22,16 @@
     "svelte-extras": "^1.6.0",
     "svelte-transitions": "^1.1.1"
   },
+  "devDependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "gulp-markdown-to-json": "^1.0.3",
+    "gulp-util": "^3.0.8",
+    "marked": "^0.3.17"
+  },
   "engines": {
     "node": ">=4.3.2"
-  },
-  "scripts": {
-    "deploy": "gcloud app deploy",
-    "start": "node app.js",
-    "lint": "samples lint",
-    "pretest": "npm run lint",
-    "system-test": "samples test app",
-    "test": "npm run system-test",
-    "e2e-test": "samples test deploy"
   },
   "cloud-repo-tools": {
     "test": {
@@ -43,16 +42,14 @@
     "requiresKeyFile": true,
     "requiresProjectId": true
   },
-  "devDependencies": {
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
-    "gulp-markdown-to-json": "^1.0.3",
-    "gulp-util": "^3.0.8",
-    "marked": "^0.3.17"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
   },
   "repository": {
     "type": "git",

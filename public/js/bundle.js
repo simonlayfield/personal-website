@@ -1024,13 +1024,13 @@ function data$3() {
 }
 
 function encapsulateStyles(node) {
-	setAttribute(node, "svelte-3632610254", "");
+	setAttribute(node, "svelte-3470831650", "");
 }
 
 function add_css() {
 	var style = createElement("style");
-	style.id = 'svelte-3632610254-style';
-	style.textContent = "[svelte-3632610254].-simple,[svelte-3632610254] .-simple,[svelte-3632610254].-detailed,[svelte-3632610254] .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}[svelte-3632610254].-simple .ui-card,[svelte-3632610254] .-simple .ui-card{box-shadow:none}[svelte-3632610254].-mosaic,[svelte-3632610254] .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}[svelte-3632610254].-mosaic img,[svelte-3632610254] .-mosaic img{margin-bottom:20px;border-radius:5px}[svelte-3632610254].ui-card__details,[svelte-3632610254] .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){[svelte-3632610254].-simple,[svelte-3632610254] .-simple,[svelte-3632610254].-detailed,[svelte-3632610254] .-detailed{grid-template-columns:repeat(2, 1fr)}[svelte-3632610254].-mosaic,[svelte-3632610254] .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){[svelte-3632610254].-simple,[svelte-3632610254] .-simple,[svelte-3632610254].-detailed,[svelte-3632610254] .-detailed{grid-template-columns:repeat(3, 1fr)}[svelte-3632610254].-mosaic,[svelte-3632610254] .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}[svelte-3632610254].row,[svelte-3632610254] .row{padding-top:2rem;padding-bottom:2rem}[svelte-3632610254].row.-bg,[svelte-3632610254] .row.-bg{background:#f1f1f1}";
+	style.id = 'svelte-3470831650-style';
+	style.textContent = "[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}[svelte-3470831650].-simple .ui-card,[svelte-3470831650] .-simple .ui-card{box-shadow:none}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}[svelte-3470831650].-mosaic img,[svelte-3470831650] .-mosaic img{margin-bottom:20px;border-radius:5px}[svelte-3470831650].ui-card__details,[svelte-3470831650] .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{grid-template-columns:repeat(2, 1fr)}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{grid-template-columns:repeat(3, 1fr)}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}[svelte-3470831650].row,[svelte-3470831650] .row{padding-top:2rem;padding-bottom:2rem}[svelte-3470831650].row.-bg,[svelte-3470831650] .row.-bg{background:#f1f1f1}[svelte-3470831650].row.-padded,[svelte-3470831650] .row.-padded{padding-left:1rem;padding-right:1rem}";
 	appendNode(style, document.head);
 }
 
@@ -1092,8 +1092,8 @@ function create_main_fragment$4(state, component) {
 
 		h: function hydrate() {
 			encapsulateStyles(div);
-			div_1.className = div_1_class_value = "ui-container -" + state.type;
-			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '');
+			div_1.className = div_1_class_value = "ui-container -" + state.type + " -padded";
+			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded";
 		},
 
 		m: function mount(target, anchor) {
@@ -1110,11 +1110,11 @@ function create_main_fragment$4(state, component) {
 				await_block_1.p(changed, state, resolved);
 			}
 
-			if (changed.type && div_1_class_value !== (div_1_class_value = "ui-container -" + state.type)) {
+			if (changed.type && div_1_class_value !== (div_1_class_value = "ui-container -" + state.type + " -padded")) {
 				div_1.className = div_1_class_value;
 			}
 
-			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : ''))) {
+			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded")) {
 				div.className = div_class_value;
 			}
 		},
@@ -1132,24 +1132,29 @@ function create_main_fragment$4(state, component) {
 	};
 }
 
-// (3:25)     <p>loading...</p>   {{then assets}}
+// (3:25)     <div class="ui-block -center">loading...</div>   {{then assets}}
 function create_pending_block(state, _, component) {
-	var p;
+	var div;
 
 	return {
 		c: function create() {
-			p = createElement("p");
-			p.textContent = "loading...";
+			div = createElement("div");
+			div.textContent = "loading...";
+			this.h();
+		},
+
+		h: function hydrate() {
+			div.className = "ui-block -center";
 		},
 
 		m: function mount(target, anchor) {
-			insertNode(p, target, anchor);
+			insertNode(div, target, anchor);
 		},
 
 		p: noop,
 
 		u: function unmount() {
-			detachNode(p);
+			detachNode(div);
 		},
 
 		d: noop
@@ -1700,7 +1705,7 @@ function Showcase(options) {
 	this._state = assign(data$3(), options.data);
 	this._recompute({ dataUrl: 1 }, this._state);
 
-	if (!document.getElementById("svelte-3632610254-style")) add_css();
+	if (!document.getElementById("svelte-3470831650-style")) add_css();
 
 	this._fragment = create_main_fragment$4(this._state, this);
 
@@ -2099,7 +2104,7 @@ function create_main_fragment$7(state, component) {
 			navigation._fragment.c();
 			text = createText("\n");
 			div = createElement("div");
-			div.innerHTML = "<main role=\"main\" class=\"ui-block\"><div class=\"ui-block ui-collection -center\"><img src=\"./assets/img/profile.jpg\" srcset=\"./assets/img/profile@2x.jpg 2x\" alt=\"\" class=\"ui-image -round\"></div>\n\t\t<section class=\"ui-block\"><h1 class=\"ui-heading -primary -center\">Hello, I'm Simon Layfield</h1>\n\t\t\t<p class=\"ui-callout\">I design and build meaningful user experiences into lightweight, scalable web prototypes using frontend technologies like <a href=\"https://svelte.technology\" target=\"_blank\">Svelte</a> and <a href=\"https://rollupjs.org/guide/en\" target=\"_blank\">Rollup</a>.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"https://typereel-195923.appspot.com/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">branding and illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></section></main>";
+			div.innerHTML = "<main role=\"main\" class=\"ui-block\"><div class=\"ui-block -center\"><img src=\"./assets/img/profile.svg\" alt=\"\" class=\"profile-image\"></div>\n\t\t<section class=\"ui-block -padded\"><h1 class=\"ui-heading -primary -center\">Hello, I'm Simon Layfield</h1>\n\t\t\t<p class=\"ui-callout\">I design and build meaningful user experiences into lightweight, scalable web prototypes using frontend technologies like <a href=\"https://svelte.technology\" target=\"_blank\">Svelte</a> and <a href=\"https://rollupjs.org/guide/en\" target=\"_blank\">Rollup</a>.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"https://typereel-195923.appspot.com/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">branding and illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></section></main>";
 			this.h();
 		},
 

@@ -5,7 +5,7 @@
 	--tint-color: #f1f1f1;
 	--supporting-color: #ccc;
 	--primary-color: #333;
-	--secondary-color: #0009D1;
+	--secondary-color: #0063C7;
 }
 
 body {
@@ -22,4 +22,8 @@ body {
 
 img {
 	max-width: 100%;
+}
+
+.profile-image {
+	width: 200px;
 }
