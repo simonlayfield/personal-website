@@ -43,18 +43,18 @@ app.get(['/blog/*'], (req, res) => {
 	});
 });
 
-let server;
+let server = http.createServer(app);
 
-if (process.env.NODE_ENV == "production") {
-	const credentials = {
-	  key: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/privkey.pem'),
-	  cert: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/cert.pem'),
-	  ca: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/chain.pem')
-	};
-	server = https.createServer(credentials, app);
-} else {
-	server = http.createServer(app);
-}
+// if (process.env.NODE_ENV == "production") {
+// 	const credentials = {
+// 	  key: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/privkey.pem'),
+// 	  cert: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/cert.pem'),
+// 	  ca: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/chain.pem')
+// 	};
+// 	server = https.createServer(credentials, app);
+// } else {
+// 	server = http.createServer(app);
+// }
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
