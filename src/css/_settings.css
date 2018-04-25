@@ -15,11 +15,6 @@ body {
 	padding: 0;
 }
 
-#home-container {
-	position: relative;
-	top: -150px;
-}
-
 img {
 	max-width: 100%;
 }

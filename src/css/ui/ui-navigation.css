@@ -1,5 +1,5 @@
 .ui-navigation {
-	background: var(--primary-color);
+	background: #000;
 	& > .link, & .subnav > .link  {
 		font: .9rem var(--body-family);
 		color: var(--tint-color);
@@ -19,11 +19,8 @@
 
 }
 .subnav {
-	background: #000;
+	background: var(--secondary-color);
 }
 .app-header {
 	background: var(--tint-color);
-	&.-home {
-		padding-bottom: 150px;
-	}
 }

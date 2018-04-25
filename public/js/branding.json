@@ -77,5 +77,8 @@
 	}, {
 		"image": "./assets/img/branding/thumbnail-bowerbird.jpg",
 		"name": "Bowerbird"
+	}, {
+		"image": "./assets/img/branding/thumbnail-ractive.png",
+		"name": "Ractive"
 	}]
 }

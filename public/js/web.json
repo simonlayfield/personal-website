@@ -8,7 +8,7 @@
 	}, {
 		"image": "assets/img/web/thumbnail-typereel.jpg",
 		"name": "Typereel",
-		"url": "https://typereel-195923.appspot.com/",
+		"url": "http://typereel.io/",
 		"type": "personal",
 		"detail": "A community for designers and typography enthusiasts to share speciments of type in the real world. UI built using <a href='https://svelte.technology' target='_blank'>Svelte</a> and <a href='https://github.com/postcss/postcss' target='_blank'>PostCSS</a>. Currently in alpha."
 	}, {

@@ -6,8 +6,13 @@
 		text-align: center;
 	}
 
+	&.-spaced {
+		margin-top: 5rem;
+		margin-bottom: 5rem;
+	}
+
 	&.-padded {
-		padding: 1rem;
+		padding: 2rem;
 	}
 
 	&.-flat {
