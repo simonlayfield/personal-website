@@ -1,16 +1,8 @@
 const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const express = require('express');
 const app = express();
-
-function requireHTTPS(req, res, next) {
-  // The 'x-forwarded-proto' check is for Evennode
-  if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
-    return res.redirect('https://' + req.get('host') + req.url);
-  }
-  next();
-}
-
-app.use(requireHTTPS);
 
 app.use(express.static('public'));
 
@@ -51,8 +43,21 @@ app.get(['/blog/*'], (req, res) => {
 	});
 });
 
+let server;
+
+if (process.env.NODE_ENV == "production") {
+	const credentials = {
+	  key: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/privkey.pem'),
+	  cert: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/cert.pem'),
+	  ca: fs.readFileSync('/etc/letsencrypt/live/simonlayfield.com/chain.pem')
+	};
+	server = https.createServer(credentials, app);
+} else {
+	server = http.createServer(app);
+}
+
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log(`App listening on port ${PORT}`);
 	console.log('Press Ctrl+C to quit.');
 	console.log('The environment is:', process.env.NODE_ENV);
