@@ -1,5 +1,5 @@
 .ui-navigation {
-	background: #000;
+	background: var(--primary-color);
 	& > .link, & .subnav > .link  {
 		font: .9rem var(--body-family);
 		color: var(--tint-color);

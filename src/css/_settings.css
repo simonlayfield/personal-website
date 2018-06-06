@@ -4,8 +4,8 @@
 	--body-family: 'Inconsolata', sans-serif;
 	--tint-color: #f1f1f1;
 	--supporting-color: #ccc;
-	--primary-color: #333;
-	--secondary-color: #0063C7;
+	--primary-color: #555;
+	--secondary-color: #EC7476;
 }
 
 body {
@@ -20,5 +20,5 @@ img {
 }
 
 .profile-image {
-	width: 200px;
+	/* width: 200px; */
 }

@@ -9,19 +9,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function noop() {}
 
-function assign(target) {
-	var k,
-	    source,
-	    i = 1,
-	    len = arguments.length;
-	for (; i < len; i++) {
-		source = arguments[i];
-		for (k in source) {
-			target[k] = source[k];
-		}
-	}
-
-	return target;
+function assign(tar, src) {
+	for (var k in src) {
+		tar[k] = src[k];
+	}return tar;
 }
 
 function appendNode(node, target) {
@@ -70,10 +61,6 @@ function addListener(node, event, handler) {
 
 function removeListener(node, event, handler) {
 	node.removeEventListener(event, handler, false);
-}
-
-function setAttribute(node, attribute, value) {
-	node.setAttribute(attribute, value);
 }
 
 function linear(t) {
@@ -165,7 +152,7 @@ function wrapTransition(component, node, fn, params, intro, outgroup) {
 				node.style.animation = (node.style.animation || '').split(', ').filter(function (anim) {
 					// when introing, discard old animations if there are any
 					return anim && (program.delta < 0 || !/__svelte/.test(anim));
-				}).concat(program.name + ' ' + duration + 'ms linear 1 forwards').join(', ');
+				}).concat(program.name + ' ' + program.duration + 'ms linear 1 forwards').join(', ');
 			}
 
 			this.program = program;
@@ -257,7 +244,7 @@ var transitionManager = {
 
 	deleteRule: function deleteRule(node, name) {
 		node.style.animation = node.style.animation.split(', ').filter(function (anim) {
-			return anim.slice(0, name.length) !== name;
+			return anim.indexOf(name) === -1;
 		}).join(', ');
 	}
 };
@@ -276,29 +263,8 @@ function destroy(detach) {
 	this._fragment = this._state = null;
 }
 
-function differs(a, b) {
-	return a !== b || a && (typeof a === 'undefined' ? 'undefined' : _typeof(a)) === 'object' || typeof a === 'function';
-}
-
-function dispatchObservers(component, group, changed, newState, oldState) {
-	for (var key in group) {
-		if (!changed[key]) continue;
-
-		var newValue = newState[key];
-		var oldValue = oldState[key];
-
-		var callbacks = group[key];
-		if (!callbacks) continue;
-
-		for (var i = 0; i < callbacks.length; i += 1) {
-			var callback = callbacks[i];
-			if (callback.__calling) continue;
-
-			callback.__calling = true;
-			callback.call(component, newValue, oldValue);
-			callback.__calling = false;
-		}
-	}
+function _differs(a, b) {
+	return a != a ? b == b : a !== b || a && (typeof a === 'undefined' ? 'undefined' : _typeof(a)) === 'object' || typeof a === 'function';
 }
 
 function fire(eventName, data) {
@@ -306,7 +272,13 @@ function fire(eventName, data) {
 	if (!handlers) return;
 
 	for (var i = 0; i < handlers.length; i += 1) {
-		handlers[i].call(this, data);
+		var handler = handlers[i];
+
+		if (!handler.__calling) {
+			handler.__calling = true;
+			handler.call(this, data);
+			handler.__calling = false;
+		}
 	}
 }
 
@@ -315,7 +287,6 @@ function get(key) {
 }
 
 function init(component, options) {
-	component._observers = { pre: blankObject(), post: blankObject() };
 	component._handlers = blankObject();
 	component._bind = options._bind;
 
@@ -325,22 +296,15 @@ function init(component, options) {
 }
 
 function observe(key, callback, options) {
-	var group = options && options.defer ? this._observers.post : this._observers.pre;
-
-	(group[key] || (group[key] = [])).push(callback);
+	var fn = callback.bind(this);
 
 	if (!options || options.init !== false) {
-		callback.__calling = true;
-		callback.call(this, this._state[key]);
-		callback.__calling = false;
+		fn(this.get()[key], undefined);
 	}
 
-	return {
-		cancel: function cancel() {
-			var index = group[key].indexOf(callback);
-			if (~index) group[key].splice(index, 1);
-		}
-	};
+	return this.on(options && options.defer ? 'update' : 'state', function (event) {
+		if (event.changed[key]) fn(event.current[key], event.previous && event.previous[key]);
+	});
 }
 
 function on(eventName, handler) {
@@ -373,18 +337,18 @@ function _set(newState) {
 	    dirty = false;
 
 	for (var key in newState) {
-		if (differs(newState[key], oldState[key])) changed[key] = dirty = true;
+		if (this._differs(newState[key], oldState[key])) changed[key] = dirty = true;
 	}
 	if (!dirty) return;
 
-	this._state = assign({}, oldState, newState);
+	this._state = assign(assign({}, oldState), newState);
 	this._recompute(changed, this._state);
 	if (this._bind) this._bind(changed, this._state);
 
 	if (this._fragment) {
-		dispatchObservers(this, this._observers.pre, changed, this._state, oldState);
+		this.fire("state", { changed: changed, current: this._state, previous: oldState });
 		this._fragment.p(changed, this._state);
-		dispatchObservers(this, this._observers.post, changed, this._state, oldState);
+		this.fire("update", { changed: changed, current: this._state, previous: oldState });
 	}
 }
 
@@ -395,7 +359,7 @@ function callAll(fns) {
 }
 
 function _mount(target, anchor) {
-	this._fragment.m(target, anchor);
+	this._fragment[this._fragment.i ? 'i' : 'm'](target, anchor || null);
 }
 
 function _unmount() {
@@ -417,7 +381,8 @@ var proto = {
 	_recompute: noop,
 	_set: _set,
 	_mount: _mount,
-	_unmount: _unmount
+	_unmount: _unmount,
+	_differs: _differs
 };
 
 var arrayNotationPattern = /\[\s*(\d+)\s*\]/g;
@@ -471,7 +436,7 @@ function slide(node, ref) {
 	};
 }
 
-/* src/components/Navigation.html generated by Svelte v1.54.2 */
+/* src/components/Navigation.html generated by Svelte v1.64.1 */
 function data$2() {
 	return {
 		menu: [{
@@ -516,18 +481,22 @@ var methods = {
 	}
 };
 
-function create_main_fragment$2(state, component) {
+function create_main_fragment$2(component, state) {
 	var header, nav, text, header_class_value;
 
-	var menu = state.menu;
+	var each_value = state.menu;
 
 	var each_blocks = [];
 
-	for (var i = 0; i < menu.length; i += 1) {
-		each_blocks[i] = create_each_block(state, menu, menu[i], i, component);
+	for (var i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block(component, assign(assign({}, state), {
+			each_value: each_value,
+			menuItem: each_value[i],
+			index: i
+		}));
 	}
 
-	var if_block = state.submenuItems.length && create_if_block_2(state, component);
+	var if_block = state.submenuItems.length && create_if_block_2(component, state);
 
 	return {
 		c: function create() {
@@ -561,14 +530,20 @@ function create_main_fragment$2(state, component) {
 		},
 
 		p: function update(changed, state) {
-			var menu = state.menu;
+			var each_value = state.menu;
 
 			if (changed.menu) {
-				for (var i = 0; i < menu.length; i += 1) {
+				for (var i = 0; i < each_value.length; i += 1) {
+					var each_context = assign(assign({}, state), {
+						each_value: each_value,
+						menuItem: each_value[i],
+						index: i
+					});
+
 					if (each_blocks[i]) {
-						each_blocks[i].p(changed, state, menu, menu[i], i);
+						each_blocks[i].p(changed, each_context);
 					} else {
-						each_blocks[i] = create_each_block(state, menu, menu[i], i, component);
+						each_blocks[i] = create_each_block(component, each_context);
 						each_blocks[i].c();
 						each_blocks[i].m(nav, text);
 					}
@@ -578,14 +553,14 @@ function create_main_fragment$2(state, component) {
 					each_blocks[i].u();
 					each_blocks[i].d();
 				}
-				each_blocks.length = menu.length;
+				each_blocks.length = each_value.length;
 			}
 
 			if (state.submenuItems.length) {
 				if (if_block) {
 					if_block.p(changed, state);
 				} else {
-					if_block = create_if_block_2(state, component);
+					if_block = create_if_block_2(component, state);
 					if (if_block) if_block.c();
 				}
 
@@ -622,12 +597,15 @@ function create_main_fragment$2(state, component) {
 }
 
 // (3:2) {{#each menu as menuItem, index}}
-function create_each_block(state, menu, menuItem, index, component) {
+function create_each_block(component, state) {
+	var menuItem = state.menuItem,
+	    each_value = state.each_value,
+	    index = state.index;
 	var text, if_block_1_anchor;
 
-	var if_block = menuItem.url && create_if_block(state, menu, menuItem, index, component);
+	var if_block = menuItem.url && create_if_block(component, state);
 
-	var if_block_1 = !menuItem.url && create_if_block_1(state, menu, menuItem, index, component);
+	var if_block_1 = !menuItem.url && create_if_block_1(component, state);
 
 	return {
 		c: function create() {
@@ -644,12 +622,15 @@ function create_each_block(state, menu, menuItem, index, component) {
 			insertNode(if_block_1_anchor, target, anchor);
 		},
 
-		p: function update(changed, state, menu, menuItem, index) {
+		p: function update(changed, state) {
+			menuItem = state.menuItem;
+			each_value = state.each_value;
+			index = state.index;
 			if (menuItem.url) {
 				if (if_block) {
-					if_block.p(changed, state, menu, menuItem, index);
+					if_block.p(changed, state);
 				} else {
-					if_block = create_if_block(state, menu, menuItem, index, component);
+					if_block = create_if_block(component, state);
 					if_block.c();
 					if_block.m(text.parentNode, text);
 				}
@@ -661,9 +642,9 @@ function create_each_block(state, menu, menuItem, index, component) {
 
 			if (!menuItem.url) {
 				if (if_block_1) {
-					if_block_1.p(changed, state, menu, menuItem, index);
+					if_block_1.p(changed, state);
 				} else {
-					if_block_1 = create_if_block_1(state, menu, menuItem, index, component);
+					if_block_1 = create_if_block_1(component, state);
 					if_block_1.c();
 					if_block_1.m(if_block_1_anchor.parentNode, if_block_1_anchor);
 				}
@@ -689,7 +670,10 @@ function create_each_block(state, menu, menuItem, index, component) {
 }
 
 // (4:3) {{#if menuItem.url}}
-function create_if_block(state, menu, menuItem, index, component) {
+function create_if_block(component, state) {
+	var menuItem = state.menuItem,
+	    each_value = state.each_value,
+	    index = state.index;
 	var a,
 	    text_value = menuItem.label,
 	    text,
@@ -712,7 +696,10 @@ function create_if_block(state, menu, menuItem, index, component) {
 			appendNode(text, a);
 		},
 
-		p: function update(changed, state, menu, menuItem, index) {
+		p: function update(changed, state) {
+			menuItem = state.menuItem;
+			each_value = state.each_value;
+			index = state.index;
 			if (changed.menu && text_value !== (text_value = menuItem.label)) {
 				text.data = text_value;
 			}
@@ -731,7 +718,10 @@ function create_if_block(state, menu, menuItem, index, component) {
 }
 
 // (7:3) {{#if !menuItem.url}}
-function create_if_block_1(state, menu, menuItem, index, component) {
+function create_if_block_1(component, state) {
+	var menuItem = state.menuItem,
+	    each_value = state.each_value,
+	    index = state.index;
 	var button,
 	    text_value = menuItem.label,
 	    text;
@@ -744,13 +734,13 @@ function create_if_block_1(state, menu, menuItem, index, component) {
 		},
 
 		h: function hydrate() {
-			button.className = "link";
 			addListener(button, "click", click_handler);
+			button.className = "link";
 
 			button._svelte = {
 				component: component,
-				menu: menu,
-				index: index
+				each_value: state.each_value,
+				index: state.index
 			};
 		},
 
@@ -759,13 +749,16 @@ function create_if_block_1(state, menu, menuItem, index, component) {
 			appendNode(text, button);
 		},
 
-		p: function update(changed, state, menu, menuItem, index) {
+		p: function update(changed, state) {
+			menuItem = state.menuItem;
+			each_value = state.each_value;
+			index = state.index;
 			if (changed.menu && text_value !== (text_value = menuItem.label)) {
 				text.data = text_value;
 			}
 
-			button._svelte.menu = menu;
-			button._svelte.index = index;
+			button._svelte.each_value = state.each_value;
+			button._svelte.index = state.index;
 		},
 
 		u: function unmount() {
@@ -779,7 +772,10 @@ function create_if_block_1(state, menu, menuItem, index, component) {
 }
 
 // (13:4) {{#each submenuItems as submenuItem}}
-function create_each_block_1(state, submenuItems, submenuItem, submenuItem_index, component) {
+function create_each_block_1(component, state) {
+	var submenuItem = state.submenuItem,
+	    each_value_1 = state.each_value_1,
+	    submenuItem_index = state.submenuItem_index;
 	var a,
 	    text_value = submenuItem.label,
 	    text,
@@ -802,7 +798,10 @@ function create_each_block_1(state, submenuItems, submenuItem, submenuItem_index
 			appendNode(text, a);
 		},
 
-		p: function update(changed, state, submenuItems, submenuItem, submenuItem_index) {
+		p: function update(changed, state) {
+			submenuItem = state.submenuItem;
+			each_value_1 = state.each_value_1;
+			submenuItem_index = state.submenuItem_index;
 			if (changed.submenuItems && text_value !== (text_value = submenuItem.label)) {
 				text.data = text_value;
 			}
@@ -821,15 +820,19 @@ function create_each_block_1(state, submenuItems, submenuItem, submenuItem_index
 }
 
 // (11:2) {{#if submenuItems.length}}
-function create_if_block_2(state, component) {
+function create_if_block_2(component, state) {
 	var nav, nav_transition, introing, outroing;
 
-	var submenuItems = state.submenuItems;
+	var each_value_1 = state.submenuItems;
 
 	var each_blocks = [];
 
-	for (var i = 0; i < submenuItems.length; i += 1) {
-		each_blocks[i] = create_each_block_1(state, submenuItems, submenuItems[i], i, component);
+	for (var i = 0; i < each_value_1.length; i += 1) {
+		each_blocks[i] = create_each_block_1(component, assign(assign({}, state), {
+			each_value_1: each_value_1,
+			submenuItem: each_value_1[i],
+			submenuItem_index: i
+		}));
 	}
 
 	return {
@@ -855,14 +858,20 @@ function create_if_block_2(state, component) {
 		},
 
 		p: function update(changed, state) {
-			var submenuItems = state.submenuItems;
+			var each_value_1 = state.submenuItems;
 
 			if (changed.submenuItems) {
-				for (var i = 0; i < submenuItems.length; i += 1) {
+				for (var i = 0; i < each_value_1.length; i += 1) {
+					var each_context = assign(assign({}, state), {
+						each_value_1: each_value_1,
+						submenuItem: each_value_1[i],
+						submenuItem_index: i
+					});
+
 					if (each_blocks[i]) {
-						each_blocks[i].p(changed, state, submenuItems, submenuItems[i], i);
+						each_blocks[i].p(changed, each_context);
 					} else {
-						each_blocks[i] = create_each_block_1(state, submenuItems, submenuItems[i], i, component);
+						each_blocks[i] = create_each_block_1(component, each_context);
 						each_blocks[i].c();
 						each_blocks[i].m(nav, null);
 					}
@@ -872,7 +881,7 @@ function create_if_block_2(state, component) {
 					each_blocks[i].u();
 					each_blocks[i].d();
 				}
-				each_blocks.length = submenuItems.length;
+				each_blocks.length = each_value_1.length;
 			}
 		},
 
@@ -921,9 +930,9 @@ function create_if_block_2(state, component) {
 
 function click_handler(event) {
 	var component = this._svelte.component;
-	var menu = this._svelte.menu,
+	var each_value = this._svelte.each_value,
 	    index = this._svelte.index,
-	    menuItem = menu[index];
+	    menuItem = each_value[index];
 	component.processMenuItemClick(index);
 }
 
@@ -936,20 +945,21 @@ function Navigation(options) {
 		this._aftercreate = [];
 	}
 
-	this._fragment = create_main_fragment$2(this._state, this);
+	this._fragment = create_main_fragment$2(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 
 		callAll(this._aftercreate);
 	}
 }
 
-assign(Navigation.prototype, methods, proto);
+assign(Navigation.prototype, proto);
+assign(Navigation.prototype, methods);
 
-/* src/components/Content.html generated by Svelte v1.54.2 */
-function create_main_fragment$3(state, component) {
+/* src/components/Content.html generated by Svelte v1.64.1 */
+function create_main_fragment$3(component, state) {
 	var div,
 	    slot_content_default = component._slotted.default;
 
@@ -993,17 +1003,17 @@ function Content(options) {
 
 	this.slots = {};
 
-	this._fragment = create_main_fragment$3(this._state, this);
+	this._fragment = create_main_fragment$3(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 	}
 }
 
 assign(Content.prototype, proto);
 
-/* src/components/Showcase.html generated by Svelte v1.54.2 */
+/* src/components/Showcase.html generated by Svelte v1.64.1 */
 function showcaseData(dataUrl) {
 	return fetch(dataUrl).then(function (res) {
 		if (!res.ok) {
@@ -1023,25 +1033,21 @@ function data$3() {
 	return {};
 }
 
-function encapsulateStyles(node) {
-	setAttribute(node, "svelte-3470831650", "");
-}
-
 function add_css() {
 	var style = createElement("style");
-	style.id = 'svelte-3470831650-style';
-	style.textContent = "[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}[svelte-3470831650].-simple .ui-card,[svelte-3470831650] .-simple .ui-card{box-shadow:none}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}[svelte-3470831650].-mosaic img,[svelte-3470831650] .-mosaic img{margin-bottom:20px;border-radius:5px}[svelte-3470831650].ui-card__details,[svelte-3470831650] .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{grid-template-columns:repeat(2, 1fr)}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{grid-template-columns:repeat(3, 1fr)}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}[svelte-3470831650].row,[svelte-3470831650] .row{padding-top:2rem;padding-bottom:2rem}[svelte-3470831650].row.-bg,[svelte-3470831650] .row.-bg{background:#f1f1f1}[svelte-3470831650].row.-padded,[svelte-3470831650] .row.-padded{padding-left:1rem;padding-right:1rem}";
+	style.id = 'svelte-1lefyua-style';
+	style.textContent = ".svelte-1lefyua.-simple,.svelte-1lefyua .-simple,.svelte-1lefyua.-detailed,.svelte-1lefyua .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}.svelte-1lefyua.-simple .ui-card,.svelte-1lefyua .-simple .ui-card{box-shadow:none}.svelte-1lefyua.-mosaic,.svelte-1lefyua .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}.svelte-1lefyua.-mosaic img,.svelte-1lefyua .-mosaic img{margin-bottom:20px;border-radius:5px}.svelte-1lefyua.ui-card__details,.svelte-1lefyua .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){.svelte-1lefyua.-simple,.svelte-1lefyua .-simple,.svelte-1lefyua.-detailed,.svelte-1lefyua .-detailed{grid-template-columns:repeat(2, 1fr)}.svelte-1lefyua.-mosaic,.svelte-1lefyua .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){.svelte-1lefyua.-simple,.svelte-1lefyua .-simple,.svelte-1lefyua.-detailed,.svelte-1lefyua .-detailed{grid-template-columns:repeat(3, 1fr)}.svelte-1lefyua.-mosaic,.svelte-1lefyua .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}.svelte-1lefyua.row,.svelte-1lefyua .row{padding-top:2rem;padding-bottom:2rem}.svelte-1lefyua.row.-bg,.svelte-1lefyua .row.-bg{background:#f1f1f1}.svelte-1lefyua.row.-padded,.svelte-1lefyua .row.-padded{padding-left:1rem;padding-right:1rem}";
 	appendNode(style, document.head);
 }
 
-function create_main_fragment$4(state, component) {
+function create_main_fragment$4(component, state) {
 	var div, div_1, await_block_1, await_block_type, await_token, promise, resolved, div_1_class_value, div_class_value;
 
-	function replace_await_block(token, type, value, state) {
+	function replace_await_block(token, type, state) {
 		if (token !== await_token) return;
 
 		var old_block = await_block_1;
-		await_block_1 = (await_block_type = type)(state, resolved = value, component);
+		await_block_1 = type && (await_block_type = type)(component, state);
 
 		if (old_block) {
 			old_block.u();
@@ -1059,21 +1065,23 @@ function create_main_fragment$4(state, component) {
 		if (isPromise(promise)) {
 			promise.then(function (value) {
 				var state = component.get();
-				replace_await_block(token, create_then_block, value, state);
+				resolved = { assets: value };
+				replace_await_block(token, create_then_block, assign(assign({}, state), resolved));
 			}, function (error) {
 				var state = component.get();
-				replace_await_block(token, create_catch_block, error, state);
+				resolved = { theError: error };
+				replace_await_block(token, create_catch_block, assign(assign({}, state), resolved));
 			});
 
 			// if we previously had a then/catch block, destroy it
 			if (await_block_type !== create_pending_block) {
-				replace_await_block(token, create_pending_block, null, state);
+				replace_await_block(token, create_pending_block, state);
 				return true;
 			}
 		} else {
-			resolved = promise;
+			resolved = { assets: promise };
 			if (await_block_type !== create_then_block) {
-				replace_await_block(token, create_then_block, resolved, state);
+				replace_await_block(token, create_then_block, assign(assign({}, state), resolved));
 				return true;
 			}
 		}
@@ -1091,9 +1099,8 @@ function create_main_fragment$4(state, component) {
 		},
 
 		h: function hydrate() {
-			encapsulateStyles(div);
 			div_1.className = div_1_class_value = "ui-container -" + state.type + " -padded";
-			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded";
+			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded" + " svelte-1lefyua";
 		},
 
 		m: function mount(target, anchor) {
@@ -1107,14 +1114,14 @@ function create_main_fragment$4(state, component) {
 			if ('showcaseData' in changed && promise !== (promise = state.showcaseData) && handle_promise(promise, state)) {
 				// nothing
 			} else {
-				await_block_1.p(changed, state, resolved);
+				await_block_1.p(changed, assign(assign({}, state), resolved));
 			}
 
 			if (changed.type && div_1_class_value !== (div_1_class_value = "ui-container -" + state.type + " -padded")) {
 				div_1.className = div_1_class_value;
 			}
 
-			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded")) {
+			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded" + " svelte-1lefyua")) {
 				div.className = div_class_value;
 			}
 		},
@@ -1133,7 +1140,7 @@ function create_main_fragment$4(state, component) {
 }
 
 // (3:25)     <div class="ui-block -center">loading...</div>   {{then assets}}
-function create_pending_block(state, _, component) {
+function create_pending_block(component, state) {
 	var div;
 
 	return {
@@ -1162,7 +1169,13 @@ function create_pending_block(state, _, component) {
 }
 
 // (8:4) {{#each assets as asset}}
-function create_each_block$1(state, assets, assets_1, asset, asset_index, component) {
+function create_each_block$1(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined,
+	    asset = state.asset,
+	    each_value = state.each_value,
+	    asset_index = state.asset_index;
 	var img, img_src_value;
 
 	return {
@@ -1173,14 +1186,20 @@ function create_each_block$1(state, assets, assets_1, asset, asset_index, compon
 
 		h: function hydrate() {
 			img.src = img_src_value = asset.image;
-			img.alt = '';
+			img.alt = "";
 		},
 
 		m: function mount(target, anchor) {
 			insertNode(img, target, anchor);
 		},
 
-		p: function update(changed, state, assets, assets_1, asset, asset_index) {
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			asset = state.asset;
+			each_value = state.each_value;
+			asset_index = state.asset_index;
 			if (changed.showcaseData && img_src_value !== (img_src_value = asset.image)) {
 				img.src = img_src_value;
 			}
@@ -1195,7 +1214,13 @@ function create_each_block$1(state, assets, assets_1, asset, asset_index, compon
 }
 
 // (14:4) {{#each assets as asset}}
-function create_each_block_1$1(state, assets, assets_1, asset, asset_index, component) {
+function create_each_block_1$1(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined,
+	    asset = state.asset,
+	    each_value_1 = state.each_value_1,
+	    asset_index_1 = state.asset_index_1;
 	var div, img, img_src_value;
 
 	return {
@@ -1207,7 +1232,7 @@ function create_each_block_1$1(state, assets, assets_1, asset, asset_index, comp
 
 		h: function hydrate() {
 			img.src = img_src_value = asset.image;
-			img.alt = '';
+			img.alt = "";
 			div.className = "ui-card";
 		},
 
@@ -1216,7 +1241,13 @@ function create_each_block_1$1(state, assets, assets_1, asset, asset_index, comp
 			appendNode(img, div);
 		},
 
-		p: function update(changed, state, assets, assets_1, asset, asset_index) {
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			asset = state.asset;
+			each_value_1 = state.each_value_1;
+			asset_index_1 = state.asset_index_1;
 			if (changed.showcaseData && img_src_value !== (img_src_value = asset.image)) {
 				img.src = img_src_value;
 			}
@@ -1231,7 +1262,13 @@ function create_each_block_1$1(state, assets, assets_1, asset, asset_index, comp
 }
 
 // (22:4) {{#each assets as asset}}
-function create_each_block_2(state, assets, assets_1, asset, asset_index, component) {
+function create_each_block_2(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined,
+	    asset = state.asset,
+	    each_value_2 = state.each_value_2,
+	    asset_index_2 = state.asset_index_2;
 	var div,
 	    text,
 	    a,
@@ -1249,8 +1286,13 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 	    p,
 	    raw_value = asset.detail;
 
-	var current_block_type = select_block_type(state, assets, assets_1, asset, asset_index);
-	var if_block = current_block_type(state, assets, assets_1, asset, asset_index, component);
+	function select_block_type(state) {
+		if (asset.type === 'commercial') return create_if_block_3;
+		return create_if_block_4;
+	}
+
+	var current_block_type = select_block_type(state);
+	var if_block = current_block_type(component, state);
 
 	return {
 		c: function create() {
@@ -1271,7 +1313,7 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 
 		h: function hydrate() {
 			img.src = img_src_value = asset.image;
-			img.alt = '';
+			img.alt = "";
 			a.href = a_href_value = asset.url;
 			a.target = "_blank";
 			h3.className = "ui-heading -tertiary";
@@ -1297,11 +1339,17 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 			p.innerHTML = raw_value;
 		},
 
-		p: function update(changed, state, assets, assets_1, asset, asset_index) {
-			if (current_block_type !== (current_block_type = select_block_type(state, assets, assets_1, asset, asset_index))) {
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			asset = state.asset;
+			each_value_2 = state.each_value_2;
+			asset_index_2 = state.asset_index_2;
+			if (current_block_type !== (current_block_type = select_block_type(state))) {
 				if_block.u();
 				if_block.d();
-				if_block = current_block_type(state, assets, assets_1, asset, asset_index, component);
+				if_block = current_block_type(component, state);
 				if_block.c();
 				if_block.m(div, text);
 			}
@@ -1341,7 +1389,13 @@ function create_each_block_2(state, assets, assets_1, asset, asset_index, compon
 }
 
 // (25:6) {{#if asset.type === 'commercial'}}
-function create_if_block_3(state, assets, assets_1, asset, asset_index, component) {
+function create_if_block_3(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined,
+	    asset = state.asset,
+	    each_value_2 = state.each_value_2,
+	    asset_index_2 = state.asset_index_2;
 	var div;
 
 	return {
@@ -1359,6 +1413,15 @@ function create_if_block_3(state, assets, assets_1, asset, asset_index, componen
 			insertNode(div, target, anchor);
 		},
 
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			asset = state.asset;
+			each_value_2 = state.each_value_2;
+			asset_index_2 = state.asset_index_2;
+		},
+
 		u: function unmount() {
 			detachNode(div);
 		},
@@ -1368,7 +1431,13 @@ function create_if_block_3(state, assets, assets_1, asset, asset_index, componen
 }
 
 // (31:6) {{else}}
-function create_if_block_4(state, assets, assets_1, asset, asset_index, component) {
+function create_if_block_4(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined,
+	    asset = state.asset,
+	    each_value_2 = state.each_value_2,
+	    asset_index_2 = state.asset_index_2;
 	var div;
 
 	return {
@@ -1386,6 +1455,15 @@ function create_if_block_4(state, assets, assets_1, asset, asset_index, componen
 			insertNode(div, target, anchor);
 		},
 
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			asset = state.asset;
+			each_value_2 = state.each_value_2;
+			asset_index_2 = state.asset_index_2;
+		},
+
 		u: function unmount() {
 			detachNode(div);
 		},
@@ -1395,15 +1473,22 @@ function create_if_block_4(state, assets, assets_1, asset, asset_index, componen
 }
 
 // (6:3) {{#if type == "mosaic"}}
-function create_if_block$1(state, assets, component) {
+function create_if_block$1(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined;
 	var each_anchor;
 
-	var assets_1 = assets;
+	var each_value = assets;
 
 	var each_blocks = [];
 
-	for (var i = 0; i < assets_1.length; i += 1) {
-		each_blocks[i] = create_each_block$1(state, assets, assets_1, assets_1[i], i, component);
+	for (var i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block$1(component, assign(assign({}, state), {
+			each_value: each_value,
+			asset: each_value[i],
+			asset_index: i
+		}));
 	}
 
 	return {
@@ -1423,15 +1508,24 @@ function create_if_block$1(state, assets, component) {
 			insertNode(each_anchor, target, anchor);
 		},
 
-		p: function update(changed, state, assets) {
-			var assets_1 = assets;
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			var each_value = assets;
 
 			if (changed.showcaseData) {
-				for (var i = 0; i < assets_1.length; i += 1) {
+				for (var i = 0; i < each_value.length; i += 1) {
+					var each_context = assign(assign({}, state), {
+						each_value: each_value,
+						asset: each_value[i],
+						asset_index: i
+					});
+
 					if (each_blocks[i]) {
-						each_blocks[i].p(changed, state, assets, assets_1, assets_1[i], i);
+						each_blocks[i].p(changed, each_context);
 					} else {
-						each_blocks[i] = create_each_block$1(state, assets, assets_1, assets_1[i], i, component);
+						each_blocks[i] = create_each_block$1(component, each_context);
 						each_blocks[i].c();
 						each_blocks[i].m(each_anchor.parentNode, each_anchor);
 					}
@@ -1441,7 +1535,7 @@ function create_if_block$1(state, assets, component) {
 					each_blocks[i].u();
 					each_blocks[i].d();
 				}
-				each_blocks.length = assets_1.length;
+				each_blocks.length = each_value.length;
 			}
 		},
 
@@ -1460,15 +1554,22 @@ function create_if_block$1(state, assets, component) {
 }
 
 // (12:30) 
-function create_if_block_1$1(state, assets, component) {
+function create_if_block_1$1(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined;
 	var each_anchor;
 
-	var assets_1 = assets;
+	var each_value_1 = assets;
 
 	var each_blocks = [];
 
-	for (var i = 0; i < assets_1.length; i += 1) {
-		each_blocks[i] = create_each_block_1$1(state, assets, assets_1, assets_1[i], i, component);
+	for (var i = 0; i < each_value_1.length; i += 1) {
+		each_blocks[i] = create_each_block_1$1(component, assign(assign({}, state), {
+			each_value_1: each_value_1,
+			asset: each_value_1[i],
+			asset_index_1: i
+		}));
 	}
 
 	return {
@@ -1488,15 +1589,24 @@ function create_if_block_1$1(state, assets, component) {
 			insertNode(each_anchor, target, anchor);
 		},
 
-		p: function update(changed, state, assets) {
-			var assets_1 = assets;
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			var each_value_1 = assets;
 
 			if (changed.showcaseData) {
-				for (var i = 0; i < assets_1.length; i += 1) {
+				for (var i = 0; i < each_value_1.length; i += 1) {
+					var each_context = assign(assign({}, state), {
+						each_value_1: each_value_1,
+						asset: each_value_1[i],
+						asset_index_1: i
+					});
+
 					if (each_blocks[i]) {
-						each_blocks[i].p(changed, state, assets, assets_1, assets_1[i], i);
+						each_blocks[i].p(changed, each_context);
 					} else {
-						each_blocks[i] = create_each_block_1$1(state, assets, assets_1, assets_1[i], i, component);
+						each_blocks[i] = create_each_block_1$1(component, each_context);
 						each_blocks[i].c();
 						each_blocks[i].m(each_anchor.parentNode, each_anchor);
 					}
@@ -1506,7 +1616,7 @@ function create_if_block_1$1(state, assets, component) {
 					each_blocks[i].u();
 					each_blocks[i].d();
 				}
-				each_blocks.length = assets_1.length;
+				each_blocks.length = each_value_1.length;
 			}
 		},
 
@@ -1525,15 +1635,22 @@ function create_if_block_1$1(state, assets, component) {
 }
 
 // (20:32) 
-function create_if_block_2$1(state, assets, component) {
+function create_if_block_2$1(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined;
 	var each_anchor;
 
-	var assets_1 = assets;
+	var each_value_2 = assets;
 
 	var each_blocks = [];
 
-	for (var i = 0; i < assets_1.length; i += 1) {
-		each_blocks[i] = create_each_block_2(state, assets, assets_1, assets_1[i], i, component);
+	for (var i = 0; i < each_value_2.length; i += 1) {
+		each_blocks[i] = create_each_block_2(component, assign(assign({}, state), {
+			each_value_2: each_value_2,
+			asset: each_value_2[i],
+			asset_index_2: i
+		}));
 	}
 
 	return {
@@ -1553,15 +1670,24 @@ function create_if_block_2$1(state, assets, component) {
 			insertNode(each_anchor, target, anchor);
 		},
 
-		p: function update(changed, state, assets) {
-			var assets_1 = assets;
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			var each_value_2 = assets;
 
 			if (changed.showcaseData) {
-				for (var i = 0; i < assets_1.length; i += 1) {
+				for (var i = 0; i < each_value_2.length; i += 1) {
+					var each_context = assign(assign({}, state), {
+						each_value_2: each_value_2,
+						asset: each_value_2[i],
+						asset_index_2: i
+					});
+
 					if (each_blocks[i]) {
-						each_blocks[i].p(changed, state, assets, assets_1, assets_1[i], i);
+						each_blocks[i].p(changed, each_context);
 					} else {
-						each_blocks[i] = create_each_block_2(state, assets, assets_1, assets_1[i], i, component);
+						each_blocks[i] = create_each_block_2(component, each_context);
 						each_blocks[i].c();
 						each_blocks[i].m(each_anchor.parentNode, each_anchor);
 					}
@@ -1571,7 +1697,7 @@ function create_if_block_2$1(state, assets, component) {
 					each_blocks[i].u();
 					each_blocks[i].d();
 				}
-				each_blocks.length = assets_1.length;
+				each_blocks.length = each_value_2.length;
 			}
 		},
 
@@ -1590,7 +1716,10 @@ function create_if_block_2$1(state, assets, component) {
 }
 
 // (51:3) {{else}}
-function create_if_block_5(state, assets, component) {
+function create_if_block_5(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined;
 	var p;
 
 	return {
@@ -1603,7 +1732,11 @@ function create_if_block_5(state, assets, component) {
 			insertNode(p, target, anchor);
 		},
 
-		p: noop,
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+		},
 
 		u: function unmount() {
 			detachNode(p);
@@ -1614,11 +1747,21 @@ function create_if_block_5(state, assets, component) {
 }
 
 // (5:2) {{then assets}}
-function create_then_block(state, assets, component) {
+function create_then_block(component, state) {
+	var assets = state.assets,
+	    undefined = state.undefined,
+	    undefined = state.undefined;
 	var if_block_anchor;
 
-	var current_block_type = select_block_type_1(state, assets);
-	var if_block = current_block_type(state, assets, component);
+	function select_block_type_1(state) {
+		if (state.type == "mosaic") return create_if_block$1;
+		if (state.type == "simple") return create_if_block_1$1;
+		if (state.type == "detailed") return create_if_block_2$1;
+		return create_if_block_5;
+	}
+
+	var current_block_type = select_block_type_1(state);
+	var if_block = current_block_type(component, state);
 
 	return {
 		c: function create() {
@@ -1631,13 +1774,16 @@ function create_then_block(state, assets, component) {
 			insertNode(if_block_anchor, target, anchor);
 		},
 
-		p: function update(changed, state, assets) {
-			if (current_block_type === (current_block_type = select_block_type_1(state, assets)) && if_block) {
-				if_block.p(changed, state, assets);
+		p: function update(changed, state) {
+			assets = state.assets;
+			undefined = state.undefined;
+			undefined = state.undefined;
+			if (current_block_type === (current_block_type = select_block_type_1(state)) && if_block) {
+				if_block.p(changed, state);
 			} else {
 				if_block.u();
 				if_block.d();
-				if_block = current_block_type(state, assets, component);
+				if_block = current_block_type(component, state);
 				if_block.c();
 				if_block.m(if_block_anchor.parentNode, if_block_anchor);
 			}
@@ -1655,7 +1801,10 @@ function create_then_block(state, assets, component) {
 }
 
 // (57:2) {{catch theError}}
-function create_catch_block(state, theError, component) {
+function create_catch_block(component, state) {
+	var theError = state.theError,
+	    undefined = state.undefined,
+	    undefined = state.undefined;
 	var p,
 	    text,
 	    text_1_value = theError.message,
@@ -1674,7 +1823,10 @@ function create_catch_block(state, theError, component) {
 			appendNode(text_1, p);
 		},
 
-		p: function update(changed, state, theError) {
+		p: function update(changed, state) {
+			theError = state.theError;
+			undefined = state.undefined;
+			undefined = state.undefined;
 			if (changed.showcaseData && text_1_value !== (text_1_value = theError.message)) {
 				text_1.data = text_1_value;
 			}
@@ -1688,30 +1840,18 @@ function create_catch_block(state, theError, component) {
 	};
 }
 
-function select_block_type(state, assets, assets_1, asset, asset_index) {
-	if (asset.type === 'commercial') return create_if_block_3;
-	return create_if_block_4;
-}
-
-function select_block_type_1(state, assets) {
-	if (state.type == "mosaic") return create_if_block$1;
-	if (state.type == "simple") return create_if_block_1$1;
-	if (state.type == "detailed") return create_if_block_2$1;
-	return create_if_block_5;
-}
-
 function Showcase(options) {
 	init(this, options);
 	this._state = assign(data$3(), options.data);
 	this._recompute({ dataUrl: 1 }, this._state);
 
-	if (!document.getElementById("svelte-3470831650-style")) add_css();
+	if (!document.getElementById("svelte-1lefyua-style")) add_css();
 
-	this._fragment = create_main_fragment$4(this._state, this);
+	this._fragment = create_main_fragment$4(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 	}
 }
 
@@ -1719,16 +1859,16 @@ assign(Showcase.prototype, proto);
 
 Showcase.prototype._recompute = function _recompute(changed, state) {
 	if (changed.dataUrl) {
-		if (differs(state.showcaseData, state.showcaseData = showcaseData(state.dataUrl))) changed.showcaseData = true;
+		if (this._differs(state.showcaseData, state.showcaseData = showcaseData(state.dataUrl))) changed.showcaseData = true;
 	}
 };
 
-/* src/components/PageBranding.html generated by Svelte v1.54.2 */
+/* src/components/PageBranding.html generated by Svelte v1.64.1 */
 function data$1() {
 	return {};
 }
 
-function create_main_fragment$1(state, component) {
+function create_main_fragment$1(component, state) {
 	var text, text_1, h1, text_2, text_3, p, text_4, text_5, text_6, text_7;
 
 	var navigation = new Navigation({
@@ -1740,20 +1880,22 @@ function create_main_fragment$1(state, component) {
 		slots: { default: createFragment() }
 	});
 
+	var showcase_initial_data = {
+		type: "simple",
+		dataUrl: "/js/branding.json"
+	};
 	var showcase = new Showcase({
 		root: component.root,
-		data: {
-			type: "simple",
-			dataUrl: "/js/branding.json"
-		}
+		data: showcase_initial_data
 	});
 
+	var showcase_1_initial_data = {
+		type: "mosaic",
+		dataUrl: "/js/mockups.json"
+	};
 	var showcase_1 = new Showcase({
 		root: component.root,
-		data: {
-			type: "mosaic",
-			dataUrl: "/js/mockups.json"
-		}
+		data: showcase_1_initial_data
 	});
 
 	return {
@@ -1827,11 +1969,11 @@ function PageBranding(options) {
 		this._aftercreate = [];
 	}
 
-	this._fragment = create_main_fragment$1(this._state, this);
+	this._fragment = create_main_fragment$1(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 
 		this._lock = true;
 		callAll(this._beforecreate);
@@ -1843,7 +1985,7 @@ function PageBranding(options) {
 
 assign(PageBranding.prototype, proto);
 
-/* src/components/PageIllustration.html generated by Svelte v1.54.2 */
+/* src/components/PageIllustration.html generated by Svelte v1.64.1 */
 function data$4() {
 	return {
 		showcaseData: {
@@ -1852,7 +1994,7 @@ function data$4() {
 	};
 }
 
-function create_main_fragment$5(state, component) {
+function create_main_fragment$5(component, state) {
 	var text, text_1, h1, text_2, text_3, p, text_4, a, text_6, text_7, text_8;
 
 	var navigation = new Navigation({
@@ -1864,12 +2006,13 @@ function create_main_fragment$5(state, component) {
 		slots: { default: createFragment() }
 	});
 
+	var showcase_initial_data = {
+		type: state.showcaseData.type,
+		dataUrl: "/js/illustration.json"
+	};
 	var showcase = new Showcase({
 		root: component.root,
-		data: {
-			type: state.showcaseData.type,
-			dataUrl: "/js/illustration.json"
-		}
+		data: showcase_initial_data
 	});
 
 	return {
@@ -1946,11 +2089,11 @@ function PageIllustration(options) {
 		this._aftercreate = [];
 	}
 
-	this._fragment = create_main_fragment$5(this._state, this);
+	this._fragment = create_main_fragment$5(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 
 		this._lock = true;
 		callAll(this._beforecreate);
@@ -1962,7 +2105,7 @@ function PageIllustration(options) {
 
 assign(PageIllustration.prototype, proto);
 
-/* src/components/PageWeb.html generated by Svelte v1.54.2 */
+/* src/components/PageWeb.html generated by Svelte v1.64.1 */
 function data$5() {
 	return {
 		showcaseData: {
@@ -1971,7 +2114,7 @@ function data$5() {
 	};
 }
 
-function create_main_fragment$6(state, component) {
+function create_main_fragment$6(component, state) {
 	var text, text_1, h1, text_2, text_3, p, text_4, em, text_6, text_7, p_1, text_8, a, text_10, text_11, text_12;
 
 	var navigation = new Navigation({
@@ -1983,12 +2126,13 @@ function create_main_fragment$6(state, component) {
 		slots: { default: createFragment() }
 	});
 
+	var showcase_initial_data = {
+		type: state.showcaseData.type,
+		dataUrl: "/js/web.json"
+	};
 	var showcase = new Showcase({
 		root: component.root,
-		data: {
-			type: state.showcaseData.type,
-			dataUrl: "/js/web.json"
-		}
+		data: showcase_initial_data
 	});
 
 	return {
@@ -2077,11 +2221,11 @@ function PageWeb(options) {
 		this._aftercreate = [];
 	}
 
-	this._fragment = create_main_fragment$6(this._state, this);
+	this._fragment = create_main_fragment$6(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 
 		this._lock = true;
 		callAll(this._beforecreate);
@@ -2093,17 +2237,18 @@ function PageWeb(options) {
 
 assign(PageWeb.prototype, proto);
 
-/* src/components/Home.html generated by Svelte v1.54.2 */
+/* src/components/Home.html generated by Svelte v1.64.1 */
 function data$6() {
 	return {};
 }
 
-function create_main_fragment$7(state, component) {
+function create_main_fragment$7(component, state) {
 	var text, div;
 
+	var navigation_initial_data = { version: "home" };
 	var navigation = new Navigation({
 		root: component.root,
-		data: { version: "home" }
+		data: navigation_initial_data
 	});
 
 	return {
@@ -2111,7 +2256,7 @@ function create_main_fragment$7(state, component) {
 			navigation._fragment.c();
 			text = createText("\n");
 			div = createElement("div");
-			div.innerHTML = "<main role=\"main\" class=\"ui-block\"><div class=\"ui-block -center -spaced\"><img src=\"./assets/img/profile.svg\" alt=\"\" class=\"profile-image\"></div>\n\t\t<section class=\"ui-block -padded\"><h1 class=\"ui-heading -primary -center\">Hello, I'm Simon Layfield</h1>\n\t\t\t<p class=\"ui-callout\">I design and build meaningful user experiences into lightweight, scalable web prototypes using frontend technologies like <a href=\"https://svelte.technology\" target=\"_blank\">Svelte</a> and <a href=\"https://rollupjs.org/guide/en\" target=\"_blank\">Rollup</a>.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"http://typereel.io/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">branding and illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></section></main>";
+			div.innerHTML = "<main role=\"main\" class=\"ui-block\"><div class=\"ui-block -center -spaced\"><svg width=\"200\" height=\"200\" viewBox=\"0 0 28 28\" xmlns=\"http://www.w3.org/2000/svg\" xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\"><g><clipPath id=\"hexagonal-mask\"><path d=\"M26.148 20.579c-2.34 4.308-6.905 7.236-12.148 7.236-.776 0-1.536-.065-2.277-.188l10.736-10.736 3.689 3.688z\" fill=\"#33ccb1\"></path><path d=\"M.63 10.513l9.371 9.371 7.758-7.693 2.373 2.372L8.169 26.526C3.455 24.325.185 19.541.185 14c0-1.204.155-2.373.445-3.487z\" fill=\"#0063c7\"></path><path d=\"M19.346 1.26c4.973 2.091 8.469 7.01 8.469 12.74 0 1.107-.131 2.183-.377 3.215l-9.669-9.67-7.759 7.694-2.398-2.398L19.346 1.26z\" fill=\"#0063c7\"></path><path d=\"M1.973 7.202C4.347 3.014 8.846.185 14 .185c.558 0 1.108.034 1.649.098L5.284 10.513 1.973 7.202z\" fill=\"#33ccb1\"></path>\n\t\t\t       </clipPath>\n\t\t\t    </g>\n\t\t\t    <a xlink:href=\"http://www. web-expert.it\"><image clip-path=\"url(#hexagonal-mask)\" height=\"100%\" width=\"100%\" xlink:href=\"./assets/img/moon.jpg\"></image>\n\t\t\t    </a>\n\t\t\t</svg></div>\n\t\t<section class=\"ui-block -padded\"><h1 class=\"ui-heading -primary -center\">Hello, I'm Simon Layfield</h1>\n\t\t\t<p class=\"ui-callout\">I design and build meaningful user experiences into lightweight, scalable web prototypes using frontend technologies like <a href=\"https://svelte.technology\" target=\"_blank\">Svelte</a> and <a href=\"https://rollupjs.org/guide/en\" target=\"_blank\">Rollup</a>.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"http://typereel.io/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">branding and illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></section></main>";
 			this.h();
 		},
 
@@ -2149,11 +2294,11 @@ function Home(options) {
 		this._aftercreate = [];
 	}
 
-	this._fragment = create_main_fragment$7(this._state, this);
+	this._fragment = create_main_fragment$7(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 
 		this._lock = true;
 		callAll(this._beforecreate);
@@ -2165,7 +2310,7 @@ function Home(options) {
 
 assign(Home.prototype, proto);
 
-/* src/components/App.html generated by Svelte v1.54.2 */
+/* src/components/App.html generated by Svelte v1.64.1 */
 function Page(page) {
 	if (page === 'branding') return PageBranding;
 	if (page === 'illustration') return PageIllustration;
@@ -2179,7 +2324,7 @@ function data() {
 	};
 }
 
-function create_main_fragment(state, component) {
+function create_main_fragment(component, state) {
 	var switch_instance_anchor;
 
 	var switch_value = state.Page;
@@ -2202,7 +2347,10 @@ function create_main_fragment(state, component) {
 
 		m: function mount(target, anchor) {
 			insertNode(switch_instance_anchor, target, anchor);
-			if (switch_instance) switch_instance._mount(target, anchor);
+
+			if (switch_instance) {
+				switch_instance._mount(target, anchor);
+			}
 		},
 
 		p: function update(changed, state) {
@@ -2239,11 +2387,11 @@ function App(options) {
 		this._aftercreate = [];
 	}
 
-	this._fragment = create_main_fragment(this._state, this);
+	this._fragment = create_main_fragment(this, this._state);
 
 	if (options.target) {
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._mount(options.target, options.anchor);
 
 		this._lock = true;
 		callAll(this._beforecreate);
@@ -2257,7 +2405,7 @@ assign(App.prototype, proto);
 
 App.prototype._recompute = function _recompute(changed, state) {
 	if (changed.page) {
-		if (differs(state.Page, state.Page = Page(state.page))) changed.Page = true;
+		if (this._differs(state.Page, state.Page = Page(state.page))) changed.Page = true;
 	}
 };
 
