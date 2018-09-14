@@ -1,66 +1,69 @@
-<div class="row {{type == 'detailed' ? '-bg' : ''}} -padded">
-	<div class="ui-container -{{type}} -padded">
-		{{#await showcaseData}}
-			<div class="ui-block -center">loading...</div>
-		{{then assets}}
-			{{#if type == "mosaic"}}
+{{#await showcaseData}}
+	<div class="ui-block -center">loading...</div>
+{{then assets}}
 
-				{{#each assets as asset}}
+	<div class="row {{type == 'detailed' ? '-bg' : ''}} -padded">
+		<div class="ui-container -{{type}} -padded">
+
+		{{#if type == "mosaic"}}
+
+			{{#each assets as asset}}
+				<img src="{{asset.image}}" alt="">
+			{{/each}}
+
+		{{elseif type == "simple"}}
+
+			{{#each assets as asset}}
+				<div class="ui-card">
 					<img src="{{asset.image}}" alt="">
-				{{/each}}
+				</div>
+			{{/each}}
 
-			{{elseif type == "simple"}}
+		{{elseif type == "detailed"}}
 
-				{{#each assets as asset}}
-					<div class="ui-card">
-						<img src="{{asset.image}}" alt="">
-					</div>
-				{{/each}}
+			{{#each assets as asset}}
+				<div class="ui-card -highlight">
 
-			{{elseif type == "detailed"}}
+					{{#if asset.type === 'commercial'}}
 
-				{{#each assets as asset}}
-					<div class="ui-card -highlight">
-
-						{{#if asset.type === 'commercial'}}
-
-							<div class="label">
-								<span>commercial</span>
-							</div>
-
-						{{else}}
-
-							<div class="label -alt">
-								<span>personal</span>
-							</div>
-
-						{{/if}}
-						<a href="{{asset.url}}" target="_blank">
-							<img src="{{asset.image}}" alt="">
-						</a>
-						<div class="details">
-							<a href="{{asset.url}}" target="_blank">
-								<h3 class="ui-heading -tertiary">{{asset.name}}</h3>
-							</a>
-							<p>{{{asset.detail}}}</p>
+						<div class="label">
+							<span>commercial</span>
 						</div>
 
+					{{else}}
+
+						<div class="label -alt">
+							<span>personal</span>
+						</div>
+
+					{{/if}}
+					<a href="{{asset.url}}" target="_blank">
+						<img src="{{asset.image}}" alt="">
+					</a>
+					<div class="details">
+						<a href="{{asset.url}}" target="_blank">
+							<h3 class="ui-heading -tertiary">{{asset.name}}</h3>
+						</a>
+						<p>{{{asset.detail}}}</p>
 					</div>
-				{{/each}}
 
-			{{else}}
+				</div>
+			{{/each}}
 
-				<p>No items found</p>
 
-			{{/if}}
 
-		{{catch theError}}
-			<p>whoops! {{theError.message}}</p>
-		{{/await}}
+		{{else}}
 
+			<p>No items found</p>
+
+		{{/if}}
+
+		</div>
 	</div>
-</div>
 
+{{catch theError}}
+	<p>whoops! {{theError.message}}</p>
+{{/await}}
 
 <style>
 	.-simple,

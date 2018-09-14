@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const marked = require('marked');
 const app = express();
 
 function requireHTTPS(req, res, next) {
@@ -43,8 +44,8 @@ app.get(['/blog/*'], (req, res) => {
 			res.write('Contents you are looking are Not Found');
 		} else {
 			res.writeHead(200, { 'Content-Type': 'text/html' });
-			res.write(`<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta http-equiv="X-UA-Compatible" content="ie=edge"><base href="/articles/${articleLoc}/"><link rel="stylesheet" href="/css/main.css" type="text/css"><link href="https://fonts.googleapis.com/css?family=Montserrat:800|Esteban" rel="stylesheet"><title>Document</title> </head> <body><div class="ui-container -blog">`);
-			res.write(markdown.toHTML(pgResp));
+			res.write(`<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta http-equiv="X-UA-Compatible" content="ie=edge"><base href="/articles/${articleLoc}/"><title>Document</title><link rel="stylesheet" href="/css/main.css" type="text/css"><link href="https://fonts.googleapis.com/css?family=Montserrat:800|Esteban" rel="stylesheet"><style>h1,h2,h3,h4{margin-top:3rem;}.marker{display:inline-block;background:#666;color:#fff;padding:.1rem .5rem;}.marker.lbm{background:#ec7476;}.marker.rp{background:#2C81AF;}</style></head><body><div class="ui-container -blog">`);
+			res.write(marked.parser(marked.lexer(pgResp)));
 			res.write('</div></body></html>');
 		}
 		res.end();

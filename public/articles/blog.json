@@ -1,15 +1,1 @@
-{
-    "incidental-glitch-art": {
-        "article": {
-            "title": "Incidental Glitch Art",
-            "updatedAt": "2018-03-01T06:27:59.148Z",
-            "path": "/Users/simonlayfield/Dev/portfolio-svelte/public/articles/incidental-glitch-art/article.md"
-        }
-    },
-    "the-ux-of-multiplayer-card-game-mechanics": {
-        "article": {
-            "updatedAt": "2018-03-03T09:52:12.755Z",
-            "path": "/Users/simonlayfield/Dev/portfolio-svelte/public/articles/the-ux-of-multiplayer-card-game-mechanics/article.md"
-        }
-    }
-}
+{"how-to-build-a-language":{"article":{"title":"How to Build a Language","updatedAt":"2018-09-12T12:28:09.673Z","path":"/Users/simonlayfield/Dev/portfolio-svelte/public/articles/how-to-build-a-language/article.md"}},"incidental-glitch-art":{"article":{"title":"Incidental Glitch Art","updatedAt":"2018-03-01T06:27:59.148Z","path":"/Users/simonlayfield/Dev/portfolio-svelte/public/articles/incidental-glitch-art/article.md"}},"the-ux-of-multiplayer-card-game-mechanics":{"article":{"updatedAt":"2018-03-03T09:52:12.755Z","path":"/Users/simonlayfield/Dev/portfolio-svelte/public/articles/the-ux-of-multiplayer-card-game-mechanics/article.md"}}}
