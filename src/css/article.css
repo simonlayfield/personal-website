@@ -1,0 +1,38 @@
+h1, h2, h3, h4 {
+    margin-top: 3rem;
+}
+
+.marker {
+    display: inline-block;
+    background: #666;
+    color: #fff;
+    padding: .1rem .5rem;
+}
+
+.marker.lbm {
+    background: #ec7476;
+}
+
+.marker.rp {
+    background: #2C81AF;
+}
+
+.marker.vf {
+    background: #D97920;
+}
+
+
+.article img {
+	filter: grayscale(100%);
+	transition: filter .2s linear;
+	max-width: 100%;
+}
+.article img:hover {
+	filter: none
+}
+
+.article figure {
+	margin: 0;
+	width: 100%;
+	text-align: center;
+}
