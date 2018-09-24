@@ -30,17 +30,11 @@
     "gulp-util": "^3.0.8",
     "marked": "^0.3.19"
   },
+  "scripts": {
+	"start": "npm install && node app.js",  
+  },
   "engines": {
     "node": ">=4.3.2"
-  },
-  "cloud-repo-tools": {
-    "test": {
-      "app": {
-        "msg": "Hello, world!"
-      }
-    },
-    "requiresKeyFile": true,
-    "requiresProjectId": true
   },
   "repository": {
     "type": "git",
