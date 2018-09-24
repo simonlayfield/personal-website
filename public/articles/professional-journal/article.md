@@ -122,4 +122,56 @@ The caption describes this pattern symbol as a screw top *or* a coffee bean. If 
 **'Alphabetical: How every letter tells a story'** by Michael Rosen [Page 4]
 > 'Ah!' is a very useful sound. It can mean many things depending on the notes you hit as you say it. You can indicate that you're surprised, that you knew it all along, that you're satisfied, that you've been hurt, that you're sympathetic, or you're pretending to be sympathetic, that you've caught someone out and so on.
 
-Could there be _shared_ symbols with a way to distinguish between it's translation. This was originally the intention behind the Gendojack Series. **The same smybol can mean different things depending on it's rotation**. If not rotation then perhaps some visual key. Numbers maybe?
+Could there be _shared_ symbols with a way to distinguish between it's translation. This was originally the intention behind the Gendojack Series. **The same symbol can mean different things depending on it's rotation**. If not rotation then perhaps some visual key. Numbers maybe?
+
+<p class="marker" markdown="1">21.09.2018</p>
+<p class="marker lbm" markdown="1">reflection</p>
+
+<figure markdown="1">
+![alt text](egx-001.jpg)
+</figure>
+
+Today was spent at EGX, a gaming exhibition in Birmingham. My friend, John Evelyn, was exhibiting his game 'The Collage Atlas' there and during the course of the day I played a bunch of other indie games that were inspiring in one way or another.
+
+<figure markdown="1">
+![alt text](egx-002.jpg)
+![alt text](egx-003.jpg)
+![alt text](egx-004.jpg)
+</figure>
+
+What I found interesting about John's game (and incidentally about other indie games in general) was that they're all trying to _teach_ you something. Whether the learning is part of the actions within the game itself, or whether the learning was something **external from the game** did vary - for instance - I played an indie game that encouraged the user to be part of the story itself by rewriting the game's narrative. Thus I learned to co-create a story. I played another game that allowed the user to choose from different astrology outcomes as an astrologer in Shakesperian London. Thus I learned (briefly) about astrology. The medium of gaming is a pretty powerful vehicle for learning.
+
+<figure markdown="1">
+![alt text](egx-006.jpg)
+![alt text](egx-007.jpg)
+</figure>
+
+<p class="marker rp" markdown="1">research</p>
+
+This did open my mind up to the idea of researching gamification as a vehicle for education. Is it easier for people to learn a language, for instance, if they have a game-related incentive?
+
+Also, I was stunned by how much raw creativity I found within a medium that mostly known as being self-contained within the games themselves. Contrary to that, I saw a LOT of raw/offline art to support the digital/game based art and direction. There was a physical _paper shredder_ characterised within a game that required the user to feed through paper in order to advance the story.
+
+<figure markdown="1">
+![alt text](egx-005.jpg)
+</figure>
+
+Really inspiring stuff and opened me up to the idea of using games as a means of discovery.
+
+<p class="marker lbm" markdown="1">reflection</p>
+
+Yesterday, I went to see the exhibition 'Trixx + Robert Haussmann | The Log-O-Rithmic Slide Rule: A Retrospective' at the Nottingham Contemporary gallery. I don't usually visit galleries; in fact, I find them pretty sterile places in which to appreciate art and I try to avoid them (this is usually easy enough). However, I was required to go as part of my course and so made a conscious effort for that _not_ to play a part in my judgement of the exhibition itself. It was...ok.
+
+I decided not to read up on the designers before reviewing what I saw because honestly I feel as though it isn't necessary to know who the artist is in order to criticise art. <-- there are reasons why this is untrue but I feel as though in this instance it's true. Art is a confusing mess of rules.
+
+Firstly my understanding was that the designers are furniture designers.
+
+**Tangent**
+
+Art is subjective. A furniture designer creates a piece of art that resembles furniture. It has no functional reason for being. It's just art. I'm comfortable with this, but...
+
+**SUPER TANGENT**
+
+ What I'm viewing is _now_ a piece of art in an exhibition but was _originally_ a concept for actual (functionally sound but artistic?) furniture.
+
+ **Welcome back**

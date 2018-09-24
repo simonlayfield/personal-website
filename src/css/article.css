@@ -21,7 +21,9 @@ h1, h2, h3, h4 {
     background: #D97920;
 }
 
-
+.article {
+	padding: 2rem;
+}
 .article img {
 	filter: grayscale(100%);
 	transition: filter .2s linear;
