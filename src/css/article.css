@@ -24,9 +24,12 @@ h1, h2, h3, h4 {
 .article {
 	padding: 2rem;
 }
+.article .ui-container {
+	max-width: 650px;
+}
 .article img {
-	filter: grayscale(100%);
-	transition: filter .2s linear;
+	/* filter: grayscale(100%);
+	transition: filter .2s linear; */
 	max-width: 100%;
 }
 .article img:hover {

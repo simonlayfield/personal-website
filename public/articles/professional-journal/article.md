@@ -91,7 +91,7 @@ Find out how languages are officiated
 ![alt text](signage-005.jpg)
 </figure>
 
-Examples of symbols and pictographs we might see every day in signage. Perhaps the least familiar is the ['H' sign](https://commons.wikimedia.org/wiki/File:Fire_hydrant_UK.jpg) which indicates to members of the fire department the details of the corresponding hydrant.
+Examples of symbols and pictographs we might see every day in signage. Perhaps the least familiar is the ['H' sign](https://commons.wikimedia.org/wiki/File:Fire_hydrant_UK.jpg) which indicates to members of the fire department the details of the corresponding hydrant (this was news to me).
 
 I also purchased the book **'Philographics: Big ideas in simple shapes'** by Genis Carreras.
 
@@ -139,6 +139,8 @@ Today was spent at EGX, a gaming exhibition in Birmingham. My friend, John Evely
 ![alt text](egx-004.jpg)
 </figure>
 
+You can see the dreamy introduction sequence [on Youtube](https://www.youtube.com/watch?v=2_nlkH1Tr8E).
+
 What I found interesting about John's game (and incidentally about other indie games in general) was that they're all trying to _teach_ you something. Whether the learning is part of the actions within the game itself, or whether the learning was something **external from the game** did vary - for instance - I played an indie game that encouraged the user to be part of the story itself by rewriting the game's narrative. Thus I learned to co-create a story. I played another game that allowed the user to choose from different astrology outcomes as an astrologer in Shakesperian London. Thus I learned (briefly) about astrology. The medium of gaming is a pretty powerful vehicle for learning.
 
 <figure markdown="1">
@@ -160,18 +162,105 @@ Really inspiring stuff and opened me up to the idea of using games as a means of
 
 <p class="marker lbm" markdown="1">reflection</p>
 
-Yesterday, I went to see the exhibition 'Trixx + Robert Haussmann | The Log-O-Rithmic Slide Rule: A Retrospective' at the Nottingham Contemporary gallery. I don't usually visit galleries; in fact, I find them pretty sterile places in which to appreciate art and I try to avoid them (this is usually easy enough). However, I was required to go as part of my course and so made a conscious effort for that _not_ to play a part in my judgement of the exhibition itself. It was...ok.
+<figure markdown="1">
+![alt text](contemporary-008.jpg)
+![alt text](contemporary-009.jpg)
+</figure>
 
-I decided not to read up on the designers before reviewing what I saw because honestly I feel as though it isn't necessary to know who the artist is in order to criticise art. <-- there are reasons why this is untrue but I feel as though in this instance it's true. Art is a confusing mess of rules.
+_Disclaimer: If you like galleries, I'm sorry. I have no idea what I'm talking about._
 
-Firstly my understanding was that the designers are furniture designers.
+Yesterday, I went to see the exhibition **'Trixx + Robert Haussmann | The Log-O-Rithmic Slide Rule: A Retrospective'** at the Nottingham Contemporary gallery. I don't usually visit galleries; in fact, I find them pretty sterile places in which to appreciate art and I try to avoid them (this is usually easy enough). It was...ok.
 
-**Tangent**
+Is it necessary to know the artist or the context of artwork in order to criticise it? I don't think so, but it may just have been the reason why I didn't particularly enjoy it. Art is a confusing mess of rules. Except there are no rules. Except when there are. Gah!
 
-Art is subjective. A furniture designer creates a piece of art that resembles furniture. It has no functional reason for being. It's just art. I'm comfortable with this, but...
+So I did look them up after the fact. The designers in this case are a designer/architect duo. Searching online shows they have legendary status in the design community, and the handful of reviews I saw were all favourable.
 
-**SUPER TANGENT**
+If I'm honest I find that the gallery experience is on the whole _not the best way_ to appreciate art. I see art, or artistic merit, in a lot of things and I delight in it's discovery. Everything that exists has something to say, visually speaking. In a gallery, things can scream pretty loudly.
 
- What I'm viewing is _now_ a piece of art in an exhibition but was _originally_ a concept for actual (functionally sound but artistic?) furniture.
+I feel as though this is an unpopular opinion.
 
- **Welcome back**
+Nevertheless, I picked out two items from the collection on which to comment.
+
+<figure markdown="1">
+![alt text](contemporary-001.jpg)
+![alt text](contemporary-002.jpg)
+</figure>
+
+This piece is part of a group on display called **'Chair Fun'**. Is it fun?
+
+If you say so.
+
+Here we see three bistro chairs with their looped backs entangled. One red, one yellow, one blue. I did say previously that art in galleries screams loudly and all I can hear when I look at this is "HELP".
+
+I can't help. If I reach out to untangle you I'll almost certainly be fined, perhaps even arrested.
+
+<figure markdown="1">
+![alt text](contemporary-003.jpg)
+![alt text](contemporary-004.jpg)
+</figure>
+
+The second piece is a desk that looks like a Roman bridge. Each section of the desk actually opens up as a compartment, which is quite impressive from a craftsmanship perspective. It's wooden, but has a marble-style finished effect.
+
+I wasn't really sure what to think of this beyond its function as a desk. I'm not a furniture enthusiast so I can't really comment on the techniques used, or how significant or relevant the style is - or was at the time of it's creation (it was designed in 1977). I honestly just look at it and can't help but notice that my legs wouldn't fit beneath the archway. It's bulky, looks heavy and would probably be a nightmare to get up a flight of stairs.
+
+I'm being a bit unfair but sadly I feel totally ill-equipped to form valuable opinions on this kind of art. I'll definitely revisit the Contemporary though.
+
+<p class="marker vf" markdown="1">findings</p>
+
+In the Contemporary gift shop some cards in the revolving rack caught my eye.
+
+<figure markdown="1">
+![alt text](contemporary-005.jpg)
+![alt text](contemporary-006.jpg)
+![alt text](contemporary-007.jpg)
+</figure>
+
+Each card shows a building or structure in a geometric thick line-art style. This style is similar to how I imagine pictographs working as part of a language - it's abstract enough to be seen as a combination of simple lines and shapes, but clearly identifiable as the things they represent. I didn't recognise these buildings as the real world places they are, but I immediately saw them _as buildings_.
+
+<p class="marker" markdown="1">24.09.2018</p>
+<p class="marker vf" markdown="1">findings</p>
+
+The [Fifth Element](https://www.imdb.com/title/tt0119116/ has some great examples of hieroglyphics (created specifically for the movie) that have always stuck with me.
+
+<figure markdown="1">
+![alt text](fifth-element-001.jpg)
+![alt text](fifth-element-002.jpg)
+![alt text](fifth-element-003.jpg)
+</figure>
+
+They illustrate the plot, including symbols for the elements earth, air, fire and water.
+
+<figure markdown="1">
+![alt text](fifth-element-004.jpg)
+</figure>
+
+There was also [an entire language](https://www.divinelanguage.com/references.htm) (The Divine Language) created for the movie. Inspiring stuff.
+
+<p class="marker" markdown="1">25.09.2018</p>
+<p class="marker lbm" markdown="1">reflection</p>
+
+<figure markdown="1">
+	<img src="sketchbook-001.jpg" srcset="sketchbook-001@2x.jpg 2x">
+</figure>
+
+I've had a quick play with letter forms (english) and how they can be abstracted in different ways but still hold their literary form. Not useful directly, but it was a fun little challenge.
+
+<p class="marker vf" markdown="1">findings</p>
+
+Something I saw of relevance a while back that is [Chineasy](https://www.chineasy.com/), a system for learning to read Chinese by using illustration to show the meaning of the written word within the letterform. It was created by London entrepreneur ShaoLan Hsueh.
+
+<figure markdown="1">
+	<img src="chineasy-001.png" srcset="chineasy-001@2x.png 2x">
+</figure>
+
+This is smart, and the illustrations themselves are great. Look at how similar 'person' and 'fire' are. Get it wrong and your conversation takes a puzzling, and worrying, turn. Chineasy makes it just that little easier to remember the difference.
+
+<p class="marker lbm" markdown="1">reflection</p>
+
+**I just thought...** would it be possible to create a game where the visual elements are made out of the language itself - like Chineasy?
+
+<p class="marker" markdown="1">27.09.2018</p>
+
+Something I've seen before and seemed to resonate when taking on my Project 1 brief was Macej Ceglowski's [Argument for Slavic Pessimism](https://youtu.be/kErHiET5YPw?t=1097). The aim of the brief is to create a world of your own.
+
+https://www.youtube.com/watch?v=P6UaLAkIIUc
