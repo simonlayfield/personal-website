@@ -264,3 +264,5 @@ This is smart, and the illustrations themselves are great. Look at how similar '
 Something I've seen before and seemed to resonate when taking on my Project 1 brief was Macej Ceglowski's [Argument for Slavic Pessimism](https://youtu.be/kErHiET5YPw?t=1097). The aim of the brief is to create a world of your own.
 
 https://www.youtube.com/watch?v=P6UaLAkIIUc
+
+Two Ronnies - Heiroglyphics

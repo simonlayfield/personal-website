@@ -16,7 +16,7 @@
 		"name": "Rollers Board Games",
 		"url": "https://rollersboardgames.com/",
 		"type": "personal",
-		"detail": "A Shopify theme leveraging <a href='https://shopify.github.io/Timber/' target='_blank'>Timber</a> + <a href='https://shopify.github.io/themekit/' target='_blank'>Theme Kit</a> + <a href='http://shopify.github.io/liquid/' target='_blank'>Liquid</a>."
+		"detail": "A Shopify theme leveraging <a href='https://shopify.github.io/slate/' target='_blank'>Slate</a> + <a href='https://shopify.github.io/themekit/' target='_blank'>Theme Kit</a> + <a href='http://shopify.github.io/liquid/' target='_blank'>Liquid</a>."
 	}, {
 		"image": "assets/img/web/thumbnail-two-munite-noodles.jpg",
 		"name": "Two Minute Noodles",
@@ -32,8 +32,8 @@
 	}, {
 		"image": "assets/img/web/thumbnail-simonlayfield.jpg",
 		"name": "This website?",
-		"url": "thumbnail-simonlayfield.jpg",
+		"url": "https://github.com/simonlayfield/personal-website",
 		"type": "personal",
-		"detail": "This website is build completely using 3 key Svelte components. Don't believe me? Take a look at the source code yourself."
+		"detail": "This website is build completely using 3 key Svelte components. Don't believe me? Take a look at the <a href='https://github.com/simonlayfield/personal-website'>source code</a> yourself."
 	}]
 }

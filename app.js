@@ -1,7 +1,9 @@
 const fs = require('fs');
 const express = require('express');
 const marked = require('marked');
+const serveIndex = require('serve-index');
 const app = express();
+
 
 function requireHTTPS(req, res, next) {
   // The 'x-forwarded-proto' check is for Evennode
@@ -14,6 +16,7 @@ function requireHTTPS(req, res, next) {
 app.use(requireHTTPS);
 
 app.use(express.static('public'));
+app.use('/misc', express.static('public/misc'), serveIndex('public/misc'))
 
 app.get(['/','index.html'], (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
