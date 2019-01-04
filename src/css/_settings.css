@@ -5,7 +5,12 @@
 	--tint-color: #f1f1f1;
 	--supporting-color: #ccc;
 	--primary-color: #555;
-	--secondary-color: #EC7476;
+	--secondary-color: #4D00F1;
+	--mono-color-dark: #000;
+}
+
+* {
+	box-sizing: border-box;
 }
 
 body {

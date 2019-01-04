@@ -17,4 +17,8 @@
 	&.-slim {
 		max-width: 800px;
 	}
+	&.-padded-w {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }

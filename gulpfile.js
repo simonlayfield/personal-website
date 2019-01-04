@@ -7,7 +7,7 @@ const gulp = require('gulp'),
 	markdownToJSON = require('gulp-markdown-to-json'),
 	marked = require('marked');
 
-gulp.task('css', () => {
+gulp.task('css', (done) => {
     gulp.src('src/css/**/*.css')
         .pipe(concat('main.css'))
         .pipe(postcss([
@@ -15,10 +15,11 @@ gulp.task('css', () => {
             cssnano()
         ]))
         .pipe(gulp.dest('public/css/'));
+        done();
 });
 
 gulp.task('watch', () => {
-    gulp.watch('src/css/**/*.css', ['css']);
+    gulp.watch('src/css/**/*.css', gulp.series('css'));
 });
 
 gulp.task('blog_json', () => {
@@ -33,4 +34,4 @@ gulp.task('blog_json', () => {
 });
 
 
-gulp.task('default', ['watch']);
+gulp.task('default', gulp.series('css'));

@@ -1,9 +1,15 @@
 .ui-heading {
 	font-family: var(--heading-family);
 	font-weight: bold;
+	color: var(--mono-color-dark);
 
 	&.-primary {
-		font-size: 2rem;
+		font-size: 1.8rem;
+
+		@media (min-width: 700px) {
+			font-size: 2rem;
+		}
+
 	}
 	&.-secondary {
 		font-size: 1.6rem;
