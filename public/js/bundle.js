@@ -1223,8 +1223,8 @@
   	    a_href_value,
   	    text_2,
   	    div_1,
-  	    a_1,
   	    h3,
+  	    a_1,
   	    text_3_value = asset.name,
   	    text_3,
   	    a_1_href_value,
@@ -1244,10 +1244,10 @@
   			img = createElement("img");
   			text_2 = createText("\n\t\t\t\t\t");
   			div_1 = createElement("div");
-  			a_1 = createElement("a");
   			h3 = createElement("h3");
+  			a_1 = createElement("a");
   			text_3 = createText(text_3_value);
-  			text_5 = createText("\n\t\t\t\t\t\t");
+  			text_5 = createText("\n\n\t\t\t\t\t\t");
   			p = createElement("p");
   			this.h();
   		},
@@ -1257,9 +1257,10 @@
   			img.alt = '';
   			a.href = a_href_value = asset.url;
   			a.target = "_blank";
-  			h3.className = "ui-heading -tertiary";
   			a_1.href = a_1_href_value = asset.url;
   			a_1.target = "_blank";
+  			a_1.className = "link";
+  			h3.className = "ui-heading -tertiary";
   			div_1.className = "details";
   			div.className = "ui-card -highlight";
   		},
@@ -1272,9 +1273,9 @@
   			appendNode(img, a);
   			appendNode(text_2, div);
   			appendNode(div_1, div);
-  			appendNode(a_1, div_1);
-  			appendNode(h3, a_1);
-  			appendNode(text_3, h3);
+  			appendNode(h3, div_1);
+  			appendNode(a_1, h3);
+  			appendNode(text_3, a_1);
   			appendNode(text_5, div_1);
   			appendNode(p, div_1);
   			p.innerHTML = raw_value;
@@ -1572,7 +1573,7 @@
   	};
   }
 
-  // (55:2) {{else}}
+  // (57:2) {{else}}
   function create_if_block_5(state, assets, component) {
   	var p;
 
@@ -1654,7 +1655,7 @@
   	};
   }
 
-  // (64:0) {{catch theError}}
+  // (66:0) {{catch theError}}
   function create_catch_block(state, theError, component) {
   	var p,
   	    text,
