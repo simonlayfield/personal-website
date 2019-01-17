@@ -26,3 +26,22 @@ img {
 .profile-image {
 	/* width: 200px; */
 }
+.logo.-home {
+	width: 120px;
+	&:hover {
+		& .letter {
+			fill: var(--mono-color-dark);
+		}
+		/* & .circle {
+			fill: var(--secondary-color);
+		} */
+	}
+}
+.logo .letter {
+	fill: var(--secondary-color);
+	transition: fill .6s linear;
+}
+.logo .circle {
+	fill: #fff;
+	transition: fill .2s linear;
+}

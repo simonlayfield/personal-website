@@ -12,7 +12,27 @@
 	}
 
 	&.-padded {
-		padding: 2rem;
+		padding: 1rem;
+	}
+	&.-padded-t {
+		padding-top: 1rem;
+	}
+	&.-padded-b {
+		padding-bottom: 1rem;
+	}
+	&.-padded-l {
+		padding-left: 1rem;
+	}
+	&.-padded-r {
+		padding-right: 1rem;
+	}
+	&.-padded-w {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+	&.-padded-h {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
 	}
 
 	&.-flat {
