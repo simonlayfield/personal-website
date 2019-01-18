@@ -1,12 +1,24 @@
 :root {
 
-	--heading-family: 'Source Sans Pro', sans-serif;
-	--body-family: 'Inconsolata', sans-serif;
+	--heading-family: 'luloone_bold', sans-serif;
+	--body-family: 'Nunito', sans-serif;
 	--tint-color: #f1f1f1;
 	--supporting-color: #ccc;
 	--primary-color: #555;
 	--secondary-color: #4D00F1;
 	--mono-color-dark: #000;
+}
+
+@font-face {
+	font-family: 'luloone_bold';
+	src: url('/assets/fonts/luloonebold-webfont.eot');
+	src: url('/assets/fonts/luloonebold-webfont.eot?#iefix') format('embedded-opentype'),
+		url('/assets/fonts/luloonebold-webfont.woff') format('woff'),
+		url('/assets/fonts/luloonebold-webfont.ttf') format('truetype'),
+		url('/assets/fonts/luloonebold-webfont.svg#luloone_bold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+
 }
 
 * {
@@ -27,7 +39,8 @@ img {
 	/* width: 200px; */
 }
 .logo.-home {
-	width: 120px;
+	width: 70px;
+	vertical-align: top;
 	&:hover {
 		& .letter {
 			fill: var(--mono-color-dark);

@@ -5,6 +5,7 @@
 
 	&.-primary {
 		font-size: 1.8rem;
+		line-height: 2.8rem;
 
 		@media (min-width: 700px) {
 			font-size: 2rem;

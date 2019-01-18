@@ -15,6 +15,21 @@
 #sidebar {
 	width: 400px;
 }
+.project {
+	position: relative;
+}
+.project > .link {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.project > .link:hover {
+	& > .ui-overlay {
+		opacity: 1;
+		transition: opacity .2s linear;
+	}
+}
 #portfolio img {
 	display: block;
 }
