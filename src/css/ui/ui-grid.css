@@ -1,19 +1,30 @@
 .ui-grid {
 	display: grid;
 	grid-gap: 20px;
+	&.-fluid {
+		@media (min-width: 500px) {
+			&.-three {
+				grid-template-columns: 1fr 1fr 1fr;
+			}
+		}
+	}
 }
-.-three {
-	grid-template-columns: 1fr 1fr 1fr;
-}
+
 #site {
 	display: grid;
-	grid-template-columns: 400px 1fr;
 	grid-gap: 30px;
-	padding-left: 3rem;
-	padding-right: 3rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	@media (min-width: 500px) {
+		grid-template-columns: 400px 1fr;
+		padding-left: 3rem;
+		padding-right: 3rem;
+	}
 }
 #sidebar {
-	width: 400px;
+	@media (min-width: 500px) {
+		width: 400px;
+	}
 }
 .project {
 	position: relative;

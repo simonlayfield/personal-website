@@ -2109,19 +2109,12 @@
   	return {};
   }
   function create_main_fragment$6(state, component) {
-  	var text, div;
-
-  	var navigation = new Navigation({
-  		root: component.root,
-  		data: { version: "home" }
-  	});
+  	var div;
 
   	return {
   		c: function create() {
-  			navigation._fragment.c();
-  			text = createText("\n");
   			div = createElement("div");
-  			div.innerHTML = "<main role=\"main\" class=\"ui-block\" id=\"site\"><aside class=\"ui-block -padded -flat\" id=\"sidebar\"><div class=\"ui-block -flat -center\"><svg class=\"logo -home\" viewBox=\"0 0 136 136\" xmlns=\"http://www.w3.org/2000/svg\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" stroke-linejoin=\"round\" stroke-miterlimit=\"1.414\"><g transform=\"scale(.9315 1)\"><path fill=\"#fff\" d=\"M0 0h146v136H0z\"></path><clipPath id=\"a\"><path d=\"M0 0h146v136H0z\"></path></clipPath><g clip-path=\"url(#a)\"><circle cx=\"397.099\" cy=\"227.757\" r=\"64.221\" transform=\"matrix(1.13671 0 0 1.05885 -378.385 -173.161)\"></circle><path d=\"M111.184 64.305c.656.627.785.852 1.031 1.29 1.082 1.93.918 4.102-.982 5.968l-34.437 32.078c-2.138 1.992-5.604 1.992-7.743 0-1.028-.956-1.605-2.254-1.605-3.607 0-1.352.577-2.65 1.603-3.606l30.517-28.427-4.776-4.34 7.647-7.303 8.745 7.947zM97.443 52.082L58.91 87.83c-2.103 1.95-5.553 1.942-7.647-.014l-3.913-3.66S75.46 58.082 85.883 48.41c1.013-.94 2.386-1.468 3.816-1.468 1.437 0 2.817.534 3.83 1.483l3.914 3.659v-.002zM76.782 32.145c2.137 1.991 2.137 5.22 0 7.21L46.249 67.798l4.894 4.479-7.676 7.277-8.834-8.086c-.738-.714-.887-.996-1.15-1.532-.919-1.893-.7-3.929 1.116-5.714l34.437-32.078c2.139-1.992 5.606-1.991 7.745.001z\" fill=\"#fff\"></path></g></g></svg></div>\n\n\t\t\t<h1 class=\"ui-heading ui-block -center -padded-b\">Simon Layfield</h1>\n\t\t\t<p>I design and build meaningful user experiences into lightweight, scalable web prototypes using frontend technologies like <a href=\"https://svelte.technology\" target=\"_blank\">Svelte</a> and <a href=\"https://rollupjs.org/guide/en\" target=\"_blank\">Rollup</a>.</p>\n\t\t\t<p>Currently, my free time in this area goes towards my personal project, <a href=\"http://typereel.io/\" target=\"_blank\" class=\"link\">Typereel</a>.</p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">design</a> and <a href=\"./illustration.html\" class=\"link\">illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></aside>\n\t\t<section class=\"ui-block -flat\"><div class=\"ui-grid -three\" id=\"portfolio\"><div class=\"project\"><a href=\"/illustration\" class=\"link\"><img src=\"./assets/img/portfolio/from-persia-with-love-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">From Persia with Love<br>\n\t\t\t\t\t\t\tBRANDING</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/monic-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">Monic<br>\n\t\t\t\t\t\t\tBRANDING/PRODUCT DESIGN</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/avmaths-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">AvMaths<br>\n\t\t\t\t\t\t\tBRANDING/APP CONCEPTS</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/knit-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">K-nit<br>\n\t\t\t\t\t\t\tBRANDING/PRODUCT DESIGN</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/artful-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">The Artful Press<br>\n\t\t\t\t\t\t\tBRANDING/DESIGN</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/kfad.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">King for a Day<br>\n\t\t\t\t\t\t\tILLUSTRATION</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/tribe.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">K-nit<br>\n\t\t\t\t\t\t\tBRANDING/PRODUCT DESIGN</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/void.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">The Void<br>\n\t\t\t\t\t\t\tMASTERS PROJECT</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ns-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">Nathan Sheehy<br>\n\t\t\t\t\t\t\tBRANDING</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ractive-logo.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\">Ractive JS<br>\n\t\t\t\t\t\t\tBRANDING</div></a></div></div></section></main>";
+  			div.innerHTML = "<main role=\"main\" class=\"ui-block\" id=\"site\"><aside class=\"ui-block -padded -flat\" id=\"sidebar\"><div class=\"ui-block -flat -center\"><svg class=\"logo -home\" viewBox=\"0 0 136 136\" xmlns=\"http://www.w3.org/2000/svg\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" stroke-linejoin=\"round\" stroke-miterlimit=\"1.414\"><g transform=\"scale(.9315 1)\"><path fill=\"#fff\" d=\"M0 0h146v136H0z\"></path><clipPath id=\"a\"><path d=\"M0 0h146v136H0z\"></path></clipPath><g clip-path=\"url(#a)\"><circle cx=\"397.099\" cy=\"227.757\" r=\"64.221\" transform=\"matrix(1.13671 0 0 1.05885 -378.385 -173.161)\"></circle><path d=\"M111.184 64.305c.656.627.785.852 1.031 1.29 1.082 1.93.918 4.102-.982 5.968l-34.437 32.078c-2.138 1.992-5.604 1.992-7.743 0-1.028-.956-1.605-2.254-1.605-3.607 0-1.352.577-2.65 1.603-3.606l30.517-28.427-4.776-4.34 7.647-7.303 8.745 7.947zM97.443 52.082L58.91 87.83c-2.103 1.95-5.553 1.942-7.647-.014l-3.913-3.66S75.46 58.082 85.883 48.41c1.013-.94 2.386-1.468 3.816-1.468 1.437 0 2.817.534 3.83 1.483l3.914 3.659v-.002zM76.782 32.145c2.137 1.991 2.137 5.22 0 7.21L46.249 67.798l4.894 4.479-7.676 7.277-8.834-8.086c-.738-.714-.887-.996-1.15-1.532-.919-1.893-.7-3.929 1.116-5.714l34.437-32.078c2.139-1.992 5.606-1.991 7.745.001z\" fill=\"#fff\"></path></g></g></svg></div>\n\n\t\t\t<h1 class=\"ui-heading ui-block -center -padded-b\">Simon Layfield</h1>\n\t\t\t<p>I'm a designer from Nottingham UK. I spent few years in the frontend development space, but am now circling back to the design world via an MA in Illustration.</p>\n\t\t\t<p>I currently have a couple of projects simmering, namely <a href=\"http://typereel.io/\" target=\"_blank\" class=\"link\">Typereel</a> and <a href=\"#\">The Void</a>.</p>\n\t\t\t<p>If you'd like to join forces or straight up hire me to do design things then please <a href=\"#\">get in touch!</a></p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">design</a> and <a href=\"./illustration.html\" class=\"link\">illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></aside>\n\t\t<section class=\"ui-block -flat\"><div class=\"ui-grid -fluid -three\" id=\"portfolio\"><div class=\"project\"><a href=\"/illustration\" class=\"link\"><img src=\"./assets/img/portfolio/from-persia-with-love-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>From Persia with Love</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/monic-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Monic</strong>\n\t\t\t\t\t\t\tBranding/Product Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/avmaths-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>AvMaths</strong>\n\t\t\t\t\t\t\tBranding/App Concepts</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/knit-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>K-nit</strong>\n\t\t\t\t\t\t\tBranding/Product Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/artful-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Artful Press</strong>\n\t\t\t\t\t\t\tBranding/Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/kfad.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>King for a Day</strong>\n\t\t\t\t\t\t\tIllustration</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/tribe.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Taru Ajak</strong>\n\t\t\t\t\t\t\tMA Project</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/void.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Void</strong>\n\t\t\t\t\t\t\tMA Project</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ns-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Nathan Sheehy</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ractive-logo.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Ractive JS</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/typereel-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Typereel</strong>\n\t\t\t\t\t\t\tBranding/FE Development</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/zf-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Zombie Friends</strong>\n\t\t\t\t\t\t\tIllustration</div></a></div></div></section></main>";
   			this.h();
   		},
 
@@ -2130,22 +2123,16 @@
   		},
 
   		m: function mount(target, anchor) {
-  			navigation._mount(target, anchor);
-  			insertNode(text, target, anchor);
   			insertNode(div, target, anchor);
   		},
 
   		p: noop,
 
   		u: function unmount() {
-  			navigation._unmount();
-  			detachNode(text);
   			detachNode(div);
   		},
 
-  		d: function destroy$$1() {
-  			navigation.destroy(false);
-  		}
+  		d: noop
   	};
   }
 
@@ -2153,23 +2140,11 @@
   	init(this, options);
   	this._state = assign(data$5(), options.data);
 
-  	if (!options.root) {
-  		this._oncreate = [];
-  		this._beforecreate = [];
-  		this._aftercreate = [];
-  	}
-
   	this._fragment = create_main_fragment$6(this._state, this);
 
   	if (options.target) {
   		this._fragment.c();
   		this._fragment.m(options.target, options.anchor || null);
-
-  		this._lock = true;
-  		callAll(this._beforecreate);
-  		callAll(this._oncreate);
-  		callAll(this._aftercreate);
-  		this._lock = false;
   	}
   }
 
