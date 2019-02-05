@@ -9,19 +9,10 @@
 
   function noop() {}
 
-  function assign(target) {
-  	var k,
-  	    source,
-  	    i = 1,
-  	    len = arguments.length;
-  	for (; i < len; i++) {
-  		source = arguments[i];
-  		for (k in source) {
-  			target[k] = source[k];
-  		}
-  	}
-
-  	return target;
+  function assign(tar, src) {
+  	for (var k in src) {
+  		tar[k] = src[k];
+  	}return tar;
   }
 
   function appendNode(node, target) {
@@ -70,10 +61,6 @@
 
   function removeListener(node, event, handler) {
   	node.removeEventListener(event, handler, false);
-  }
-
-  function setAttribute(node, attribute, value) {
-  	node.setAttribute(attribute, value);
   }
 
   function linear(t) {
@@ -165,7 +152,7 @@
   				node.style.animation = (node.style.animation || '').split(', ').filter(function (anim) {
   					// when introing, discard old animations if there are any
   					return anim && (program.delta < 0 || !/__svelte/.test(anim));
-  				}).concat(program.name + ' ' + duration + 'ms linear 1 forwards').join(', ');
+  				}).concat(program.name + ' ' + program.duration + 'ms linear 1 forwards').join(', ');
   			}
 
   			this.program = program;
@@ -257,7 +244,7 @@
 
   	deleteRule: function deleteRule(node, name) {
   		node.style.animation = node.style.animation.split(', ').filter(function (anim) {
-  			return anim.slice(0, name.length) !== name;
+  			return anim.indexOf(name) === -1;
   		}).join(', ');
   	}
   };
@@ -276,29 +263,8 @@
   	this._fragment = this._state = null;
   }
 
-  function differs(a, b) {
-  	return a !== b || a && (typeof a === 'undefined' ? 'undefined' : _typeof(a)) === 'object' || typeof a === 'function';
-  }
-
-  function dispatchObservers(component, group, changed, newState, oldState) {
-  	for (var key in group) {
-  		if (!changed[key]) continue;
-
-  		var newValue = newState[key];
-  		var oldValue = oldState[key];
-
-  		var callbacks = group[key];
-  		if (!callbacks) continue;
-
-  		for (var i = 0; i < callbacks.length; i += 1) {
-  			var callback = callbacks[i];
-  			if (callback.__calling) continue;
-
-  			callback.__calling = true;
-  			callback.call(component, newValue, oldValue);
-  			callback.__calling = false;
-  		}
-  	}
+  function _differs(a, b) {
+  	return a != a ? b == b : a !== b || a && (typeof a === 'undefined' ? 'undefined' : _typeof(a)) === 'object' || typeof a === 'function';
   }
 
   function fire(eventName, data) {
@@ -306,7 +272,13 @@
   	if (!handlers) return;
 
   	for (var i = 0; i < handlers.length; i += 1) {
-  		handlers[i].call(this, data);
+  		var handler = handlers[i];
+
+  		if (!handler.__calling) {
+  			handler.__calling = true;
+  			handler.call(this, data);
+  			handler.__calling = false;
+  		}
   	}
   }
 
@@ -315,7 +287,6 @@
   }
 
   function init(component, options) {
-  	component._observers = { pre: blankObject(), post: blankObject() };
   	component._handlers = blankObject();
   	component._bind = options._bind;
 
@@ -325,22 +296,15 @@
   }
 
   function observe(key, callback, options) {
-  	var group = options && options.defer ? this._observers.post : this._observers.pre;
-
-  	(group[key] || (group[key] = [])).push(callback);
+  	var fn = callback.bind(this);
 
   	if (!options || options.init !== false) {
-  		callback.__calling = true;
-  		callback.call(this, this._state[key]);
-  		callback.__calling = false;
+  		fn(this.get()[key], undefined);
   	}
 
-  	return {
-  		cancel: function cancel() {
-  			var index = group[key].indexOf(callback);
-  			if (~index) group[key].splice(index, 1);
-  		}
-  	};
+  	return this.on(options && options.defer ? 'update' : 'state', function (event) {
+  		if (event.changed[key]) fn(event.current[key], event.previous && event.previous[key]);
+  	});
   }
 
   function on(eventName, handler) {
@@ -373,18 +337,18 @@
   	    dirty = false;
 
   	for (var key in newState) {
-  		if (differs(newState[key], oldState[key])) changed[key] = dirty = true;
+  		if (this._differs(newState[key], oldState[key])) changed[key] = dirty = true;
   	}
   	if (!dirty) return;
 
-  	this._state = assign({}, oldState, newState);
+  	this._state = assign(assign({}, oldState), newState);
   	this._recompute(changed, this._state);
   	if (this._bind) this._bind(changed, this._state);
 
   	if (this._fragment) {
-  		dispatchObservers(this, this._observers.pre, changed, this._state, oldState);
+  		this.fire("state", { changed: changed, current: this._state, previous: oldState });
   		this._fragment.p(changed, this._state);
-  		dispatchObservers(this, this._observers.post, changed, this._state, oldState);
+  		this.fire("update", { changed: changed, current: this._state, previous: oldState });
   	}
   }
 
@@ -395,7 +359,7 @@
   }
 
   function _mount(target, anchor) {
-  	this._fragment.m(target, anchor);
+  	this._fragment[this._fragment.i ? 'i' : 'm'](target, anchor || null);
   }
 
   function _unmount() {
@@ -417,7 +381,8 @@
   	_recompute: noop,
   	_set: _set,
   	_mount: _mount,
-  	_unmount: _unmount
+  	_unmount: _unmount,
+  	_differs: _differs
   };
 
   var arrayNotationPattern = /\[\s*(\d+)\s*\]/g;
@@ -471,7 +436,7 @@
   	};
   }
 
-  /* src/components/Navigation.html generated by Svelte v1.54.2 */
+  /* src/components/Navigation.html generated by Svelte v1.64.1 */
 
   function data() {
   	return {
@@ -516,18 +481,22 @@
   	}
   };
 
-  function create_main_fragment(state, component) {
+  function create_main_fragment(component, state) {
   	var header, nav, text, header_class_value;
 
-  	var menu = state.menu;
+  	var each_value = state.menu;
 
   	var each_blocks = [];
 
-  	for (var i = 0; i < menu.length; i += 1) {
-  		each_blocks[i] = create_each_block(state, menu, menu[i], i, component);
+  	for (var i = 0; i < each_value.length; i += 1) {
+  		each_blocks[i] = create_each_block(component, assign(assign({}, state), {
+  			each_value: each_value,
+  			menuItem: each_value[i],
+  			index: i
+  		}));
   	}
 
-  	var if_block = state.submenuItems.length && create_if_block_2(state, component);
+  	var if_block = state.submenuItems.length && create_if_block_2(component, state);
 
   	return {
   		c: function create() {
@@ -561,14 +530,20 @@
   		},
 
   		p: function update(changed, state) {
-  			var menu = state.menu;
+  			var each_value = state.menu;
 
   			if (changed.menu) {
-  				for (var i = 0; i < menu.length; i += 1) {
+  				for (var i = 0; i < each_value.length; i += 1) {
+  					var each_context = assign(assign({}, state), {
+  						each_value: each_value,
+  						menuItem: each_value[i],
+  						index: i
+  					});
+
   					if (each_blocks[i]) {
-  						each_blocks[i].p(changed, state, menu, menu[i], i);
+  						each_blocks[i].p(changed, each_context);
   					} else {
-  						each_blocks[i] = create_each_block(state, menu, menu[i], i, component);
+  						each_blocks[i] = create_each_block(component, each_context);
   						each_blocks[i].c();
   						each_blocks[i].m(nav, text);
   					}
@@ -578,14 +553,14 @@
   					each_blocks[i].u();
   					each_blocks[i].d();
   				}
-  				each_blocks.length = menu.length;
+  				each_blocks.length = each_value.length;
   			}
 
   			if (state.submenuItems.length) {
   				if (if_block) {
   					if_block.p(changed, state);
   				} else {
-  					if_block = create_if_block_2(state, component);
+  					if_block = create_if_block_2(component, state);
   					if (if_block) if_block.c();
   				}
 
@@ -622,12 +597,15 @@
   }
 
   // (3:2) {{#each menu as menuItem, index}}
-  function create_each_block(state, menu, menuItem, index, component) {
+  function create_each_block(component, state) {
+  	var menuItem = state.menuItem,
+  	    each_value = state.each_value,
+  	    index = state.index;
   	var text, if_block_1_anchor;
 
-  	var if_block = menuItem.url && create_if_block(state, menu, menuItem, index, component);
+  	var if_block = menuItem.url && create_if_block(component, state);
 
-  	var if_block_1 = !menuItem.url && create_if_block_1(state, menu, menuItem, index, component);
+  	var if_block_1 = !menuItem.url && create_if_block_1(component, state);
 
   	return {
   		c: function create() {
@@ -644,12 +622,15 @@
   			insertNode(if_block_1_anchor, target, anchor);
   		},
 
-  		p: function update(changed, state, menu, menuItem, index) {
+  		p: function update(changed, state) {
+  			menuItem = state.menuItem;
+  			each_value = state.each_value;
+  			index = state.index;
   			if (menuItem.url) {
   				if (if_block) {
-  					if_block.p(changed, state, menu, menuItem, index);
+  					if_block.p(changed, state);
   				} else {
-  					if_block = create_if_block(state, menu, menuItem, index, component);
+  					if_block = create_if_block(component, state);
   					if_block.c();
   					if_block.m(text.parentNode, text);
   				}
@@ -661,9 +642,9 @@
 
   			if (!menuItem.url) {
   				if (if_block_1) {
-  					if_block_1.p(changed, state, menu, menuItem, index);
+  					if_block_1.p(changed, state);
   				} else {
-  					if_block_1 = create_if_block_1(state, menu, menuItem, index, component);
+  					if_block_1 = create_if_block_1(component, state);
   					if_block_1.c();
   					if_block_1.m(if_block_1_anchor.parentNode, if_block_1_anchor);
   				}
@@ -689,7 +670,10 @@
   }
 
   // (4:3) {{#if menuItem.url}}
-  function create_if_block(state, menu, menuItem, index, component) {
+  function create_if_block(component, state) {
+  	var menuItem = state.menuItem,
+  	    each_value = state.each_value,
+  	    index = state.index;
   	var a,
   	    text_value = menuItem.label,
   	    text,
@@ -712,7 +696,10 @@
   			appendNode(text, a);
   		},
 
-  		p: function update(changed, state, menu, menuItem, index) {
+  		p: function update(changed, state) {
+  			menuItem = state.menuItem;
+  			each_value = state.each_value;
+  			index = state.index;
   			if (changed.menu && text_value !== (text_value = menuItem.label)) {
   				text.data = text_value;
   			}
@@ -731,7 +718,10 @@
   }
 
   // (7:3) {{#if !menuItem.url}}
-  function create_if_block_1(state, menu, menuItem, index, component) {
+  function create_if_block_1(component, state) {
+  	var menuItem = state.menuItem,
+  	    each_value = state.each_value,
+  	    index = state.index;
   	var button,
   	    text_value = menuItem.label,
   	    text;
@@ -744,13 +734,13 @@
   		},
 
   		h: function hydrate() {
-  			button.className = "link";
   			addListener(button, "click", click_handler);
+  			button.className = "link";
 
   			button._svelte = {
   				component: component,
-  				menu: menu,
-  				index: index
+  				each_value: state.each_value,
+  				index: state.index
   			};
   		},
 
@@ -759,13 +749,16 @@
   			appendNode(text, button);
   		},
 
-  		p: function update(changed, state, menu, menuItem, index) {
+  		p: function update(changed, state) {
+  			menuItem = state.menuItem;
+  			each_value = state.each_value;
+  			index = state.index;
   			if (changed.menu && text_value !== (text_value = menuItem.label)) {
   				text.data = text_value;
   			}
 
-  			button._svelte.menu = menu;
-  			button._svelte.index = index;
+  			button._svelte.each_value = state.each_value;
+  			button._svelte.index = state.index;
   		},
 
   		u: function unmount() {
@@ -779,7 +772,10 @@
   }
 
   // (13:4) {{#each submenuItems as submenuItem}}
-  function create_each_block_1(state, submenuItems, submenuItem, submenuItem_index, component) {
+  function create_each_block_1(component, state) {
+  	var submenuItem = state.submenuItem,
+  	    each_value_1 = state.each_value_1,
+  	    submenuItem_index = state.submenuItem_index;
   	var a,
   	    text_value = submenuItem.label,
   	    text,
@@ -802,7 +798,10 @@
   			appendNode(text, a);
   		},
 
-  		p: function update(changed, state, submenuItems, submenuItem, submenuItem_index) {
+  		p: function update(changed, state) {
+  			submenuItem = state.submenuItem;
+  			each_value_1 = state.each_value_1;
+  			submenuItem_index = state.submenuItem_index;
   			if (changed.submenuItems && text_value !== (text_value = submenuItem.label)) {
   				text.data = text_value;
   			}
@@ -821,15 +820,19 @@
   }
 
   // (11:2) {{#if submenuItems.length}}
-  function create_if_block_2(state, component) {
+  function create_if_block_2(component, state) {
   	var nav, nav_transition, introing, outroing;
 
-  	var submenuItems = state.submenuItems;
+  	var each_value_1 = state.submenuItems;
 
   	var each_blocks = [];
 
-  	for (var i = 0; i < submenuItems.length; i += 1) {
-  		each_blocks[i] = create_each_block_1(state, submenuItems, submenuItems[i], i, component);
+  	for (var i = 0; i < each_value_1.length; i += 1) {
+  		each_blocks[i] = create_each_block_1(component, assign(assign({}, state), {
+  			each_value_1: each_value_1,
+  			submenuItem: each_value_1[i],
+  			submenuItem_index: i
+  		}));
   	}
 
   	return {
@@ -855,14 +858,20 @@
   		},
 
   		p: function update(changed, state) {
-  			var submenuItems = state.submenuItems;
+  			var each_value_1 = state.submenuItems;
 
   			if (changed.submenuItems) {
-  				for (var i = 0; i < submenuItems.length; i += 1) {
+  				for (var i = 0; i < each_value_1.length; i += 1) {
+  					var each_context = assign(assign({}, state), {
+  						each_value_1: each_value_1,
+  						submenuItem: each_value_1[i],
+  						submenuItem_index: i
+  					});
+
   					if (each_blocks[i]) {
-  						each_blocks[i].p(changed, state, submenuItems, submenuItems[i], i);
+  						each_blocks[i].p(changed, each_context);
   					} else {
-  						each_blocks[i] = create_each_block_1(state, submenuItems, submenuItems[i], i, component);
+  						each_blocks[i] = create_each_block_1(component, each_context);
   						each_blocks[i].c();
   						each_blocks[i].m(nav, null);
   					}
@@ -872,7 +881,7 @@
   					each_blocks[i].u();
   					each_blocks[i].d();
   				}
-  				each_blocks.length = submenuItems.length;
+  				each_blocks.length = each_value_1.length;
   			}
   		},
 
@@ -921,9 +930,9 @@
 
   function click_handler(event) {
   	var component = this._svelte.component;
-  	var menu = this._svelte.menu,
+  	var each_value = this._svelte.each_value,
   	    index = this._svelte.index,
-  	    menuItem = menu[index];
+  	    menuItem = each_value[index];
   	component.processMenuItemClick(index);
   }
 
@@ -936,21 +945,22 @@
   		this._aftercreate = [];
   	}
 
-  	this._fragment = create_main_fragment(this._state, this);
+  	this._fragment = create_main_fragment(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
 
   		callAll(this._aftercreate);
   	}
   }
 
-  assign(Navigation.prototype, methods, proto);
+  assign(Navigation.prototype, proto);
+  assign(Navigation.prototype, methods);
 
-  /* src/components/Content.html generated by Svelte v1.54.2 */
+  /* src/components/Content.html generated by Svelte v1.64.1 */
 
-  function create_main_fragment$1(state, component) {
+  function create_main_fragment$1(component, state) {
   	var div,
   	    slot_content_default = component._slotted.default;
 
@@ -994,17 +1004,17 @@
 
   	this.slots = {};
 
-  	this._fragment = create_main_fragment$1(this._state, this);
+  	this._fragment = create_main_fragment$1(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
   	}
   }
 
   assign(Content.prototype, proto);
 
-  /* src/components/Showcase.html generated by Svelte v1.54.2 */
+  /* src/components/Showcase.html generated by Svelte v1.64.1 */
 
   function showcaseData(dataUrl) {
   	return fetch(dataUrl).then(function (res) {
@@ -1024,25 +1034,21 @@
   function data$1() {
   	return {};
   }
-  function encapsulateStyles(node) {
-  	setAttribute(node, "svelte-3470831650", "");
-  }
-
   function add_css() {
   	var style = createElement("style");
-  	style.id = 'svelte-3470831650-style';
-  	style.textContent = "[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}[svelte-3470831650].-simple .ui-card,[svelte-3470831650] .-simple .ui-card{box-shadow:none}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}[svelte-3470831650].-mosaic img,[svelte-3470831650] .-mosaic img{margin-bottom:20px;border-radius:5px}[svelte-3470831650].ui-card__details,[svelte-3470831650] .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{grid-template-columns:repeat(2, 1fr)}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){[svelte-3470831650].-simple,[svelte-3470831650] .-simple,[svelte-3470831650].-detailed,[svelte-3470831650] .-detailed{grid-template-columns:repeat(3, 1fr)}[svelte-3470831650].-mosaic,[svelte-3470831650] .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}[svelte-3470831650].row,[svelte-3470831650] .row{padding-top:2rem;padding-bottom:2rem}[svelte-3470831650].row.-bg,[svelte-3470831650] .row.-bg{background:#f1f1f1}[svelte-3470831650].row.-padded,[svelte-3470831650] .row.-padded{padding-left:1rem;padding-right:1rem}";
+  	style.id = 'svelte-1lefyua-style';
+  	style.textContent = ".svelte-1lefyua.-simple,.svelte-1lefyua .-simple,.svelte-1lefyua.-detailed,.svelte-1lefyua .-detailed{width:100%;display:grid;grid-template-columns:1fr;grid-gap:30px}.svelte-1lefyua.-simple .ui-card,.svelte-1lefyua .-simple .ui-card{box-shadow:none}.svelte-1lefyua.-mosaic,.svelte-1lefyua .-mosaic{-moz-column-count:1;-moz-column-gap:20px;-webkit-column-count:1;-webkit-column-gap:20px;column-count:1;column-gap:20px;text-align:center}.svelte-1lefyua.-mosaic img,.svelte-1lefyua .-mosaic img{margin-bottom:20px;border-radius:5px}.svelte-1lefyua.ui-card__details,.svelte-1lefyua .ui-card__details{border:1px solid #ccc}@media(min-width: 500px){.svelte-1lefyua.-simple,.svelte-1lefyua .-simple,.svelte-1lefyua.-detailed,.svelte-1lefyua .-detailed{grid-template-columns:repeat(2, 1fr)}.svelte-1lefyua.-mosaic,.svelte-1lefyua .-mosaic{-moz-column-count:2;-moz-column-gap:20px;-webkit-column-count:2;-webkit-column-gap:20px;column-count:2}}@media(min-width: 1200px){.svelte-1lefyua.-simple,.svelte-1lefyua .-simple,.svelte-1lefyua.-detailed,.svelte-1lefyua .-detailed{grid-template-columns:repeat(3, 1fr)}.svelte-1lefyua.-mosaic,.svelte-1lefyua .-mosaic{-moz-column-count:3;-moz-column-gap:20px;-webkit-column-count:3;-webkit-column-gap:20px;column-count:3}}.svelte-1lefyua.row,.svelte-1lefyua .row{padding-top:2rem;padding-bottom:2rem}.svelte-1lefyua.row.-bg,.svelte-1lefyua .row.-bg{background:#f1f1f1}.svelte-1lefyua.row.-padded,.svelte-1lefyua .row.-padded{padding-left:1rem;padding-right:1rem}";
   	appendNode(style, document.head);
   }
 
-  function create_main_fragment$2(state, component) {
+  function create_main_fragment$2(component, state) {
   	var await_block_anchor, await_block_1, await_block_type, await_token, promise, resolved;
 
-  	function replace_await_block(token, type, value, state) {
+  	function replace_await_block(token, type, state) {
   		if (token !== await_token) return;
 
   		var old_block = await_block_1;
-  		await_block_1 = (await_block_type = type)(state, resolved = value, component);
+  		await_block_1 = type && (await_block_type = type)(component, state);
 
   		if (old_block) {
   			old_block.u();
@@ -1060,21 +1066,23 @@
   		if (isPromise(promise)) {
   			promise.then(function (value) {
   				var state = component.get();
-  				replace_await_block(token, create_then_block, value, state);
+  				resolved = { assets: value };
+  				replace_await_block(token, create_then_block, assign(assign({}, state), resolved));
   			}, function (error) {
   				var state = component.get();
-  				replace_await_block(token, create_catch_block, error, state);
+  				resolved = { theError: error };
+  				replace_await_block(token, create_catch_block, assign(assign({}, state), resolved));
   			});
 
   			// if we previously had a then/catch block, destroy it
   			if (await_block_type !== create_pending_block) {
-  				replace_await_block(token, create_pending_block, null, state);
+  				replace_await_block(token, create_pending_block, state);
   				return true;
   			}
   		} else {
-  			resolved = promise;
+  			resolved = { assets: promise };
   			if (await_block_type !== create_then_block) {
-  				replace_await_block(token, create_then_block, resolved, state);
+  				replace_await_block(token, create_then_block, assign(assign({}, state), resolved));
   				return true;
   			}
   		}
@@ -1097,7 +1105,7 @@
 
   		p: function update(changed, state) {
   			if ('showcaseData' in changed && promise !== (promise = state.showcaseData) && handle_promise(promise, state)) ; else {
-  				await_block_1.p(changed, state, resolved);
+  				await_block_1.p(changed, assign(assign({}, state), resolved));
   			}
   		},
 
@@ -1115,7 +1123,7 @@
   }
 
   // (1:23)   <div class="ui-block -center">loading...</div> {{then assets}}
-  function create_pending_block(state, _, component) {
+  function create_pending_block(component, state) {
   	var div;
 
   	return {
@@ -1126,8 +1134,7 @@
   		},
 
   		h: function hydrate() {
-  			encapsulateStyles(div);
-  			div.className = "ui-block -center";
+  			div.className = "ui-block -center svelte-1lefyua";
   		},
 
   		m: function mount(target, anchor) {
@@ -1145,7 +1152,13 @@
   }
 
   // (10:3) {{#each assets as asset}}
-  function create_each_block$1(state, assets, assets_1, asset, asset_index, component) {
+  function create_each_block$1(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined,
+  	    asset = state.asset,
+  	    each_value = state.each_value,
+  	    asset_index = state.asset_index;
   	var img, img_src_value;
 
   	return {
@@ -1156,14 +1169,20 @@
 
   		h: function hydrate() {
   			img.src = img_src_value = asset.image;
-  			img.alt = '';
+  			img.alt = "";
   		},
 
   		m: function mount(target, anchor) {
   			insertNode(img, target, anchor);
   		},
 
-  		p: function update(changed, state, assets, assets_1, asset, asset_index) {
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			asset = state.asset;
+  			each_value = state.each_value;
+  			asset_index = state.asset_index;
   			if (changed.showcaseData && img_src_value !== (img_src_value = asset.image)) {
   				img.src = img_src_value;
   			}
@@ -1178,7 +1197,13 @@
   }
 
   // (16:3) {{#each assets as asset}}
-  function create_each_block_1$1(state, assets, assets_1, asset, asset_index, component) {
+  function create_each_block_1$1(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined,
+  	    asset = state.asset,
+  	    each_value_1 = state.each_value_1,
+  	    asset_index_1 = state.asset_index_1;
   	var div, img, img_src_value;
 
   	return {
@@ -1190,7 +1215,7 @@
 
   		h: function hydrate() {
   			img.src = img_src_value = asset.image;
-  			img.alt = '';
+  			img.alt = "";
   			div.className = "ui-card";
   		},
 
@@ -1199,7 +1224,13 @@
   			appendNode(img, div);
   		},
 
-  		p: function update(changed, state, assets, assets_1, asset, asset_index) {
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			asset = state.asset;
+  			each_value_1 = state.each_value_1;
+  			asset_index_1 = state.asset_index_1;
   			if (changed.showcaseData && img_src_value !== (img_src_value = asset.image)) {
   				img.src = img_src_value;
   			}
@@ -1214,7 +1245,13 @@
   }
 
   // (24:3) {{#each assets as asset}}
-  function create_each_block_2(state, assets, assets_1, asset, asset_index, component) {
+  function create_each_block_2(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined,
+  	    asset = state.asset,
+  	    each_value_2 = state.each_value_2,
+  	    asset_index_2 = state.asset_index_2;
   	var div,
   	    text,
   	    a,
@@ -1232,8 +1269,13 @@
   	    p,
   	    raw_value = asset.detail;
 
-  	var current_block_type = select_block_type(state, assets, assets_1, asset, asset_index);
-  	var if_block = current_block_type(state, assets, assets_1, asset, asset_index, component);
+  	function select_block_type(state) {
+  		if (asset.type === 'commercial') return create_if_block_3;
+  		return create_if_block_4;
+  	}
+
+  	var current_block_type = select_block_type(state);
+  	var if_block = current_block_type(component, state);
 
   	return {
   		c: function create() {
@@ -1254,7 +1296,7 @@
 
   		h: function hydrate() {
   			img.src = img_src_value = asset.image;
-  			img.alt = '';
+  			img.alt = "";
   			a.href = a_href_value = asset.url;
   			a.target = "_blank";
   			a_1.href = a_1_href_value = asset.url;
@@ -1281,11 +1323,17 @@
   			p.innerHTML = raw_value;
   		},
 
-  		p: function update(changed, state, assets, assets_1, asset, asset_index) {
-  			if (current_block_type !== (current_block_type = select_block_type(state, assets, assets_1, asset, asset_index))) {
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			asset = state.asset;
+  			each_value_2 = state.each_value_2;
+  			asset_index_2 = state.asset_index_2;
+  			if (current_block_type !== (current_block_type = select_block_type(state))) {
   				if_block.u();
   				if_block.d();
-  				if_block = current_block_type(state, assets, assets_1, asset, asset_index, component);
+  				if_block = current_block_type(component, state);
   				if_block.c();
   				if_block.m(div, text);
   			}
@@ -1325,7 +1373,13 @@
   }
 
   // (27:5) {{#if asset.type === 'commercial'}}
-  function create_if_block_3(state, assets, assets_1, asset, asset_index, component) {
+  function create_if_block_3(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined,
+  	    asset = state.asset,
+  	    each_value_2 = state.each_value_2,
+  	    asset_index_2 = state.asset_index_2;
   	var div;
 
   	return {
@@ -1343,6 +1397,15 @@
   			insertNode(div, target, anchor);
   		},
 
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			asset = state.asset;
+  			each_value_2 = state.each_value_2;
+  			asset_index_2 = state.asset_index_2;
+  		},
+
   		u: function unmount() {
   			detachNode(div);
   		},
@@ -1352,7 +1415,13 @@
   }
 
   // (33:5) {{else}}
-  function create_if_block_4(state, assets, assets_1, asset, asset_index, component) {
+  function create_if_block_4(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined,
+  	    asset = state.asset,
+  	    each_value_2 = state.each_value_2,
+  	    asset_index_2 = state.asset_index_2;
   	var div;
 
   	return {
@@ -1370,6 +1439,15 @@
   			insertNode(div, target, anchor);
   		},
 
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			asset = state.asset;
+  			each_value_2 = state.each_value_2;
+  			asset_index_2 = state.asset_index_2;
+  		},
+
   		u: function unmount() {
   			detachNode(div);
   		},
@@ -1379,15 +1457,22 @@
   }
 
   // (8:2) {{#if type == "mosaic"}}
-  function create_if_block$1(state, assets, component) {
+  function create_if_block$1(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined;
   	var each_anchor;
 
-  	var assets_1 = assets;
+  	var each_value = assets;
 
   	var each_blocks = [];
 
-  	for (var i = 0; i < assets_1.length; i += 1) {
-  		each_blocks[i] = create_each_block$1(state, assets, assets_1, assets_1[i], i, component);
+  	for (var i = 0; i < each_value.length; i += 1) {
+  		each_blocks[i] = create_each_block$1(component, assign(assign({}, state), {
+  			each_value: each_value,
+  			asset: each_value[i],
+  			asset_index: i
+  		}));
   	}
 
   	return {
@@ -1407,15 +1492,24 @@
   			insertNode(each_anchor, target, anchor);
   		},
 
-  		p: function update(changed, state, assets) {
-  			var assets_1 = assets;
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			var each_value = assets;
 
   			if (changed.showcaseData) {
-  				for (var i = 0; i < assets_1.length; i += 1) {
+  				for (var i = 0; i < each_value.length; i += 1) {
+  					var each_context = assign(assign({}, state), {
+  						each_value: each_value,
+  						asset: each_value[i],
+  						asset_index: i
+  					});
+
   					if (each_blocks[i]) {
-  						each_blocks[i].p(changed, state, assets, assets_1, assets_1[i], i);
+  						each_blocks[i].p(changed, each_context);
   					} else {
-  						each_blocks[i] = create_each_block$1(state, assets, assets_1, assets_1[i], i, component);
+  						each_blocks[i] = create_each_block$1(component, each_context);
   						each_blocks[i].c();
   						each_blocks[i].m(each_anchor.parentNode, each_anchor);
   					}
@@ -1425,7 +1519,7 @@
   					each_blocks[i].u();
   					each_blocks[i].d();
   				}
-  				each_blocks.length = assets_1.length;
+  				each_blocks.length = each_value.length;
   			}
   		},
 
@@ -1444,15 +1538,22 @@
   }
 
   // (14:29) 
-  function create_if_block_1$1(state, assets, component) {
+  function create_if_block_1$1(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined;
   	var each_anchor;
 
-  	var assets_1 = assets;
+  	var each_value_1 = assets;
 
   	var each_blocks = [];
 
-  	for (var i = 0; i < assets_1.length; i += 1) {
-  		each_blocks[i] = create_each_block_1$1(state, assets, assets_1, assets_1[i], i, component);
+  	for (var i = 0; i < each_value_1.length; i += 1) {
+  		each_blocks[i] = create_each_block_1$1(component, assign(assign({}, state), {
+  			each_value_1: each_value_1,
+  			asset: each_value_1[i],
+  			asset_index_1: i
+  		}));
   	}
 
   	return {
@@ -1472,15 +1573,24 @@
   			insertNode(each_anchor, target, anchor);
   		},
 
-  		p: function update(changed, state, assets) {
-  			var assets_1 = assets;
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			var each_value_1 = assets;
 
   			if (changed.showcaseData) {
-  				for (var i = 0; i < assets_1.length; i += 1) {
+  				for (var i = 0; i < each_value_1.length; i += 1) {
+  					var each_context = assign(assign({}, state), {
+  						each_value_1: each_value_1,
+  						asset: each_value_1[i],
+  						asset_index_1: i
+  					});
+
   					if (each_blocks[i]) {
-  						each_blocks[i].p(changed, state, assets, assets_1, assets_1[i], i);
+  						each_blocks[i].p(changed, each_context);
   					} else {
-  						each_blocks[i] = create_each_block_1$1(state, assets, assets_1, assets_1[i], i, component);
+  						each_blocks[i] = create_each_block_1$1(component, each_context);
   						each_blocks[i].c();
   						each_blocks[i].m(each_anchor.parentNode, each_anchor);
   					}
@@ -1490,7 +1600,7 @@
   					each_blocks[i].u();
   					each_blocks[i].d();
   				}
-  				each_blocks.length = assets_1.length;
+  				each_blocks.length = each_value_1.length;
   			}
   		},
 
@@ -1509,15 +1619,22 @@
   }
 
   // (22:31) 
-  function create_if_block_2$1(state, assets, component) {
+  function create_if_block_2$1(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined;
   	var each_anchor;
 
-  	var assets_1 = assets;
+  	var each_value_2 = assets;
 
   	var each_blocks = [];
 
-  	for (var i = 0; i < assets_1.length; i += 1) {
-  		each_blocks[i] = create_each_block_2(state, assets, assets_1, assets_1[i], i, component);
+  	for (var i = 0; i < each_value_2.length; i += 1) {
+  		each_blocks[i] = create_each_block_2(component, assign(assign({}, state), {
+  			each_value_2: each_value_2,
+  			asset: each_value_2[i],
+  			asset_index_2: i
+  		}));
   	}
 
   	return {
@@ -1537,15 +1654,24 @@
   			insertNode(each_anchor, target, anchor);
   		},
 
-  		p: function update(changed, state, assets) {
-  			var assets_1 = assets;
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			var each_value_2 = assets;
 
   			if (changed.showcaseData) {
-  				for (var i = 0; i < assets_1.length; i += 1) {
+  				for (var i = 0; i < each_value_2.length; i += 1) {
+  					var each_context = assign(assign({}, state), {
+  						each_value_2: each_value_2,
+  						asset: each_value_2[i],
+  						asset_index_2: i
+  					});
+
   					if (each_blocks[i]) {
-  						each_blocks[i].p(changed, state, assets, assets_1, assets_1[i], i);
+  						each_blocks[i].p(changed, each_context);
   					} else {
-  						each_blocks[i] = create_each_block_2(state, assets, assets_1, assets_1[i], i, component);
+  						each_blocks[i] = create_each_block_2(component, each_context);
   						each_blocks[i].c();
   						each_blocks[i].m(each_anchor.parentNode, each_anchor);
   					}
@@ -1555,7 +1681,7 @@
   					each_blocks[i].u();
   					each_blocks[i].d();
   				}
-  				each_blocks.length = assets_1.length;
+  				each_blocks.length = each_value_2.length;
   			}
   		},
 
@@ -1574,7 +1700,10 @@
   }
 
   // (57:2) {{else}}
-  function create_if_block_5(state, assets, component) {
+  function create_if_block_5(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined;
   	var p;
 
   	return {
@@ -1587,7 +1716,11 @@
   			insertNode(p, target, anchor);
   		},
 
-  		p: noop,
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  		},
 
   		u: function unmount() {
   			detachNode(p);
@@ -1598,11 +1731,21 @@
   }
 
   // (3:0) {{then assets}}
-  function create_then_block(state, assets, component) {
+  function create_then_block(component, state) {
+  	var assets = state.assets,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined;
   	var div, div_1, div_1_class_value, div_class_value;
 
-  	var current_block_type = select_block_type_1(state, assets);
-  	var if_block = current_block_type(state, assets, component);
+  	function select_block_type_1(state) {
+  		if (state.type == "mosaic") return create_if_block$1;
+  		if (state.type == "simple") return create_if_block_1$1;
+  		if (state.type == "detailed") return create_if_block_2$1;
+  		return create_if_block_5;
+  	}
+
+  	var current_block_type = select_block_type_1(state);
+  	var if_block = current_block_type(component, state);
 
   	return {
   		c: function create() {
@@ -1613,9 +1756,8 @@
   		},
 
   		h: function hydrate() {
-  			encapsulateStyles(div);
   			div_1.className = div_1_class_value = "ui-container -" + state.type + " -padded";
-  			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded";
+  			div.className = div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded" + " svelte-1lefyua";
   		},
 
   		m: function mount(target, anchor) {
@@ -1624,13 +1766,16 @@
   			if_block.m(div_1, null);
   		},
 
-  		p: function update(changed, state, assets) {
-  			if (current_block_type === (current_block_type = select_block_type_1(state, assets)) && if_block) {
-  				if_block.p(changed, state, assets);
+  		p: function update(changed, state) {
+  			assets = state.assets;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
+  			if (current_block_type === (current_block_type = select_block_type_1(state)) && if_block) {
+  				if_block.p(changed, state);
   			} else {
   				if_block.u();
   				if_block.d();
-  				if_block = current_block_type(state, assets, component);
+  				if_block = current_block_type(component, state);
   				if_block.c();
   				if_block.m(div_1, null);
   			}
@@ -1639,7 +1784,7 @@
   				div_1.className = div_1_class_value;
   			}
 
-  			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded")) {
+  			if (changed.type && div_class_value !== (div_class_value = "row " + (state.type == 'detailed' ? '-bg' : '') + " -padded" + " svelte-1lefyua")) {
   				div.className = div_class_value;
   			}
   		},
@@ -1656,7 +1801,10 @@
   }
 
   // (66:0) {{catch theError}}
-  function create_catch_block(state, theError, component) {
+  function create_catch_block(component, state) {
+  	var theError = state.theError,
+  	    undefined = state.undefined,
+  	    undefined = state.undefined;
   	var p,
   	    text,
   	    text_1_value = theError.message,
@@ -1671,7 +1819,7 @@
   		},
 
   		h: function hydrate() {
-  			encapsulateStyles(p);
+  			p.className = "svelte-1lefyua";
   		},
 
   		m: function mount(target, anchor) {
@@ -1680,7 +1828,10 @@
   			appendNode(text_1, p);
   		},
 
-  		p: function update(changed, state, theError) {
+  		p: function update(changed, state) {
+  			theError = state.theError;
+  			undefined = state.undefined;
+  			undefined = state.undefined;
   			if (changed.showcaseData && text_1_value !== (text_1_value = theError.message)) {
   				text_1.data = text_1_value;
   			}
@@ -1694,30 +1845,18 @@
   	};
   }
 
-  function select_block_type(state, assets, assets_1, asset, asset_index) {
-  	if (asset.type === 'commercial') return create_if_block_3;
-  	return create_if_block_4;
-  }
-
-  function select_block_type_1(state, assets) {
-  	if (state.type == "mosaic") return create_if_block$1;
-  	if (state.type == "simple") return create_if_block_1$1;
-  	if (state.type == "detailed") return create_if_block_2$1;
-  	return create_if_block_5;
-  }
-
   function Showcase(options) {
   	init(this, options);
   	this._state = assign(data$1(), options.data);
   	this._recompute({ dataUrl: 1 }, this._state);
 
-  	if (!document.getElementById("svelte-3470831650-style")) add_css();
+  	if (!document.getElementById("svelte-1lefyua-style")) add_css();
 
-  	this._fragment = create_main_fragment$2(this._state, this);
+  	this._fragment = create_main_fragment$2(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
   	}
   }
 
@@ -1725,16 +1864,16 @@
 
   Showcase.prototype._recompute = function _recompute(changed, state) {
   	if (changed.dataUrl) {
-  		if (differs(state.showcaseData, state.showcaseData = showcaseData(state.dataUrl))) changed.showcaseData = true;
+  		if (this._differs(state.showcaseData, state.showcaseData = showcaseData(state.dataUrl))) changed.showcaseData = true;
   	}
   };
 
-  /* src/components/PageBranding.html generated by Svelte v1.54.2 */
+  /* src/components/PageBranding.html generated by Svelte v1.64.1 */
 
   function data$2() {
   	return {};
   }
-  function create_main_fragment$3(state, component) {
+  function create_main_fragment$3(component, state) {
   	var text, text_1, h1, text_2, text_3, p, text_4, text_5, text_6, text_7;
 
   	var navigation = new Navigation({
@@ -1746,20 +1885,22 @@
   		slots: { default: createFragment() }
   	});
 
+  	var showcase_initial_data = {
+  		type: "simple",
+  		dataUrl: "/js/branding.json"
+  	};
   	var showcase = new Showcase({
   		root: component.root,
-  		data: {
-  			type: "simple",
-  			dataUrl: "/js/branding.json"
-  		}
+  		data: showcase_initial_data
   	});
 
+  	var showcase_1_initial_data = {
+  		type: "mosaic",
+  		dataUrl: "/js/mockups.json"
+  	};
   	var showcase_1 = new Showcase({
   		root: component.root,
-  		data: {
-  			type: "mosaic",
-  			dataUrl: "/js/mockups.json"
-  		}
+  		data: showcase_1_initial_data
   	});
 
   	return {
@@ -1833,11 +1974,11 @@
   		this._aftercreate = [];
   	}
 
-  	this._fragment = create_main_fragment$3(this._state, this);
+  	this._fragment = create_main_fragment$3(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
 
   		this._lock = true;
   		callAll(this._beforecreate);
@@ -1849,7 +1990,7 @@
 
   assign(PageBranding.prototype, proto);
 
-  /* src/components/PageIllustration.html generated by Svelte v1.54.2 */
+  /* src/components/PageIllustration.html generated by Svelte v1.64.1 */
 
   function data$3() {
   	return {
@@ -1858,7 +1999,7 @@
   		}
   	};
   }
-  function create_main_fragment$4(state, component) {
+  function create_main_fragment$4(component, state) {
   	var text, text_1, h1, text_2, text_3, p, text_4, p_1, text_5, a, text_7, text_8, text_9;
 
   	var navigation = new Navigation({
@@ -1870,12 +2011,13 @@
   		slots: { default: createFragment() }
   	});
 
+  	var showcase_initial_data = {
+  		type: state.showcaseData.type,
+  		dataUrl: "/js/illustration.json"
+  	};
   	var showcase = new Showcase({
   		root: component.root,
-  		data: {
-  			type: state.showcaseData.type,
-  			dataUrl: "/js/illustration.json"
-  		}
+  		data: showcase_initial_data
   	});
 
   	return {
@@ -1956,11 +2098,11 @@
   		this._aftercreate = [];
   	}
 
-  	this._fragment = create_main_fragment$4(this._state, this);
+  	this._fragment = create_main_fragment$4(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
 
   		this._lock = true;
   		callAll(this._beforecreate);
@@ -1972,7 +2114,7 @@
 
   assign(PageIllustration.prototype, proto);
 
-  /* src/components/PageWeb.html generated by Svelte v1.54.2 */
+  /* src/components/PageWeb.html generated by Svelte v1.64.1 */
 
   function data$4() {
   	return {
@@ -1981,7 +2123,7 @@
   		}
   	};
   }
-  function create_main_fragment$5(state, component) {
+  function create_main_fragment$5(component, state) {
   	var text, text_1, h1, text_2, text_3, p, text_4, em, text_6, text_7, p_1, text_8, a, text_10, text_11, text_12;
 
   	var navigation = new Navigation({
@@ -1993,12 +2135,13 @@
   		slots: { default: createFragment() }
   	});
 
+  	var showcase_initial_data = {
+  		type: state.showcaseData.type,
+  		dataUrl: "/js/web.json"
+  	};
   	var showcase = new Showcase({
   		root: component.root,
-  		data: {
-  			type: state.showcaseData.type,
-  			dataUrl: "/js/web.json"
-  		}
+  		data: showcase_initial_data
   	});
 
   	return {
@@ -2087,11 +2230,11 @@
   		this._aftercreate = [];
   	}
 
-  	this._fragment = create_main_fragment$5(this._state, this);
+  	this._fragment = create_main_fragment$5(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
 
   		this._lock = true;
   		callAll(this._beforecreate);
@@ -2103,18 +2246,18 @@
 
   assign(PageWeb.prototype, proto);
 
-  /* src/components/Home.html generated by Svelte v1.54.2 */
+  /* src/components/Home.html generated by Svelte v1.64.1 */
 
   function data$5() {
   	return {};
   }
-  function create_main_fragment$6(state, component) {
+  function create_main_fragment$6(component, state) {
   	var div;
 
   	return {
   		c: function create() {
   			div = createElement("div");
-  			div.innerHTML = "<main role=\"main\" class=\"ui-block\" id=\"site\"><aside class=\"ui-block -padded -flat\" id=\"sidebar\"><div class=\"ui-block -flat -center\"><svg class=\"logo -home\" viewBox=\"0 0 136 136\" xmlns=\"http://www.w3.org/2000/svg\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" stroke-linejoin=\"round\" stroke-miterlimit=\"1.414\"><g transform=\"scale(.9315 1)\"><path fill=\"#fff\" d=\"M0 0h146v136H0z\"></path><clipPath id=\"a\"><path d=\"M0 0h146v136H0z\"></path></clipPath><g clip-path=\"url(#a)\"><circle cx=\"397.099\" cy=\"227.757\" r=\"64.221\" transform=\"matrix(1.13671 0 0 1.05885 -378.385 -173.161)\"></circle><path d=\"M111.184 64.305c.656.627.785.852 1.031 1.29 1.082 1.93.918 4.102-.982 5.968l-34.437 32.078c-2.138 1.992-5.604 1.992-7.743 0-1.028-.956-1.605-2.254-1.605-3.607 0-1.352.577-2.65 1.603-3.606l30.517-28.427-4.776-4.34 7.647-7.303 8.745 7.947zM97.443 52.082L58.91 87.83c-2.103 1.95-5.553 1.942-7.647-.014l-3.913-3.66S75.46 58.082 85.883 48.41c1.013-.94 2.386-1.468 3.816-1.468 1.437 0 2.817.534 3.83 1.483l3.914 3.659v-.002zM76.782 32.145c2.137 1.991 2.137 5.22 0 7.21L46.249 67.798l4.894 4.479-7.676 7.277-8.834-8.086c-.738-.714-.887-.996-1.15-1.532-.919-1.893-.7-3.929 1.116-5.714l34.437-32.078c2.139-1.992 5.606-1.991 7.745.001z\" fill=\"#fff\"></path></g></g></svg></div>\n\n\t\t\t<h1 class=\"ui-heading ui-block -center -padded-b\">Simon Layfield</h1>\n\t\t\t<p>I'm a designer from Nottingham UK. I spent few years in the frontend development space, but am now circling back to the design world via an MA in Illustration.</p>\n\t\t\t<p>I currently have a couple of projects simmering, namely <a href=\"http://typereel.io/\" target=\"_blank\" class=\"link\">Typereel</a> and <a href=\"#\">The Void</a>.</p>\n\t\t\t<p>If you'd like to join forces or straight up hire me to do design things then please <a href=\"#\">get in touch!</a></p>\n\t\t\t<div class=\"ui-block -center\"><hr class=\"ui-separator\"></div>\n\t\t\t<p class=\"ui-callout -small\">Other interests include freelance <a href=\"./branding.html\" class=\"link\">design</a> and <a href=\"./illustration.html\" class=\"link\">illustration</a>, I co-run an online board game shop called <a href=\"http://www.rollersboardgames.com\" class=\"link\">Rollers</a> and play in a band called <a href=\"https://www.facebook.com/youthandtheyoung/\" target=\"_blank\" class=\"link\">Youth &amp; The Young</a>.</p></aside>\n\t\t<section class=\"ui-block -flat\"><div class=\"ui-grid -fluid -three\" id=\"portfolio\"><div class=\"project\"><a href=\"/illustration\" class=\"link\"><img src=\"./assets/img/portfolio/from-persia-with-love-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>From Persia with Love</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/monic-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Monic</strong>\n\t\t\t\t\t\t\tBranding/Product Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/avmaths-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>AvMaths</strong>\n\t\t\t\t\t\t\tBranding/App Concepts</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"#\" class=\"link\"><img src=\"./assets/img/portfolio/knit-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>K-nit</strong>\n\t\t\t\t\t\t\tBranding/Product Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/artful-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Artful Press</strong>\n\t\t\t\t\t\t\tBranding/Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/kfad.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>King for a Day</strong>\n\t\t\t\t\t\t\tIllustration</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/tribe.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Taru Ajak</strong>\n\t\t\t\t\t\t\tMA Project</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/void.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Void</strong>\n\t\t\t\t\t\t\tMA Project</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ns-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Nathan Sheehy</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ractive-logo.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Ractive JS</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/typereel-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Typereel</strong>\n\t\t\t\t\t\t\tBranding/FE Development</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/zf-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Zombie Friends</strong>\n\t\t\t\t\t\t\tIllustration</div></a></div></div></section></main>";
+  			div.innerHTML = "<main role=\"main\" class=\"ui-block\" id=\"site\"><aside class=\"ui-block -padded -flat\" id=\"sidebar\"><div class=\"ui-block -flat -center\"><svg class=\"logo -home\" viewBox=\"0 0 340 340\" xmlns=\"http://www.w3.org/2000/svg\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"1.5\"><g transform=\"scale(.26508 .42412)\"><path fill=\"none\" d=\"M0 0h1280v800H0z\"></path><clipPath id=\"a\"><path d=\"M0 0h1280v800H0z\"></path></clipPath><g clip-path=\"url(#a)\"><g transform=\"matrix(9.35314 0 0 5.84571 -1976.19 -1287.25)\"><circle cx=\"279.713\" cy=\"288.631\" r=\"68.426\"></circle><clipPath id=\"b\"><circle cx=\"279.713\" cy=\"288.631\" r=\"68.426\"></circle></clipPath><g clip-path=\"url(#b)\"><path d=\"M199.874 298.387c36.805-38.879 113.854-24.18 113.02-42.73-.898-19.972-107.796 7.794-32.055 29.407 68.033 19.412-21.036 50.78-28.288 38.527-12.367-20.893 92.572-29.562 125.42-8.168\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4.5\"></path></g></g></g></g></svg></div>\n\n\t\t\t<h1 class=\"ui-heading ui-block -center -padded-b\">Simon Layfield</h1>\n\t\t\t<p>I'm a graphic designer from Nottingham UK. I design brands and products that excite, compel and reassure customers. I'm currently undergoing an Illustration MA at Nottingham Trent University.</p>\n\t\t\t<p>Personal projects include <a href=\"http://typereel.io/\" target=\"_blank\" class=\"link\">Typereel</a> and <a href=\"http://thevoidgenerator.eu-4.evennode.com/\">Void</a>.</p>\n\t\t\t<p>If you'd like to join forces or straight up hire me to do design things then please <a href=\"mailto:si%6D%6Fn%6Cay%66ield@protonmai%6C.com\">get in touch</a>.</p></aside>\n\t\t<section class=\"ui-block -flat\"><div class=\"ui-grid -fluid -three\" id=\"portfolio\"><div class=\"project\"><a href=\"/project?id=the-void\" class=\"link\"><img src=\"./assets/img/portfolio/void.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Void</strong>\n\t\t\t\t\t\t\tMA Project</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=taru-ajak\" class=\"link\"><img src=\"./assets/img/portfolio/tribe.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Taru Ajak</strong>\n\t\t\t\t\t\t\tMA Project</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=from-persia-with-love\" class=\"link\"><img src=\"./assets/img/portfolio/from-persia-with-love-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>From Persia with Love</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=monic\" class=\"link\"><img src=\"./assets/img/portfolio/monic-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Monic</strong>\n\t\t\t\t\t\t\tBranding/Product Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=avmaths\" class=\"link\"><img src=\"./assets/img/portfolio/avmaths-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>AvMaths</strong>\n\t\t\t\t\t\t\tBranding/App Concepts</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=k-nit\" class=\"link\"><img src=\"./assets/img/portfolio/knit-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>K-nit</strong>\n\t\t\t\t\t\t\tBranding/Product Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=artful\" class=\"link\"><img src=\"./assets/img/portfolio/artful-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>The Artful Press</strong>\n\t\t\t\t\t\t\tBranding/Design</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=about-and-out\" class=\"link\"><img src=\"./assets/img/portfolio/about-and-out.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>About &amp; Out</strong>\n\t\t\t\t\t\t\tIllustration</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=nathan-sheehy\" class=\"link\"><img src=\"./assets/img/portfolio/ns-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Nathan Sheehy</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"\" class=\"link\"><img src=\"./assets/img/portfolio/ractive-logo.jpg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Ractive JS</strong>\n\t\t\t\t\t\t\tBranding</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"http://typereel.io\" target=\"_blank\" class=\"link\"><img src=\"./assets/img/portfolio/typereel-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Typereel</strong>\n\t\t\t\t\t\t\tBranding/FE Development</div></a></div>\n\t\t\t\t<div class=\"project\"><a href=\"/project?id=zombie-friends\" class=\"link\"><img src=\"./assets/img/portfolio/zf-logo.svg\" alt=\"\" class=\"thumbnail\">\n\t\t\t\t\t\t<div class=\"ui-overlay\"><strong>Zombie Friends</strong>\n\t\t\t\t\t\t\tIllustration</div></a></div></div></section></main>";
   			this.h();
   		},
 
@@ -2140,17 +2283,17 @@
   	init(this, options);
   	this._state = assign(data$5(), options.data);
 
-  	this._fragment = create_main_fragment$6(this._state, this);
+  	this._fragment = create_main_fragment$6(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
   	}
   }
 
   assign(Home.prototype, proto);
 
-  /* src/components/App.html generated by Svelte v1.54.2 */
+  /* src/components/App.html generated by Svelte v1.64.1 */
 
   function Page(page) {
   	if (page === 'branding') return PageBranding;
@@ -2164,7 +2307,7 @@
   		page: webpage
   	};
   }
-  function create_main_fragment$7(state, component) {
+  function create_main_fragment$7(component, state) {
   	var switch_instance_anchor;
 
   	var switch_value = state.Page;
@@ -2187,7 +2330,10 @@
 
   		m: function mount(target, anchor) {
   			insertNode(switch_instance_anchor, target, anchor);
-  			if (switch_instance) switch_instance._mount(target, anchor);
+
+  			if (switch_instance) {
+  				switch_instance._mount(target, anchor);
+  			}
   		},
 
   		p: function update(changed, state) {
@@ -2224,11 +2370,11 @@
   		this._aftercreate = [];
   	}
 
-  	this._fragment = create_main_fragment$7(this._state, this);
+  	this._fragment = create_main_fragment$7(this, this._state);
 
   	if (options.target) {
   		this._fragment.c();
-  		this._fragment.m(options.target, options.anchor || null);
+  		this._mount(options.target, options.anchor);
 
   		this._lock = true;
   		callAll(this._beforecreate);
@@ -2242,7 +2388,7 @@
 
   App.prototype._recompute = function _recompute(changed, state) {
   	if (changed.page) {
-  		if (differs(state.Page, state.Page = Page(state.page))) changed.Page = true;
+  		if (this._differs(state.Page, state.Page = Page(state.page))) changed.Page = true;
   	}
   };
 

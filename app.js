@@ -2,8 +2,14 @@ const fs = require('fs');
 const express = require('express');
 const marked = require('marked');
 const serveIndex = require('serve-index');
+const fetch = require("node-fetch");
 const app = express();
 
+// Sever side rendering Svelte components
+require('svelte/ssr/register')({
+  extensions: ['.svelte']
+});
+const PageProject = require('./src/components/PageProject.svelte');
 
 function requireHTTPS(req, res, next) {
   // The 'x-forwarded-proto' check is for Evennode
@@ -32,6 +38,26 @@ app.get(['/illustration','illustration.html'], (req, res) => {
 
 app.get(['/web','web.html'], (req, res) => {
 	res.sendFile(__dirname + '/public/web.html');
+});
+
+app.get('/project', (req, res) => {
+
+  const projectId = req.param('id');
+
+  fetch('http://127.0.0.1:8080/js/projects.json')
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(projects) {
+    const { html, css, head } = PageProject.render(projects[`${projectId}`]);
+
+    res.set({ 'content-type': 'text/html; charset=utf-8' });
+    res.write(head);
+    res.write('<style>' + css.code + '</style>');
+    res.write(html);
+    res.end();
+  });
+
 });
 
 app.get(['/blog','blog.html'], (req, res) => {

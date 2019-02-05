@@ -6,6 +6,7 @@
 	--supporting-color: #ccc;
 	--primary-color: #555;
 	--secondary-color: #00C19F;
+	--secondary-color-shade: #00957B;
 	--mono-color-dark: #000;
 }
 
@@ -35,6 +36,13 @@ img {
 	max-width: 100%;
 }
 
+figure {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	text-align: center;
+}
+
 .profile-image {
 	/* width: 200px; */
 }
@@ -57,4 +65,62 @@ img {
 .logo .circle {
 	fill: #fff;
 	transition: fill .2s linear;
+}
+
+/* Helpers */
+._padded {
+	padding: 1rem;
+}
+._padded-t {
+	padding-top: 1rem;
+}
+._padded-b {
+	padding-bottom: 1rem;
+}
+._padded-l {
+	padding-left: 1rem;
+}
+._padded-r {
+	padding-right: 1rem;
+}
+._padded-w {
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+._padded-h {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+._margin {
+	margin: 1rem;
+}
+._margin-t {
+	margin-top: 1rem;
+}
+._margin-b {
+	margin-bottom: 1rem;
+}
+._margin-l {
+	margin-left: 1rem;
+}
+._margin-r {
+	margin-right: 1rem;
+}
+._margin-w {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+._margin-h {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+._spaced {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+._spaced-t {
+	margin-top: 2rem;
+}
+._spaced-b {
+	margin-bottom: 2rem;
 }
