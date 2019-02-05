@@ -21,7 +21,8 @@
     "rollup-plugin-svelte": "^4.0.0",
     "serve-index": "^1.9.1",
     "svelte-extras": "^1.6.0",
-    "svelte-transitions": "^1.1.1"
+    "svelte-transitions": "^1.1.1",
+    "node-fetch": "^2.3.0"
   },
   "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
@@ -29,7 +30,6 @@
     "babel-preset-stage-3": "^6.24.1",
     "gulp-markdown-to-json": "^1.0.3",
     "gulp-util": "^3.0.8",
-    "node-fetch": "^2.3.0",
     "svelte": "^1.64.1"
   },
   "engines": {
