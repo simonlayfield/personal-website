@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 866 459" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-1.67187,-1025.77)">
+        <g id="Artboard2" transform="matrix(1.5214,0,0,1.41487,-226.746,-520.724)">
+            <rect x="150.137" y="1093.02" width="568.964" height="324.119" style="fill:none;"/>
+            <g transform="matrix(1.02063,0,0,2.36843,-192.769,748.455)">
+                <g>
+                    <g transform="matrix(0.644007,0,0,0.298416,216.467,73.2298)">
+                        <path d="M673.066,417.039L773.521,317.494" style="fill:none;stroke:black;stroke-width:9px;"/>
+                    </g>
+                    <g transform="matrix(0.644007,0,0,0.298416,253.375,67.4684)">
+                        <path d="M478.725,337.305L379.685,436.345L398.55,455.47" style="fill:none;stroke:black;stroke-width:9px;"/>
+                    </g>
+                    <g transform="matrix(0.644007,0,0,0.298416,240.942,73.2298)">
+                        <path d="M417.857,436.163L536.021,317.998L654.52,436.496L743.393,347.623" style="fill:none;stroke:black;stroke-width:9px;"/>
+                    </g>
+                    <g transform="matrix(0.644007,0,0,0.298416,228.491,55.549)">
+                        <path d="M595.271,377.247L654.52,436.496L713.52,377.495" style="fill:none;stroke:black;stroke-width:9px;"/>
+                    </g>
+                    <g transform="matrix(0.644007,0,0,0.298416,240.08,85.5002)">
+                        <path d="M458.642,395.378L536.021,317.998L613.401,395.378" style="fill:none;stroke:black;stroke-width:9px;"/>
+                    </g>
+                </g>
+                <g transform="matrix(2.38099,0,-0.419832,1.10329,-199.417,-417.891)">
+                    <text x="368.999px" y="595.661px" style="font-family:'LuloOne', 'Lulo';font-size:12px;stroke:black;stroke-width:0.44px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:1.41421;">N<tspan x="382.499px 393.947px 405.059px 418.595px 431.291px 444.791px 451.943px 463.391px 476.927px 488.447px 499.967px 513.503px " y="595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px ">ATHAN SHEEHY</tspan></text>
+                </g>
+                <g transform="matrix(1.58179,0,-0.278912,0.73296,59.4928,-175.991)">
+                    <text x="368.999px" y="595.661px" style="font-family:'BoosterNextFY-Regular', 'Booster Next FY';font-size:12px;stroke:black;stroke-width:0.44px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:1.41421;">P<tspan x="378.587px 388.235px 399.623px 410.195px 420.935px 431.627px 440.951px 450.599px 455.591px 460.991px 465.983px 475.307px 485.951px 496.979px 502.319px 512.963px 522.287px 531.611px " y="595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px 595.661px ">RODUCER | ENGINEER</tspan></text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
