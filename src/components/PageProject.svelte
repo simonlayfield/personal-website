@@ -10,6 +10,14 @@
     max-width: 70ch;
     margin: 3rem auto;
   }
+  #sidebar {
+    text-align: center;
+  }
+  @media (min-width: 30em) {
+    #sidebar {
+      text-align: left;
+    }
+  }
 </style>
 
 <div class="ui-container">
@@ -31,7 +39,9 @@
 
 		</aside>
 		<section class="ui-block -flat article">
-			<img src="/assets/img/portfolio/projects/{{id}}/{{hero}}" alt="">
+      {{#if hero}}
+        <img src="/assets/img/portfolio/projects/{{id}}/{{hero}}" alt="">
+      {{/if}}
       {{{body}}}
         {{#if grid}}
           <div class="ui-grid -fluid -{{grid.divisions}}">

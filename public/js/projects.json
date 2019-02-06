@@ -31,13 +31,13 @@
     "title": "AvMaths App Concept Screens",
     "hero": "avmaths-hero.jpg",
     "description": "AvMaths is an upcoming pilot theory test app due for launch in 2019.",
-    "body": "<figure><img src='/assets/img/portfolio/projects/avmaths/avmaths-001.jpg'></figure>"
+    "body": "<p>I was lucky towards the end of 2018 to become involved with the upcoming app design for AvMaths - a pilot theory test application that acts as a preparatory basic mathematics/physics training resource for aspiring pilots. Initial screens were drafted based on a basic quiz-style prototype, including brand concept and improved navigation/UI elements.</p><p>The project aims to undergo development in mid-2019.</p><figure><img src='/assets/img/portfolio/projects/avmaths/avmaths-001.jpg'></figure>"
   },
   "zombie-friends": {
     "id": "zombie",
     "title": "Zombie Friends",
     "hero": "zf-hero.svg",
-    "description": "",
+    "description": "Concept character work",
     "body": "<figure><img src='/assets/img/portfolio/projects/zombie/zf-001.jpg'></figure>",
     "grid": {
       "divisions": "two",
@@ -71,15 +71,14 @@
   "artful": {
     "id": "artful",
     "title": "The Artful Press",
-    "hero": "artful-hero.jpg",
     "description": "Wedding printing ans stationery service.",
-    "body": ""
+    "body": "Artful press project coming soon..."
   },
   "nathan-sheehy": {
     "id": "ns",
     "title": "Nathan Sheehy",
     "hero": "ns-hero.svg",
     "description": "Audio producer/engineer branding.",
-    "body": "..."
+    "body": "<p>Nathan Sheehy is an upcoming audio producer/engineer based in Sydney, Australia, whose clients include high profile bands such as Gang of Youths and Dune Rats.</p><p>Nathan needed a modern, identifiable brand that he could use to represent his service, personality and technical ability in the studio.</p>"
   }
 }
