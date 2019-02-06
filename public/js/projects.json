@@ -5,16 +5,19 @@
     "hero": "monic-hero.svg",
     "description": "Nottingham-based clothing and accessories brand.",
     "body": "<p>Monic is a clothing brand inspired by 90s sport and fashion brand aesthetics. I founded the project with my brother, Mark, and we're launching our initial range in Summer 2019.</p><p>Being a personal venture I had some real freedom to explore the subject stylistically, and took the opportunity to push colour and form in to a nostalgic, though contemporary, place.<figure><img src='/assets/img/portfolio/projects/monic/monic-001.svg'></figure><p>The logo form is simple, but strong, and carries the identity of the brand in all sizes and applications.</p>",
-    "grid": [{
-      "image": "monic-003.jpg"
+    "grid": {
+      "divisions": "one",
+      "items": [{
+        "image": "monic-003.jpg"
       }]
+    }
   },
   "the-void": {
     "id": "void",
     "title": "Void",
     "hero": "the-void-hero.jpg",
     "description": "An MA project that combines abstract illustration with short story curation.",
-    "body": "<p><a href='http://thevoidgenerator.eu-4.evennode.com/' target='_blank'>Void</a> is a web app concept that allows users to generate short stories of 600 characters or less based on a random selection of abstract ink compositions.</p><figure><img src='/assets/img/portfolio/projects/void/the-void-001.jpg'></figure><p></p><p>The compositions had to be abstract enough to be interpreted a number of ways across a number of stories, but also contain enough random contextual detail (incidentally if you like this style then check out the work of <a href='https://en.wikipedia.org/wiki/Franz_Kline' target='_blank'>Franz Klein</a>).</p>.<figure><img src='/assets/img/portfolio/projects/void/the-void-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/void/the-void-004.jpg' srcset='/assets/img/portfolio/projects/void/the-void-004@2x.jpg 2x'></figure>"
+    "body": "<p><a href='http://thevoidgenerator.eu-4.evennode.com/' target='_blank'>Void</a> is a web app concept that allows users to generate short stories of 600 characters or less based on a random selection of abstract ink compositions.</p><figure><img src='/assets/img/portfolio/projects/void/the-void-001.jpg'></figure><p></p><p>The compositions had to be abstract enough to be interpreted a number of ways across a number of stories, but also contain enough random contextual detail (incidentally if you like this style then check out the work of <a href='https://en.wikipedia.org/wiki/Franz_Kline' target='_blank'>Franz Klein</a>).</p><figure><img src='/assets/img/portfolio/projects/void/the-void-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/void/the-void-004.jpg' srcset='/assets/img/portfolio/projects/void/the-void-004@2x.jpg 2x'></figure>"
   },
   "from-persia-with-love": {
     "id": "persia",
@@ -35,7 +38,15 @@
     "title": "Zombie Friends",
     "hero": "zf-hero.svg",
     "description": "",
-    "body": "<figure><img src='/assets/img/portfolio/projects/zombie/zf-001.jpg'></figure>"
+    "body": "<figure><img src='/assets/img/portfolio/projects/zombie/zf-001.jpg'></figure>",
+    "grid": {
+      "divisions": "two",
+      "items": [{
+        "image": "zf-002.svg"
+        }, {
+        "image": "zf-003.svg"
+      }]
+    }
   },
   "about-and-out": {
     "title": "About & Out",
@@ -47,8 +58,8 @@
     "id": "knit",
     "title": "K-nit Clothing & Accessories",
     "hero": "k-nit-hero.svg",
-    "description": "Based in Nottingham UK, K-nit are a knitwear clothing retailer that produce headwear, t-shirts, blankets, sunglasses and other accessories.",
-    "body": "<p>This project was actually a rebranding exercise, which always has it's own set of challenges. The K-nit clothing range is colourful and fun but also has a maturity and technical side that had to be communicated effectively.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-001.svg'></figure><p>We call this the 'pin' - a useful and versatile visual icon for the brand that can be used alone, or together with the k-nit logo typeface.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-003.jpg'></figure>"
+    "description": "Based in Nottingham UK, K-nit are an online retailer that produce headwear, t-shirts, blankets, sunglasses and other clothing and accessories.",
+    "body": "<p>This project was actually a rebranding exercise, which always has it's own set of challenges. The K-nit clothing range is colourful and fun but also has a maturity and technical side that had to be communicated effectively.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-004.svg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-001.svg'></figure><p>We call this the 'pin' - a useful and versatile visual icon for the brand that can be used alone, or together with the k-nit logo typeface.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-003.jpg'></figure>"
   },
   "taru-ajak": {
     "id": "taru",

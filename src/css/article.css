@@ -19,7 +19,9 @@
 }
 
 .article {
-	padding: 2rem;
+  @media (min-width: 30em) {
+    padding: 2rem;
+  }
 }
 .article .ui-container {
 	max-width: 650px;

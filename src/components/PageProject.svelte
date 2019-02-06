@@ -1,4 +1,5 @@
 <svelte:head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Simon Layfield | Frontend Web Developer</title>
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css">
@@ -33,9 +34,11 @@
 			<img src="/assets/img/portfolio/projects/{{id}}/{{hero}}" alt="">
       {{{body}}}
         {{#if grid}}
-          {{#each grid as item}}
-            <figure><img src='/assets/img/portfolio/projects/{{id}}/{{item.image}}'></figure>
-          {{/each}}
+          <div class="ui-grid -fluid -{{grid.divisions}}">
+            {{#each grid.items as item}}
+              <figure><img src='/assets/img/portfolio/projects/{{id}}/{{item.image}}'></figure>
+            {{/each}}
+          </div>
         {{/if}}
 		</section>
 	</main>
