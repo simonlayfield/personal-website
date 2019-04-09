@@ -5,6 +5,8 @@ const serveIndex = require('serve-index');
 const fetch = require("node-fetch");
 const app = express();
 
+require('dotenv').config();
+
 // Var for determining prod
 const environment = process.env.NODE_ENV == "development" ? "http://127.0.0.1:8080/" : "https://www.simonlayfield.com/";
 

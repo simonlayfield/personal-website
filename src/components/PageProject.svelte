@@ -1,6 +1,6 @@
 <svelte:head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Simon Layfield | Frontend Web Developer</title>
+  <title>Simon Layfield | Projects | {{title}}</title>
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css">
 </svelte:head>
