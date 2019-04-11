@@ -40,7 +40,9 @@
 		</aside>
 		<section class="ui-block -flat article">
       {{#if hero}}
-        <img src="/assets/img/portfolio/projects/{{id}}/{{hero}}" alt="">
+        <div class="_text-center">
+          <img src="/assets/img/portfolio/projects/{{id}}/{{hero}}" alt="">
+        </div>
       {{/if}}
       {{{body}}}
         {{#if grid}}

@@ -12,12 +12,12 @@
       }]
     }
   },
-  "the-void": {
-    "id": "void",
-    "title": "Void",
-    "hero": "the-void-hero.jpg",
+  "pictory": {
+    "id": "pictory",
+    "title": "Pictory",
+    "hero": "pictory-hero.jpg",
     "description": "An MA project that combines abstract illustration with short story curation.",
-    "body": "<p><a href='http://thevoidgenerator.eu-4.evennode.com/' target='_blank'>Void</a> is a web app concept that allows users to generate short stories of 600 characters or less based on a random selection of abstract ink compositions.</p><figure><img src='/assets/img/portfolio/projects/void/the-void-001.jpg'></figure><p></p><p>The compositions had to be abstract enough to be interpreted a number of ways across a number of stories, but also contain enough random contextual detail (incidentally if you like this style then check out the work of <a href='https://en.wikipedia.org/wiki/Franz_Kline' target='_blank'>Franz Klein</a>).</p><figure><img src='/assets/img/portfolio/projects/void/the-void-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/void/the-void-004.jpg' srcset='/assets/img/portfolio/projects/void/the-void-004@2x.jpg 2x'></figure>"
+    "body": "<p><a href='http://thevoidgenerator.eu-4.evennode.com/' target='_blank'>Pictory</a> is a web app concept that allows users to generate short stories of 600 characters or less based on a random selection of abstract ink compositions.</p><figure><img src='/assets/img/portfolio/projects/pictory/the-void-001.jpg'></figure><p></p><p>The compositions had to be abstract enough to be interpreted a number of ways across a number of stories, but also contain enough random contextual detail (incidentally if you like this style then check out the work of <a href='https://en.wikipedia.org/wiki/Franz_Kline' target='_blank'>Franz Klein</a>).</p><figure><img src='/assets/img/portfolio/projects/pictory/the-void-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/void/the-void-004.jpg' srcset='/assets/img/portfolio/projects/pictory/the-void-004@2x.jpg 2x'></figure>"
   },
   "from-persia-with-love": {
     "id": "persia",

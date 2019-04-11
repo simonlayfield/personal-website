@@ -67,6 +67,10 @@ figure {
 	transition: fill .2s linear;
 }
 
+._text-center {
+	text-align: center;
+}
+
 /* Helpers */
 ._padded {
 	padding: 1rem;
