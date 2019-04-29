@@ -35,7 +35,7 @@
 			<p>
         {{description}}
       </p>
-      <p class="_spaced-t"><a href="/" class="ui-button">Back to projects</a></p>
+      <p class="_spaced-t"><a href="/" class="ui-button"><span class="_rotate180">&#10140;</span> Back to projects</a></p>
 
 		</aside>
 		<section class="ui-block -flat article">

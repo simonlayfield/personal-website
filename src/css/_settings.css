@@ -71,6 +71,11 @@ figure {
 	text-align: center;
 }
 
+._rotate180 {
+	transform: rotate(180deg);
+	display: inline-block;
+}
+
 /* Helpers */
 ._padded {
 	padding: 1rem;
