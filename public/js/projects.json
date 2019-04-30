@@ -59,7 +59,19 @@
     "title": "K-nit Clothing & Accessories",
     "hero": "k-nit-hero.svg",
     "description": "Based in Nottingham UK, K-nit are an online retailer that produce headwear, t-shirts, blankets, sunglasses and other clothing and accessories.",
-    "body": "<p>This project was actually a rebranding exercise, which always has it's own set of challenges. The K-nit clothing range is colourful and fun but also has a maturity and technical side that had to be communicated effectively.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-004.svg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-001.svg'></figure><p>We call this the 'pin' - a useful and versatile visual icon for the brand that can be used alone, or together with the k-nit logo typeface.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-002.jpg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-003.jpg'></figure>"
+    "body": "<p>This project was a rebranding exercise, which always has it's own set of challenges. K-nit is a clothing and accessories brand; colourful, fun, predominantly knitwear, with strong ties to the outdoors and adventurer lifestyle. The brief was to adapt the brand image to focus more on the mature, technical aspects of the product range while maintaining their bold use of colour.</p><p>To communicate this effectively I decided to rework the brand's logo form.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-icon-update.svg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-icon.svg'></figure><p>We call this the 'pin' - a useful and versatile visual icon for the brand that can be used alone, or together with the k-nit logo typeface.</p><p>The logo previously used a lowercase typeface that I felt also needed to change. The type maintained some of it's soft, rounded character but took on a much more purposeful and confident persona when used within the product range.</p><figure><img src='/assets/img/portfolio/projects/knit/k-nit-type.svg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-blanket.jpg'></figure><figure><img src='/assets/img/portfolio/projects/knit/k-nit-range.jpg'></figure><p>Beyond the rebrand, I was also responsible for providing product designs across a range of products such as t-shirts, sunglasses and baseball caps.</p>",
+    "grid": {
+      "divisions": "two",
+      "items": [{
+        "image": "k-nit-badge.svg"
+      }, {
+        "image": "k-nit-tee-badge-back.jpg"
+      }, {
+        "image": "k-nit-tee-geometric.jpg"
+      }, {
+        "image": "k-nit-geometric.svg"
+      }]
+    }
   },
   "taru-ajak": {
     "id": "taru",
