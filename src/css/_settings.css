@@ -133,3 +133,23 @@ figure {
 ._spaced-b {
 	margin-bottom: 2rem;
 }
+
+
+/* New Helpers */
+._margin-t-max {
+	margin-top: 4rem;
+}
+._margin-b-max {
+	margin-bottom: 4rem;
+}
+._margin-tb-max {
+	margin-top: 4rem;
+	margin-bottom: 4rem;
+}
+
+._subtle {
+	color: #ccc;
+}
+svg._subtle {
+	fill: #949494;
+}

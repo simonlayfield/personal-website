@@ -4,11 +4,17 @@
     "title": "Monic Clothing",
     "hero": "monic-hero.svg",
     "description": "Nottingham-based clothing and accessories brand.",
-    "body": "<p>Monic is a clothing brand inspired by 90s sport and fashion brand aesthetics. I founded the project with my brother, Mark, and we're launching our initial range in Summer 2019.</p><p>Being a personal venture I had some real freedom to explore the subject stylistically, and took the opportunity to push colour and form in to a nostalgic, though contemporary, place.<figure><img src='/assets/img/portfolio/projects/monic/monic-001.svg'></figure><p>The logo form is simple, but strong, and carries the identity of the brand in all sizes and applications.</p>",
+    "body": "<p>Monic is a clothing brand inspired by 90s sport and fashion brand aesthetics. I founded the project with my brother, Mark, and we're launching our initial range in Summer 2019.</p><p>Being a personal venture I had some real freedom to explore the subject stylistically, and took the opportunity to push colour and form in to a nostalgic, though contemporary, place.<figure><img src='/assets/img/portfolio/projects/monic/monic-001.svg'></figure><p>The logo form is simple, but strong, and carries the identity of the brand in all sizes and applications. We needed a tidy, vaguely-sports-like icon with an accompanying typeface that's simple, classic but subtly playful.</p><p>Our initial range is set to include sunglasses, t-shirts, caps, beanies, patches, swim shorts, training shorts and casual womens denim shorts. Each product has technical specifications to be considered, factoring in material, stitching/seam placement, textiles, sublimation etc.</p><figure><img src='/assets/img/portfolio/projects/monic/monic-outy-sunnies-tech.jpg'></figure><figure><img src='/assets/img/portfolio/projects/monic/monic-outy-sunnies-product.jpg' srcset='/assets/img/portfolio/projects/monic/monic-outy-sunnies-product@2x.jpg 2x'></figure><figure><img src='/assets/img/portfolio/projects/monic/monic-003.jpg'></figure>",
     "grid": {
-      "divisions": "one",
+      "divisions": "two",
       "items": [{
-        "image": "monic-003.jpg"
+        "image": "monic-socks.jpg"
+      }, {
+        "image": "monic-patch.jpg"
+      }, {
+        "image": "monic-cap.jpg"
+      }, {
+        "image": "monic-sea-scraper-artwork.jpg"
       }]
     }
   },

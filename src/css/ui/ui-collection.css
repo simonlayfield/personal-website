@@ -4,4 +4,17 @@
 	&.-center {
 		justify-content: center;
 	}
+	&.-spaced {
+		& > .item {
+			margin-left: 1rem;
+			margin-right: 1rem;
+		}
+	}
+
+	&.-small {
+		& > .item {
+			max-width: 40px;
+		}
+	}
+
 }
