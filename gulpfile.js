@@ -1,5 +1,6 @@
 const gulp = require('gulp'),
       postcss = require('gulp-postcss'),
+      simpleExtend = require('postcss-extend'),
       cssnext = require('postcss-cssnext'),
       concat = require('gulp-concat'),
       cssnano = require('cssnano'),
@@ -11,6 +12,7 @@ gulp.task('css', (done) => {
   gulp.src('src/css/**/*.css')
     .pipe(concat('main.css'))
     .pipe(postcss([
+      simpleExtend(),
       cssnext(),
       cssnano()
     ]))

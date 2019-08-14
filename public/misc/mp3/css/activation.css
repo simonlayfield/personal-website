@@ -1,0 +1,81 @@
+.nav-list.segmentation-list .list-inline li a span {
+	text-transform: none;
+	display: inline-block;
+}
+.nav-list.segmentation-list .list-inline li.active{
+	position: relative;
+}
+.nav-list.segmentation-list .list-inline li.active a{
+	position: static;
+}
+
+.nav-list.segmentation-list .list-inline li.large-12,
+.nav-list.segmentation-list .list-inline li.large-12 span {
+    display: block;
+}
+.nav-list.segmentation-list.teal .list-inline li.active,
+.nav-list.segmentation-list.teal .list-inline li.active a {
+	background-color: #00a3ad;
+}
+
+.nav-list.segmentation-list.teal .list-inline li.active :after {
+	border-top-color: #00a3ad;
+}
+
+.f-dropdown.no-link-decoration.open {
+	top: 80px;
+}
+
+.nav-list.small-segmentation-list.segmentation-list .list-inline li a {
+	padding: 1em .5em;
+}
+
+/* jQuery UI Autocomplete override */
+.residentialAddressContainer .ui-autocomplete {
+	max-height: 320px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+
+.residentialAddressContainer .columns.autocomplete-wrapper{
+	position: absolute;
+}
+
+.residentialAddressContainer .autocomplete-suggestive-text {
+	top: 50px;
+}
+
+
+@media only screen and (max-width : 859px) {
+	.nav-list.segmentation-list.teal{
+		background-color: #00a3ad;
+	}
+
+	.nav-list.segmentation-list:after,
+	.segmentation-list.lower-level-navlist:after{
+		border-top-color: #00a3ad;
+	}
+
+	.nav-list.teal .list-select>a.toggle-icon{
+		background: none;
+	}
+
+	.residentialAddressContainer .autocomplete-suggestive-text {
+		top: 110px;
+	}
+}
+
+.step-container.section-container.accordion > .section.review > .content {
+	display:block;
+}
+.step-container.section-container.accordion > .section.review .step-container-title > .step .step-edit {
+	display:none;
+}
+.step-container.section-container.accordion > .section.review.editable .step-container-title > .step .step-edit {
+	display:block;
+}
+
+label small.error {
+	text-transform: none;
+}

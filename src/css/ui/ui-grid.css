@@ -1,12 +1,19 @@
+/*
+
+UI GRID is an extendable class, so we
+should keep the base ui-grid class fairly generic
+
+*/
 .ui-grid {
 	display: grid;
 	grid-gap: 20px;
-	align-items: center;
 	&.-fluid {
 		@media (min-width: 500px) {
-			&.-two {
+			&.-two, &.-three {
 				grid-template-columns: 1fr 1fr;
 			}
+		}
+		@media (min-width: 760px) {
 			&.-three {
 				grid-template-columns: 1fr 1fr 1fr;
 			}
@@ -14,23 +21,48 @@
 	}
 }
 
-#site {
-	display: grid;
-	grid-gap: 30px;
-	padding-left: 1rem;
-	padding-right: 1rem;
+
+
+.site-grid {
+	@extend .ui-grid;
 
 }
 @media (min-width: 30em) {
-	#site {
+
+}
+
+.portfolio-grid {
+  @extend .ui-grid;
+  grid-template-columns: 1fr;
+	padding: 2rem;
+}
+#sidebar {
+	padding: 3rem;
+}
+
+@media (min-width: 760px) {
+	.site-grid {
 		grid-template-columns: 400px 1fr;
-		padding-left: 3rem;
-		padding-right: 3rem;
-	}
-	#sidebar {
-		width: 400px;
 	}
 }
+
+@media (min-width: 950px) {
+
+	#sidebar {
+		max-width: 400px;
+		padding: 2.5rem;
+	}
+  .portfolio-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 1200px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+
+  }
+}
+
 
 .project {
 	position: relative;
@@ -39,8 +71,8 @@
 	display: block;
 	position: relative;
 	width: 100%;
-	height: 100%;
 	text-decoration: none;
+	color: #000;
 }
 .project > .link:hover {
 	& > .ui-overlay {
@@ -48,6 +80,6 @@
 		transition: opacity .2s linear;
 	}
 }
-#portfolio img {
+.project img {
 	display: block;
 }

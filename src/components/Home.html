@@ -1,6 +1,6 @@
 
 <div class="ui-container">
-	<main role="main" class="ui-block" id="site">
+	<main role="main" class="site-grid">
 		<aside class="ui-block -padded -flat" id="sidebar">
 
 			<div class="ui-block -flat -center">
@@ -27,7 +27,7 @@
 
 		</aside>
 		<section class="ui-block -flat">
-			<div class="ui-grid -fluid -three" id="portfolio">
+			<div class="portfolio-grid">
 				<div class="project">
 					<a href="/project?id=pictory" class="link">
 						<img src="./assets/img/portfolio/void.jpg" alt="" class="thumbnail">
@@ -140,17 +140,3 @@
 		</section>
 	</main>
 </div>
-
-<script>
-	import Navigation from './Navigation.html';
-	export default {
-		data() {
-			return {
-
-			}
-		},
-		components: {
-			Navigation
-		}
-	};
-</script>
