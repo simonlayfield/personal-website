@@ -1,4 +1,18 @@
 {
+  "circle": {
+    "id": "circle",
+    "title": "Circle Consulting",
+    "hero": "circle-hero.jpg",
+    "description": "Circle Consulting are an emerging workforce consultancy and recruitment agaency based in Bath.",
+    "body": "<p>As a new company set to enter the recruitment space, Circle Consulting wanted develop a vibrant, positive brand image with the launch of their website.</p><figure><img src='/assets/img/portfolio/projects/circle/circle-homepage.jpg' style='max-width: 800px'></figure><p>Working closely with company stakeholders to break down key requirements, my initial design work further enhanced use of colour, texture, language and brand UI elements alongside existing brand assets.</p><figure><img src='/assets/img/portfolio/projects/circle/circle-jobspage.jpg' style='max-width: 800px'></figure>"
+  },
+  "bowler": {
+    "id": "bowler",
+    "title": "Bowler",
+    "hero": "bowler-hero.svg",
+    "description": "A POC design system with the aim of rapidly building small event websites. Built using Svelte components.",
+    "body": "<p>Bowler is/was a design system I began building for a small events company in 2018. My previous role at <a href='https://www.optus.com.au/' target='_blank'>Optus</a> gave me some experience with <a href='https://ractive.js.org/' target='_blank'>Ractive.js</a>, so naturally I wanted to continue learning and building on my knowledge of how modern frontend frameworks can be used to create smart, flexible design systems (à la <a href='http://bradfrost.com/blog/post/atomic-web-design/' target='_blank'>Atomic Design</a> in practice).</p><p>As you would expect this bolstered my skills both as a designer and developer, the end result being a wiki-like resource documenting the usage and style conventions for building small websites.</p><p>Sadly, since my departure from the company prevented Bowler from ever seeing production on more than one website the project remains only a fraction of what it set out to be. However, I recently revisited the original codebase, upgraded from <a href='https://svelte.dev/' target='_blank'>Svelte</a> v2 to v3 (which are significantly different), and redressed the visual style of the components to be a little more polished. You can view the Bowler Docs <a href='https://bowler-docs.simonlayfield.now.sh/' target='_blank'>here</a> (just be aware that they are outdated).</p><figure><img src='/assets/img/portfolio/projects/bowler/bowler-page.jpg' style='max-width: 600px'></figure><figure><img src='/assets/img/portfolio/projects/bowler/bowler-page-002.png' style='max-width: 600px'></figure>"
+  },
   "monic": {
     "id": "monic",
     "title": "Monic Clothing",
