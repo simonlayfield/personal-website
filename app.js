@@ -15,6 +15,7 @@ require('svelte/ssr/register')({
   extensions: ['.svelte']
 });
 const PageProject = require('./src/components/PageProject.svelte');
+const PageHome = require('./src/components/PageHome.svelte');
 
 function requireHTTPS(req, res, next) {
   // The 'x-forwarded-proto' check is for Evennode
@@ -30,19 +31,15 @@ app.use(express.static('public'));
 app.use('/misc', express.static('public/misc'), serveIndex('public/misc'))
 
 app.get(['/','index.html'], (req, res) => {
-	res.sendFile(__dirname + '/public/index.html');
-});
 
-app.get(['/branding','branding.html'], (req, res) => {
-	res.sendFile(__dirname + '/public/branding.html');
-});
+    const { html, css, head } = PageHome.render();
 
-app.get(['/illustration','illustration.html'], (req, res) => {
-	res.sendFile(__dirname + '/public/illustration.html');
-});
+    res.set({ 'content-type': 'text/html; charset=utf-8' });
+    res.write(head);
+    res.write('<style>' + css.code + '</style>');
+    res.write(html);
+    res.end();
 
-app.get(['/web','web.html'], (req, res) => {
-	res.sendFile(__dirname + '/public/web.html');
 });
 
 app.get('/project', (req, res) => {
