@@ -38,7 +38,7 @@
       <p class="_spaced-t"><a href="/" class="ui-button"><span class="_rotate180">&#10140;</span> Back to projects</a></p>
 
 		</aside>
-		<section class="ui-block -flat article">
+		<section class="ui-block -flat _padded-l _padded-r article">
       {{#if hero}}
         <div class="_text-center">
           <img src="/assets/img/portfolio/projects/{{id}}/{{hero}}" alt="{{title}} header image">
