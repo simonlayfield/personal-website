@@ -13,7 +13,7 @@
 			</div>
 
 			<h1 class="ui-heading ui-block -center -padded-b">Simon Layfield</h1>
-			<p>I'm a digital designer and developer from Nottingham UK, designing brands and products that excite, compel and reassure.</p>
+			<p>I'm a digital designer and developer from Bristol UK, designing brands and products that excite, compel and reassure.</p>
 			<p>Personal projects include <a href="http://typereel.io/" target="_blank" class="link">Typereel</a> and <a href="http://thevoidgenerator.eu-4.evennode.com/">Pictory</a>.</p>
 			<p>If you'd like to join forces or straight up hire me to do design things then please <a href='&#109;&#97;ilto&#58;si&#37;&#54;D&#37;6Fn&#37;6&#67;ay&#37;66ield&#64;&#112;rotonmai&#37;&#54;&#67;&#46;com'>get in touch</a>.</p>
 
