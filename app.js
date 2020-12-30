@@ -15,7 +15,7 @@ const environment =
 
 // Sever side rendering Svelte components
 require("svelte/ssr/register")({
-  extensions: [".svelte"]
+  extensions: [".svelte"],
 });
 const PageProject = require("./src/components/PageProject.svelte");
 const PageHome = require("./src/components/PageHome.svelte");
@@ -35,6 +35,7 @@ function requireHTTPS(req, res, next) {
 app.use(requireHTTPS);
 
 app.use(express.static("public"));
+
 app.use("/misc", express.static("public/misc"), serveIndex("public/misc"));
 
 app.get(["/", "index.html"], (req, res) => {
@@ -57,13 +58,13 @@ app.get(["/", "index.html"], (req, res) => {
 });
 
 app.get("/project", (req, res) => {
-  const projectId = req.param("id");
+  const projectId = req.query.id;
 
   fetch(environment + "js/projects.json")
-    .then(function(response) {
+    .then(function (response) {
       return response.json();
     })
-    .then(function(projects) {
+    .then(function (projects) {
       const { html, css, head } = PageProject.render(projects[`${projectId}`]);
 
       res.write(`
@@ -93,7 +94,7 @@ app.get(["/blog/*"], (req, res) => {
   fs.readFile(
     __dirname + `/public/articles/${articleLoc}/article.md`,
     "utf8",
-    function(error, pgResp) {
+    function (error, pgResp) {
       if (error) {
         res.writeHead(404);
         res.write("Contents you are looking are Not Found");
