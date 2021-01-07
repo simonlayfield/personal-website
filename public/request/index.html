@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>[object Object] Hook Interface: Elder.js Example Project</title><link rel="stylesheet" href="/style.css" class="svelte-1ibwxgp" data-svelte="svelte-1gc4f5l"><link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css" class="svelte-1ibwxgp" data-svelte="svelte-1gc4f5l"><link rel="stylesheet" href="/_elderjs/assets/svelte-131ecaf2.css" media="all" /><style></style></head><body class="hooks">
+<div class="container svelte-1ibwxgp">
+
+<a href="/" class="svelte-18m3h0k">← Home</a>
+
+<div class="hook svelte-1gwtyoy">
+
+  <div class="overview svelte-1gwtyoy"><span class="hook-name">request</span> : This is executed at the beginning the request object being processed.</div>
+  <div class="use svelte-1gwtyoy"><p>This hook gives access to the entire state of a request lifecycle before it starts.</p>
+    <ul>
+      <li>Primarily used to set 'request' specific data that is required by all routes so doesn't make sense to share across multiple 'data' functions.</li>
+      <li>If you have helper functions that need a closure isolated to a specific page generation lifecycle here is where you should attach them.</li>
+      <li>If you need to programmatically change the route, you can do so here. This is how the elderjs-plugin-random works.</li>
+      <li>This hook is commonly uses by plugins that need to add route level data that is dependent on the request to populate.</li>
+    </ul>
+    </div>
+
+  <div class="list svelte-1gwtyoy"><strong>Props</strong> : <div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object of helpers loaded from `./src/helpers/index.js` in addition to the Elder.js provided helper functions.">helpers
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object that is passed to Svelte templates as the &quot;data&quot; prop.">data
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object representing the elder.config.js and other details about the build.">settings
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object that represents the parameters required to generate a specific page on a specific route. This object originating from the all() query of a route.js file.">request
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="Every request object collected from all routes during bootstrap. It is important to note that &#39;allRequests&#39; will be different at the &#39;request&#39; hook during a build because the requests are split between different processes during build time using the allRequests object.">allRequests
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object that is initially empty but is reserved for plugins and sites to add database or api access to.">query
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An array of errors collected during the build process.">errors
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object that represents all of the routes registered with Elder.js.">routes
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object representing the specific route (similar to a route.js file) for a specific request.">route
+      </div></div>
+  <div class="list svelte-1gwtyoy"><strong>Mutable</strong> : <div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An array of errors collected during the build process.">errors
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object of helpers loaded from `./src/helpers/index.js` in addition to the Elder.js provided helper functions.">helpers
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object that is passed to Svelte templates as the &quot;data&quot; prop.">data
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object representing the elder.config.js and other details about the build.">settings
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object that represents the parameters required to generate a specific page on a specific route. This object originating from the all() query of a route.js file.">request
+      </div><div class="code svelte-1gwtyoy" data-balloon-length="medium" data-balloon-pos="up" aria-label="An object representing the specific route (similar to a route.js file) for a specific request.">route
+      </div></div>
+
+  
+
+  <small>Stable · Location: Page.ts</small></div>
+
+<img src="https://elderguide.com/images/elderjs-hooks-v100.png" alt="Elder.js hook Lifecycle" style="max-width:100%; margin:1rem 0;"></div>
+    
+    
+    
+    
+    </body></html>

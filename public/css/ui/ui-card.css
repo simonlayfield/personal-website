@@ -1,0 +1,29 @@
+.ui-card {
+	background: #fff;
+	border-radius: 5px;
+	overflow: hidden;
+	box-shadow: 5px 5px 15px #ddd;
+}
+
+.label {
+	display: block;
+	padding: .1rem 1rem;
+	background: var(--primary-color);
+	color: var(--tint-color);
+	text-align: center;
+	text-transform: uppercase;
+}
+.details {
+	/* border-top: 1px solid var(--supporting-color); */
+	padding: 1.5rem;
+	& .ui-heading {
+		margin-top: 0;
+	}
+}
+
+.-highlight {
+	transition: all .1s linear;
+	&:hover {
+		transform: scale(1.01);
+	}
+}

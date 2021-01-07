@@ -1,0 +1,43 @@
+.ui-block {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+
+	&.-center {
+		text-align: center;
+	}
+
+	&.-spaced {
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+	}
+
+	&.-padded {
+		padding: 1rem;
+	}
+	&.-padded-t {
+		padding-top: 1rem;
+	}
+	&.-padded-b {
+		padding-bottom: 1rem;
+	}
+	&.-padded-l {
+		padding-left: 1rem;
+	}
+	&.-padded-r {
+		padding-right: 1rem;
+	}
+	&.-padded-w {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+	&.-padded-h {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+
+	&.-flat {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+}

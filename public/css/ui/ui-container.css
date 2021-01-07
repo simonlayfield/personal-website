@@ -1,0 +1,24 @@
+.ui-container {
+	width: 100%;
+	max-width: 1800px;
+	margin: 0 auto;
+	font-family: var(--body-family);
+
+	&.-blog {
+		& h1, & h2, & h3 {
+			font-family: var(--heading-family);
+			/* color: var(--secondary-color); */
+		}
+		& h1 {
+			font-size: 2.5rem;
+		}
+	}
+
+	&.-slim {
+		max-width: 800px;
+	}
+	&.-padded-w {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}

@@ -1,0 +1,26 @@
+.ui-navigation {
+	background: var(--mono-color-dark);
+	& > .link, & .subnav > .link  {
+		font: .9rem var(--body-family);
+		color: var(--tint-color);
+		border: none;
+		outline: none;
+		display: inline;
+		padding: .5rem 1rem;
+		margin: 0;
+		text-decoration: none;
+		cursor: pointer;
+		background: transparent;
+		text-transform: uppercase;
+	}
+	&.-center {
+		text-align: center;
+	}
+
+}
+.subnav {
+	background: var(--secondary-color);
+}
+.app-header {
+	background: var(--tint-color);
+}

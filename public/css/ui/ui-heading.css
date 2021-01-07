@@ -1,0 +1,37 @@
+.ui-heading {
+	font-family: var(--heading-family);
+	font-weight: bold;
+	color: var(--mono-color-dark);
+
+	&.-primary {
+		font-size: 1.8rem;
+		line-height: 2.8rem;
+
+		@media (min-width: 700px) {
+			font-size: 2rem;
+		}
+
+	}
+	&.-secondary {
+		font-size: 1.6rem;
+	}
+	&.-tertiary {
+		font-size: 1.4rem;
+	}
+
+	&.-emphasis {
+		/* font-style: italic; */
+	}
+
+	&.-center {
+		text-align: center;
+	}
+
+	& > .link {
+		color: var(--secondary-color);
+	}
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
