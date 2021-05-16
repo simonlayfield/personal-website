@@ -8,6 +8,10 @@ logo: "/images/projects/bowler/bowler-logo.svg"
 order: "200"
 ---
 
+<div class="_text-center _spaced-t">
+  <a href="https://bowler-docs.simonlayfield.now.sh/" class="ui-button" target="_blank">View Project</a>
+</div>
+
 Bowler is/was a design system I began building for a small events company in 2018. My previous role at <a href='https://www.optus.com.au/' target='_blank'>Optus</a> gave me some experience with <a href='https://ractive.js.org/' target='_blank'>Ractive.js</a>, so naturally I wanted to continue learning and building on my knowledge of how modern frontend frameworks can be used to create smart, flexible design systems (à la <a href='http://bradfrost.com/blog/post/atomic-web-design/' target='_blank'>Atomic Design</a> in practice).
 
 As you would expect this bolstered my skills both as a designer and developer, the end result being a wiki-like resource documenting the usage and style conventions for building small websites.

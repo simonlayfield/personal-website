@@ -5,8 +5,12 @@ excerpt: "An MA project that combines abstract illustration with short story cur
 coverImage: "/images/projects/pictory/pictory-hero.jpg"
 type: "Illustration / Development"
 logo: "/images/projects/pictory/pictory-logo.jpg"
-order: "1000"
+order: "300"
 ---
+
+<div class="_text-center">
+  <a href="http://thevoidgenerator.eu-4.evennode.com/" class="ui-button" target="_blank">View Project</a>
+</div>
 
 [Pictory](http://thevoidgenerator.eu-4.evennode.com/) is a web app concept that allows users to generate short stories of 600 characters or less based on a random selection of abstract ink compositions.
 
