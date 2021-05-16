@@ -1,16 +1,5 @@
-import resolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
-import svelte from 'rollup-plugin-svelte';
+require('dotenv').config();
 
-export default {
-	input: 'src/main.js',
-	output: {
-		file: 'public/js/bundle.js',
-		format: 'iife'
-	},
-	plugins: [
-		svelte(),
-		babel(),
-		resolve()
-	]
-}
+const { getRollupConfig } = require('@elderjs/elderjs');
+const svelteConfig = require('./svelte.config');
+module.exports = [...getRollupConfig({ svelteConfig })];
