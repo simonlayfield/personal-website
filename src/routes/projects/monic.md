@@ -3,8 +3,11 @@ id: "monic"
 title: "Monic Clothing"
 excerpt: "Nottingham-based clothing and accessories brand."
 coverImage: "/images/projects/monic/monic-hero.svg"
+type: "Design"
 gallery: "/images/projects/monic/monic-socks.jpg, /images/projects/monic/monic-patch.jpg, /images/projects/monic/monic-cap.jpg, /images/projects/monic/monic-sea-scraper-artwork.jpg"
 divisions: "two"
+logo: "/images/projects/monic/monic-logo.svg"
+order: "700"
 ---
 
 Monic is a clothing brand inspired by 90s sport and fashion brand aesthetics. I founded the project with my brother, Mark, and we're launching our initial range in Summer 2019.</p><p>Being a personal venture I had some real freedom to explore the subject stylistically, and took the opportunity to push colour and form in to a nostalgic, though contemporary, place.

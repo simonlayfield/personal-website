@@ -3,6 +3,9 @@ id: "bowler"
 title: "Bowler"
 excerpt: "A POC design system with the aim of rapidly building small event websites. Built using Svelte components."
 coverImage: "/images/projects/bowler/bowler-hero.svg"
+type: "FE Development"
+logo: "/images/projects/bowler/bowler-logo.svg"
+order: "200"
 ---
 
 Bowler is/was a design system I began building for a small events company in 2018. My previous role at <a href='https://www.optus.com.au/' target='_blank'>Optus</a> gave me some experience with <a href='https://ractive.js.org/' target='_blank'>Ractive.js</a>, so naturally I wanted to continue learning and building on my knowledge of how modern frontend frameworks can be used to create smart, flexible design systems (à la <a href='http://bradfrost.com/blog/post/atomic-web-design/' target='_blank'>Atomic Design</a> in practice).

@@ -1,21 +1,20 @@
-
 .marker {
-    display: inline-block;
-    background: #666;
-    color: #fff;
-    padding: .1rem .5rem;
+  display: inline-block;
+  background: #666;
+  color: #fff;
+  padding: 0.1rem 0.5rem;
 }
 
 .marker.lbm {
-    background: #ec7476;
+  background: #ec7476;
 }
 
 .marker.rp {
-    background: #2C81AF;
+  background: #2c81af;
 }
 
 .marker.vf {
-    background: #D97920;
+  background: #d97920;
 }
 
 .article {
@@ -24,19 +23,32 @@
   }
 }
 .article .ui-container {
-	max-width: 650px;
+  max-width: 650px;
 }
 .article img {
-	/* filter: grayscale(100%);
+  /* filter: grayscale(100%);
 	transition: filter .2s linear; */
-	max-width: 100%;
+  max-width: 100%;
 }
 .article img:hover {
-	filter: none
+  filter: none;
 }
 
 .article figure {
-	margin: 2rem 0;
-	width: 100%;
-	text-align: center;
+  margin: 2rem 0;
+  width: 100%;
+  text-align: center;
+}
+
+.article p {
+  max-width: 70ch;
+  margin: 3rem auto;
+}
+#sidebar {
+  text-align: center;
+}
+@media (min-width: 30em) {
+  #sidebar {
+    text-align: left;
+  }
 }

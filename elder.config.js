@@ -1,13 +1,14 @@
 module.exports = {
-  origin: '', // TODO: update this.
-  lang: 'en',
-  srcDir: 'src',
-  distDir: 'public',
+  origin: "", // TODO: update this.
+  lang: "en",
+  srcDir: "src",
+  distDir: "public",
   rootDir: process.cwd(),
   build: {},
   server: {
-    prefix: '',
+    prefix: "",
   },
+  css: "inline",
   debug: {
     stacks: false,
     hooks: false,
@@ -19,13 +20,13 @@ module.exports = {
     // disable: ['elderWriteHtmlFileToPublic'], // this is used to disable internal hooks. Uncommenting this would disabled writing your files on build.
   },
   plugins: {
-    '@elderjs/plugin-markdown': {
-      routes: ['blog', 'projects'],
+    "@elderjs/plugin-markdown": {
+      routes: ["projects"],
     },
-    '@elderjs/plugin-browser-reload': {
+    "@elderjs/plugin-browser-reload": {
       // this reloads your browser when nodemon restarts your server.
       port: 8080,
     },
   },
-  shortcodes: { closePattern: '}}', openPattern: '{{' },
+  shortcodes: { closePattern: "}}", openPattern: "{{" },
 };

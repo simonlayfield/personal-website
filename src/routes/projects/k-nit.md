@@ -3,8 +3,11 @@ id: "k-nit"
 title: "K-nit Clothing & Accessories"
 excerpt: "Based in Nottingham UK, K-nit are an online retailer that produce headwear, t-shirts, blankets, sunglasses and other clothing and accessories."
 coverImage: "/images/projects/k-nit/k-nit-hero.svg"
+type: "Branding / Design"
 gallery: "/images/projects/k-nit/k-nit-badge.svg, /images/projects/k-nit/k-nit-tee-badge-back.jpg, /images/projects/k-nit/k-nit-tee-geometric.jpg, /images/projects/k-nit/k-nit-geometric.svg"
 divisions: "two"
+logo: "/images/projects/k-nit/k-nit-logo.svg"
+order: "600"
 ---
 
 This project was a rebranding exercise, which always has it's own set of challenges. K-nit is a clothing and accessories brand; colourful, fun, predominantly knitwear, with strong ties to the outdoors and adventurer lifestyle. The brief was to adapt the brand image to focus more on the mature, technical aspects of the product range while maintaining their bold use of colour.
