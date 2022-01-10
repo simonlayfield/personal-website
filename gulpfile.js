@@ -10,7 +10,7 @@ const gulp = require("gulp"),
 gulp.task("css", (done) => {
   gulp
     .src("src/css/**/*.css")
-    .pipe(concat("main.css"))
+    .pipe(concat("style.css"))
     .pipe(postcss([simpleExtend(), cssnext(), cssnano()]))
     .pipe(gulp.dest("assets/"));
   done();
