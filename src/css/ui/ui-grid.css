@@ -19,7 +19,17 @@ should keep the base ui-grid class fairly generic
 			}
 		}
 	}
+
+    & .article figure {
+        & img {
+            display: block;
+        }
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 }
+
+
 
 
 
