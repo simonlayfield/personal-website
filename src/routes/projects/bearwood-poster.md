@@ -17,4 +17,4 @@ I had some fun putting Bearwood together. It's been something I've had on my lis
           href="&#109;&#97;ilto&#58;si&#37;&#54;D&#37;6Fn&#37;6&#67;ay&#37;66ield&#64;&#112;rotonmai&#37;&#54;&#67;&#46;com"
           >I'd be glad to hear it</a>!
 
-You can [buy Bearwood Poster here](https://flurly.com/p/bearwood-poster).
+You can [download Bearwood Poster here](https://payhip.com/b/MVd7e), permitted for use in personal and commercial projects.
